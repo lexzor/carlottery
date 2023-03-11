@@ -9,6 +9,7 @@ import router from '../router';
 const email = ref('')
 const username = ref('')
 const password = ref('')
+const repassword = ref('')
 const sending = ref(false)
 
 const toast = useToast();
@@ -50,12 +51,16 @@ const registerAcc = async () => {
 </script>
 
 <template>
-    <div class="relative max-w-[400px] mx-auto mt-[200px] flex flex-col gap-[30px] items-center bg-slate-200 px-[40px] py-[50px] pt-[100px] rounded-lg shadow-lg">
-        <h1 class="absolute top-[30px] text-[25px] text-orange-600">Register an account!</h1>
-        <MazInput label="Email" class="w-full" v-model="email"/>
-        <MazInput label="Username" class="w-full" v-model="username"/>
-        <MazInput label="Password" class="w-full" type="password" v-model="password"/>
-        <MazBtn v-if="!sending" class="max-w-[120px]" @click="registerAcc">Register</MazBtn>
-        <MazBtn v-else class="max-w-[120px]" loading>Register</MazBtn>
+    <div class="relative max-w-[400px] mx-auto mt-[150px] flex flex-col gap-[30px] items-center border-2 border-[#000000] px-[40px] py-[50px]">
+        <div>
+            <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Înregistrare</h1>
+            <p class="text-center text-black">Va rugam sa folositi o adresa de e-mail valida in asa fel incat sa va putem contacta!</p>
+        </div>
+        <MazInput label="Adresa de e-mail" class="w-full" no-radius auto-focus="true" v-model="email"/>
+        <MazInput label="Nume de utilizator" class="w-full" no-radius v-model="username"/>
+        <MazInput label="Parola" class="w-full" no-radius type="password" v-model="password"/>
+        <MazInput label="Confirmare parola" class="w-full" no-radius type="password" v-model="repassword"/>
+        <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="registerAcc">Register</MazBtn>
+        <MazBtn v-else class="w-full px-0 py-[20px]" color="black" loading>Register</MazBtn>
     </div>
 </template>

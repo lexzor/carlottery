@@ -1,17 +1,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Oswald:wght@200;400;500&family=Source+Sans+Pro&display=swap');
 
+@import url('fonts/fonts.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: 'Stolzl';
+}
+
+body::before {
+    position: absolute;
+    content: '';
+    background-image: url('images/elements/left_lines.png');
+    width: 486px;
+    height: 240px;
+    top: 430px;
+    z-index: -1;
+}
+
+body::after {
+    position: absolute;
+    content: '';
+    background-image: url('images/elements/right_lines.png');
+    width: 806px;
+    height: 592px;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.maz-border-primary {
+    border-color: black !important;
+    color: black !important;
+}
+
+/* .maz-rounded {
+    border-radius: 0;
+} */
+
+button {
+    border-radius: unset !important;
+}
+
+.m-input-wrapper-right {
+    border-left: unset !important;
+}
+
 *,
 *::after,
 *::before{
-  padding: 0;
-  margin: 0;
-  box-sizing: content-box;  
-  /* font-family: 'Inter', sans-serif; */
-  /* font-family: 'Oswald', sans-serif; */
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;  
+    /* font-family: 'Inter', sans-serif; */
+    /* font-family: 'Oswald', sans-serif; */
     /* font-family: 'Source Sans Pro', sans-serif; */
     font-weight: 0;
 }
