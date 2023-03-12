@@ -8,7 +8,7 @@ import { library } from "@fortawesome/fontawesome-svg-core"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 
-import "vue-toast-notification/dist/theme-sugar.css"
+import "vue-toast-notification/dist/theme-default.css"
 import "maz-ui/css/main.css"
 import "./assets/main.css"
 
