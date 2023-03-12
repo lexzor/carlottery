@@ -70,19 +70,14 @@ const registerAcc = async () => {
         let errorMessage = '<span class="text-[17px]">Nu poti crea contul deoarece:</span>'
         let totalErrors = 0
 
-        console.log(v)
-
-        if(v.dirty)
+        if(v.value.$dirty)
         {
             v.value.$errors.forEach((error, index) => {
                 errorMessage += "<br>"
                 errorMessage += `${index + 1}. ${vuelidateTranslator(error.$property, error.$message, MIN_LENGTH, MAX_LENGTH)}`
-                console.log(`${index}. ${error.$message}`)
                 totalErrors++
             })
         } else totalErrors = 1
-
-        console.log(state.password.length)
 
         if(!pwMatch)
         {
@@ -106,8 +101,6 @@ const registerAcc = async () => {
         username: username.value,
         password: password.value
     })
-
-    console.log(response.data)
     
     if (response.data == '1') {
         toast.open({

@@ -4,7 +4,7 @@ export const vuelidateTranslator = (prop, msg, minL, maxL) => {
 
   switch (prop) {
     case "email":
-      newProp = "Emailul"
+      newProp = "Email"
       break
 
     case "password":
@@ -12,17 +12,17 @@ export const vuelidateTranslator = (prop, msg, minL, maxL) => {
       break
 
     case "confirmPassword":
-      newProp = "Confirmarea parolei"
+      newProp = "Confirmarea parola"
       break
 
     case "username":
-      newProp = "Numele de utilizator"
+      newProp = "Nume de utilizator"
       break
   }
 
   switch (msg) {
     case "Value is required":
-      newMsg = `<b>${newProp}</b> trebuie completat`
+      newMsg = `Campul <b>${newProp}</b> trebuie completat`
       break
 
     case `This field should be at least ${minL} characters long`:
@@ -34,7 +34,7 @@ export const vuelidateTranslator = (prop, msg, minL, maxL) => {
       break
 
     case "Value is not a valid email address":
-      newMsg = "Valoarea campului email <b>nu este o adresa valida de email</b>"
+      newMsg = "Valoarea campului <b>Email</b> nu este o adresa valida de email"
       break
   }
 
