@@ -66,22 +66,22 @@ const registerAcc = async () => {
     const result = await v.value.$validate()
     const pwMatch = passwordMatch(state.password, state.confirmPassword)
  
-    if (!result || !pwMath) {
+    if (!result || !pwMatch) {
         let errorMessage = '<span class="text-[17px]">Nu poti crea contul deoarece:</span>'
         let totalErrors = 0
 
         if(v.value.$dirty)
         {
-            v.value.$errors.forEach((error, index) => {
-                errorMessage += "<br>"
-                errorMessage += `${index + 1}. ${vuelidateTranslator(error.$property, error.$message, MIN_LENGTH, MAX_LENGTH)}`
+            v.value.$errors.forEach(error => {
                 totalErrors++
+                errorMessage += "<br>"
+                errorMessage += `${totalErrors}. ${vuelidateTranslator(error.$property, error.$message, MIN_LENGTH, MAX_LENGTH)}`
             })
-        } else totalErrors = 1
+        }
 
         if(!pwMatch)
         {
-            errorMessage += `</br>${totalErrors}. Parolele nu corespund!`
+            errorMessage += `</br>${totalErrors + 1}. Parolele nu corespund!`
         }
 
         toast.open({
@@ -96,13 +96,15 @@ const registerAcc = async () => {
         return
     } 
 
-    let response = await axios.post('http://localhost/loterie/registerAccount.php', {
-        email: email.value,
-        username: username.value,
-        password: password.value
+    let { data } = await axios.post('http://localhost/loterie/registerAccount.php', {
+        email: state.email,
+        username: state.username,
+        password: state.password
     })
     
-    if (response.data == '1') {
+    console.log(state.email, state.username, state.password)
+
+    if (data == '1') {
         toast.open({
             message: 'Your account have been registered succesfully!<br> Check your email for activation link. Clicking on this notification will redirect you at login page.',
             duration: 10000,
@@ -114,8 +116,23 @@ const registerAcc = async () => {
     }
     else 
     {
+        let errorMsg = ''
+
+        switch(data)
+        {
+            case -1:
+                errorMsg = 'Acest cont exista deja!'
+            break
+        
+            case -2:
+                errorMsg = 'Acest nume de utilizator este deja folosit'
+            break
+
+            default: errorMsg = data
+        }
+
         toast.open({
-            message: `An error has been encountered!<br> Error: ${response.data}`,
+            message: `An error has been encountered!<br> Error: ${errorMsg}`,
             duration: 5000,
             position: 'bottom-right',
             type: 'error',
@@ -135,12 +152,12 @@ const registerAcc = async () => {
         </div>
         <MazInput v-if="v.email.$error" error label="Adresa de e-mail" class="w-full" no-radius auto-focus v-model="state.email"/>
         <MazInput v-else label="Adresa de e-mail" class="w-full" no-radius auto-focus v-model="state.email"/>
-        <MazInput v-if="v.username.$error" error label="Nume de utilizator" class="w-full" no-radius v-model="state.username"/>
-        <MazInput v-else label="Nume de utilizator" class="w-full" no-radius v-model="state.username"/>
-        <MazInput v-if="v.password.$error" error label="Parola" class="w-full" no-radius type="password" v-model="state.password"/>
-        <MazInput v-else label="Parola" class="w-full" no-radius type="password" v-model="state.password"/>
-        <MazInput v-if="confirmPasswordError" error label="Confirmare parola" class="w-full" no-radius type="password" v-model="state.confirmPassword"/>
-        <MazInput v-else label="Confirmare parola" class="w-full" no-radius type="password" v-model="state.confirmPassword"/>
+        <MazInput v-if="v.username.$error" error auto-focus label="Nume de utilizator" class="w-full" no-radius v-model="state.username"/>
+        <MazInput v-else label="Nume de utilizator" auto-focus class="w-full" no-radius v-model="state.username"/>
+        <MazInput v-if="v.password.$error" auto-focus error label="Parola" class="w-full" no-radius type="password" v-model="state.password"/>
+        <MazInput v-else label="Parola" auto-focus class="w-full" no-radius type="password" v-model="state.password"/>
+        <MazInput v-if="confirmPasswordError" auto-focus error label="Confirmare parola" class="w-full" no-radius type="password" v-model="state.confirmPassword"/>
+        <MazInput v-else label="Confirmare parola" auto-focus class="w-full" no-radius type="password" v-model="state.confirmPassword"/>
         <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="registerAcc">Register</MazBtn>
         <MazBtn v-else class="w-full px-0 py-[20px]" color="black" loading>Register</MazBtn>
     </div>

@@ -32,10 +32,10 @@ const loginAcc = async () => {
         let errorMessage = '<span class="text-[17px]">Nu te poti loga deoarece:</span>'
         let totalErrors = 0
 
-        v.value.$errors.forEach((error, index) => {
-            errorMessage += "<br>"
-            errorMessage += `${index + 1}. ${vuelidateTranslator(error.$property, error.$message)}`
+        v.value.$errors.forEach(error => {
             totalErrors++
+            errorMessage += "<br>"
+            errorMessage += `${totalErrors}. ${vuelidateTranslator(error.$property, error.$message)}`
         })
 
         toast.open({
@@ -51,7 +51,7 @@ const loginAcc = async () => {
     }
 
 
-    let {data} = await axios.post('http://localhost/loterie/loginUser.php', {
+    let { data } = await axios.post('http://localhost/loterie/loginUser.php', {
         email: state.email,
         password: state.password
     }, {
