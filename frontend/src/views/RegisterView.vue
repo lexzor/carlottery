@@ -145,7 +145,7 @@ const registerAcc = async () => {
 </script>
 
 <template>
-    <div class="relative max-w-[400px] mx-auto mt-[150px] flex flex-col gap-[30px] items-center border-2 border-[#000000] px-[40px] py-[50px]">
+    <div class="relative max-w-[400px] mx-auto mt-[150px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
         <div>
             <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Înregistrare</h1>
             <p class="text-center text-black">Va rugam sa folositi o adresa de e-mail valida in asa fel incat sa va putem contacta!</p>

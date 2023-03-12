@@ -82,7 +82,7 @@ const loginAcc = async () => {
     <div
         class="max-w-[400px] bg-[#fdfdfd] mx-auto mt-[200px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
 
-        <div class="flex justify-center flex-col items-center gap-[20px]">
+        <div class="flex justify-center flex-col items-center">
             <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Logare</h1>
             <p class="text-center text-black">Va rugam sa va folositi datele pe care le-ati introdus pe pagina de inregistrare!</p>
         </div>
