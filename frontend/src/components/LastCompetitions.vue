@@ -47,6 +47,11 @@
                     <img class="object-cover w-[484px] h-[407px]" src="../assets/images/a8.webp" alt="Audi A8">
                 </div>
             </div>
+            <div class="flex justify-center mt-[62px]">
+                <div class="boxed-btn">
+                    <router-link to="/" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -61,6 +66,19 @@
     top: 8px;
     left: 8px;
     z-index: -1;
+}
+
+.boxed-btn {
+    position: relative;
+}
+.boxed-btn a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    left: 4px;
+    bottom: 4px;
 }
 .linear-bg {
     position: absolute;
