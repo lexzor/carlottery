@@ -12,7 +12,7 @@ export const vuelidateTranslator = (prop, msg, minL, maxL) => {
       break
 
     case "confirmPassword":
-      newProp = "Confirmarea parola"
+      newProp = "Confirmare parola"
       break
 
     case "username":
@@ -30,7 +30,7 @@ export const vuelidateTranslator = (prop, msg, minL, maxL) => {
       break
 
     case `The maximum length allowed is ${maxL}`:
-      newMsg = `Lungimea valorii campului <b>${newProp}</b> trebuie sa fie maxim <b>${minL}</b>  caractere`
+      newMsg = `Lungimea valorii campului <b>${newProp}</b> trebuie sa fie maxim <b>${minL}</b> caractere`
       break
 
     case "Value is not a valid email address":

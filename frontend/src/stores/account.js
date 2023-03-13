@@ -4,7 +4,7 @@ import { defineStore } from "pinia"
 const OWNER_ACCESS = 1
 
 export const useAccountStore = defineStore("account", () => {
-  const uData = ref({})
+  const uData = ref({ ceva: "cacat" })
 
   const isLogged = () => {
     return uData.value.hasOwnProperty("id")
@@ -20,10 +20,11 @@ export const useAccountStore = defineStore("account", () => {
 
   const setData = (data) => {
     uData.value = data
+    console.log(uData.value)
   }
 
   const isOwner = () => {
-    return uData.value.access === OWNER_ACCESS ? true : false
+    return uData.value.access == OWNER_ACCESS ? true : false
   }
 
   return {

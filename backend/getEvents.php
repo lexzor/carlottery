@@ -1,8 +1,4 @@
 <?php
-$postData = file_get_contents('php://input');
-
-$data = json_decode($postData, true);
-
 $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
@@ -10,7 +6,7 @@ if (!$db) {
     die();
 }
 
-$query = "SELECT * FROM `accounts` WHERE `email` = '" . $data['email'] . "' AND `upassword` = '" . $data['password'] . "';";
+$query = "SELECT * FROM `events`";
 
 $result = mysqli_query($db, $query);
 

@@ -15,8 +15,8 @@ const sending = ref(false)
 const router = useRouter();
 
 const state = reactive({
-    email: '',
-    password: ''
+    email: 'super.alexx@yahoo.com',
+    password: 'parolamea'
 })
 
 const rules = {
@@ -62,12 +62,11 @@ const loginAcc = async () => {
             'Content-Type': 'application/json'
         }
     })
-    console.log(data)
 
-    if(data == -1 || data == null)
+    if(typeof data !== 'object' || data === null)
     {
         toast.open({
-            message: `Datele introduse sunt incorecte`,
+            message: 'Datele introduse sunt incorecte',
             duration: 5000,
             position: 'bottom-right',
             type: 'error',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2023 at 03:04 AM
+-- Generation Time: Mar 14, 2023 at 12:13 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -35,14 +35,6 @@ CREATE TABLE `accounts` (
   `access` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `accounts`
---
-
-INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`) VALUES
-(32, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 0),
-(34, 'super.alexx@yahoo.comasd', 'parolamea123C', 'lexzorasd', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -51,11 +43,12 @@ INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`) VALUES
 
 CREATE TABLE `events` (
   `id` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `start` int(12) NOT NULL,
+  `title` text NOT NULL,
+  `start` text NOT NULL,
   `end` int(12) NOT NULL,
   `max_tickets` int(11) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `images` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -90,7 +83,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

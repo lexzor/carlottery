@@ -3,15 +3,6 @@ $postData = file_get_contents('php://input');
 
 $data = json_decode($postData, true);
 
-if (
-    strlen($data['password']) == 0 ||
-    strlen($data['username']) == 0 ||
-    strlen($data['email']) == 0
-) {
-    print 'The form must be completed!';
-    return;
-}
-
 $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
