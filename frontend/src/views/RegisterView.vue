@@ -11,8 +11,11 @@ import { vuelidateTranslator } from '../additional/translator';
 
 const MIN_LENGTH = 6
 const MAX_LENGTH = 18
+const REDIRECT_TIME = 10
 
 const sending = ref(false)
+const duplicateUser = ref(false)
+const duplicateEmail = ref(false)
 const toast = useToast();
 
 const state = reactive({
@@ -60,6 +63,14 @@ const confirmPasswordError = computed(() => {
     return (!state.passwordMatch || v.value.confirmPassword.$error) ? true : false
 })
 
+const hasEmailErr = computed(() => {
+    return duplicateEmail.value
+})
+
+const hasUsernameErr = computed(() => {
+    return duplicateUser.value
+})
+
 const registerAcc = async () => {
     sending.value = true
 
@@ -100,39 +111,56 @@ const registerAcc = async () => {
         email: state.email,
         username: state.username,
         password: state.password
+    }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
-    
-    console.log(state.email, state.username, state.password)
 
     if (data == '1') {
+        duplicateEmail.value = false
+        duplicateUser.value = false
+
         toast.open({
-            message: 'Your account have been registered succesfully!<br> Check your email for activation link. Clicking on this notification will redirect you at login page.',
+            message: `Contul a fost crea cu succes!<br>Verifica emailul pentru linkul de activare.<br>Vei fi redirectionat catre pagina de logare in ${REDIRECT_TIME} secunde automat sau apasand pe notificare.`,
             duration: 10000,
             type: 'success',
             onClick: function () {
                 router.push({ path: '/login' })
             }
         })
+
+        let timeout = setTimeout(() => {
+            router.push({ path: '/login' })
+            clearTimeout(timeout)
+        }, REDIRECT_TIME * 1000)
     }
     else 
     {
         let errorMsg = ''
 
-        switch(data)
+        if (data.indexOf('duplicate'))
         {
-            case -1:
-                errorMsg = 'Acest cont exista deja!'
-            break
-        
-            case -2:
-                errorMsg = 'Acest nume de utilizator este deja folosit'
-            break
-
-            default: errorMsg = data
+            if(data.indexOf('email') != -1)
+            {
+                errorMsg += 'Acest <b>cont</b> deja exista!'
+                duplicateEmail.value = true
+            }
+            else 
+            {
+                errorMsg +=' Acest <b>nume de utilizator</b> este deja folosit!'
+                duplicateUser.value = true
+            }
+        }
+        else
+        {
+            errorMsg = data
+            duplicateEmail.value = false
+            duplicateUser.value = false
         }
 
         toast.open({
-            message: `An error has been encountered!<br> Error: ${errorMsg}`,
+            message: `${errorMsg}`,
             duration: 5000,
             position: 'bottom-right',
             type: 'error',
@@ -150,9 +178,9 @@ const registerAcc = async () => {
             <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Înregistrare</h1>
             <p class="text-center text-black">Va rugam sa folositi o adresa de e-mail valida in asa fel incat sa va putem contacta!</p>
         </div>
-        <MazInput v-if="v.email.$error" error label="Adresa de e-mail" class="w-full" no-radius auto-focus v-model="state.email"/>
+        <MazInput v-if="hasEmailErr || v.email.$error" error label="Adresa de e-mail" class="w-full" no-radius auto-focus v-model="state.email"/>
         <MazInput v-else label="Adresa de e-mail" class="w-full" no-radius auto-focus v-model="state.email"/>
-        <MazInput v-if="v.username.$error" error auto-focus label="Nume de utilizator" class="w-full" no-radius v-model="state.username"/>
+        <MazInput v-if="hasUsernameErr || v.username.$error" error auto-focus label="Nume de utilizator" class="w-full" no-radius v-model="state.username"/>
         <MazInput v-else label="Nume de utilizator" auto-focus class="w-full" no-radius v-model="state.username"/>
         <MazInput v-if="v.password.$error" auto-focus error label="Parola" class="w-full" no-radius type="password" v-model="state.password"/>
         <MazInput v-else label="Parola" auto-focus class="w-full" no-radius type="password" v-model="state.password"/>

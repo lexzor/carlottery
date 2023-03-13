@@ -16,7 +16,7 @@ $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
     print('Conexiunea la baza de date a esuat!');
-    die();
+    return;
 }
 
 $query = "INSERT INTO `accounts` (`email`, `upassword`, `username`) VALUES 
@@ -31,4 +31,4 @@ if (!$result) {
 }
 
 mysqli_close($db);
-die();
+return;

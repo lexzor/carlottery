@@ -18,7 +18,7 @@ if (!$db) {
     die();
 }
 
-$query = "SELECT * FROM `accounts` WHERE `email` = '" . $data['email'] . "' AND `upassword` = '" . $data['password'] . "'";
+$query = "SELECT * FROM `accounts` WHERE `email` = '" . $data['email'] . "' AND `upassword` = '" . $data['password'] . "';";
 
 $result = mysqli_query($db, $query);
 
