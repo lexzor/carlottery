@@ -3,6 +3,10 @@ $postData = file_get_contents('php://input');
 
 $data = json_decode($postData, true);
 
+if (!array_key_exists('email', $data)) {
+    return;
+}
+
 $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {

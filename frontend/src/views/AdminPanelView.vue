@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { watch, onBeforeMount, computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,28 +13,18 @@ const UsersPage = defineAsyncComponent( {
     loader: () => import('../components/UsersPage.vue')
 })
 
-onBeforeMount(() => {
-    watch(() => route.params, () => {
-        console.log("Changed")
-    })
-})
-
 const getCurrAdminPage = computed(() => {
-    console.log(route.params.section)
     switch(route.params.section)
     {
         case 'evenimente':
             return EventsPage
+
         case 'utilizatiori':
             return UsersPage
-
+            
         default: router.push({ path: '/adminpanel/evenimente' })
-    }
-
-    console.log('error')
+    }  
 })
-
-
 </script>
 
 <template>

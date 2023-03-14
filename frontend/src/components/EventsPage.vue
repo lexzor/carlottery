@@ -7,23 +7,41 @@ import MazPicker from 'maz-ui/components/MazPicker'
 import MazTextarea from 'maz-ui/components/MazTextArea'
 import MazBtn from 'maz-ui/components/MazBtn'
 import MazGallery from 'maz-ui/components/MazGallery'
+import Event from './Event.vue'
 import { initFlowbite } from 'flowbite'
 import { useToast } from 'vue-toast-notification'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import { vuelidateTranslator } from '../additional/translator'
 
+const emit = defineEmits('deleteEvent')
+
+const deleteEvent = (id) => {
+    console.log('Event deleted')
+}
+
 const events = ref([])
 const files = ref([])
 const sending = ref(false)
 const toast = useToast()
 
+const getCurrDate = () => {
+    const date = new Date().toLocaleDateString('ro-RO')
+    const time = new Date().toLocaleTimeString('ro-RO', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+    });
+
+    return `${date.replaceAll('-', '.')} ${time}`
+}
+
 const state = reactive({
-    title: 'Masina 2023',
-    description:  'O masina',
-    tickets: 17500,
-    start: '01-12-1999 17:20',
-    end: '01-12-2001 17:20'
+    title: '',
+    description:  '',
+    tickets: 1,
+    start: getCurrDate(),
+    end: getCurrDate()
 })
 
 const rules = {
@@ -37,26 +55,48 @@ const rules = {
 const v = useVuelidate(rules, state)
 
 const getEvents = async () => {
-    let { data } = await axios.post('http://localhost/loterie/getEvents.php')
+    let { data } = await axios.post('http://localhost/loterie/getEvents.php', {
+        getEvents: "1"
+    }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
 
-    events.value = data
+    console.log(data)
+
+    if(Array.isArray(data))
+    {
+        events.value = data
+    }
+    else 
+    {
+        events.value.push(data)
+    }
 }
 
 const eventsExists = computed(() => {
-    return events.value === null ? false : true
+    return ( events.value === null || events.value.length === 0 ) ? false : true
 })
 
 const getFiles = computed(() => {
     return files.value
 })
 
+const getEvValue = computed(() => {
+    console.log(events.value)
+    return events.value
+})
+
 const createGallery = computed(() => {
     let gallery = []
     
-    files.value.forEach(file => {
-        gallery.push(file.previewImage)
-    })
-
+    if(files.value.length > 0)
+    {
+        files.value.forEach(file => {
+            gallery.push(file.previewImage)
+        })
+    }
     return gallery
 })
 
@@ -73,12 +113,13 @@ const getFileName = (filename) => {
 }
 
 const submitEvent = async () => {
+
     sending.value = true
     const result = v.value.$validate()
 
     if (!result) {
         console.log('test')
-        let errorMessage = '<span class="text-[17px]">Nu te poti loga deoarece:</span>'
+        let errorMessage = '<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span>'
         let totalErrors = 0
 
         v.value.$errors.forEach(error => {
@@ -99,90 +140,137 @@ const submitEvent = async () => {
         return
     }
 
+    if (files.value.length === 0) {
+        toast.open({
+            message: `Eroare de sistem:<br>Trebuie incarcata cel putin o imagine!`,
+            type: "error",
+            duration: 6000,
+            pauseOnHover: true,
+        })
+
+        sending.value = false
+        return
+    }
+
     let images = []
 
     files.value.forEach(file => images.push(file.fileObj))
 
-    console.log(images)
-
     let formData = new FormData()
     formData.append('title', state.title)
     formData.append('description', state.description)
-    formData.append('tickets', state.tickets)
+    formData.append('max_tickets', state.tickets)
     formData.append('start', state.value)
     formData.append('end', state.value)
+    images.forEach(image => formData.append('images[]', image))
 
-    if(images.length > 0)
-    {
-        formData.append('images[]', images)
-    }
+    console.log(document.getElementById("dropzone-file").files[0])
 
     let { data } = await axios.post('http://localhost/loterie/addEvent.php', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress: progressEvent => {
+            let uploadPercentage = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+
+            if(uploadPercentage === 100)
+            {
+                toast.open({
+                    message: "Imaginile au fost incarcate cu <b>succes</b>!",
+                    type: "success",
+                    duration: 5000,
+                    pauseOnHover: true,
+                })
+            }
         }
-    })
+    }).catch(err => {
+        if(err.code)
+        {
+            toast.open({
+                message: "Una dintre imagini nu mai exista<br>sau i-a fost schimba numele!",
+                type: "error",
+                duration: 5000,
+                pauseOnHover: true,
+            })
 
-    console.log(data)
+            sending.value = false
 
-    if(data.hasOwnProperty('be_msg'))
+            return
+        }
+    } )
+
+    if(data.hasOwnProperty('be_msg_error'))
     {
+        let msg = 'Eroare de sistem:'
+
         switch(data.be_msg)
         {
             case 'no_images':
-                toast.open({
-                    message: 'Trebuie incarcata cel putin o imagine',
-                    type: "error",
-                    duration: 5000,
-                    pauseOnHover: true,
-                    dismissible: false
-                })
-            break
+                    msg += '<br>Trebuie incarcata cel putin o imagine'
+                break
 
             case 'fail_create_main_dir':
-                toast.open({
-                    message: 'Eroare de sistem:<br>Nu a putut fii creat fisierul <b>event_images</b>',
-                    type: "error",
-                    duration: 5000,
-                    pauseOnHover: true,
-                    dismissible: false
-                })
+                    msg += '<br>Nu a putut fii creat fisierul <b>event_images</b>'
+                break
 
-            case 'fail_create_event_dir':
-                toast.open({
-                    message: 'Eroare de sistem:<br>Nu a putut fii creat fisierul <b>event_images/'+ data.dir_name +'</b>',
-                    type: "error",
-                    duration: 5000,
-                    pauseOnHover: true,
-                    dismissible: false
+            case 'uploaded_file_errors': 
+                data.errors.forEach((error, index) => {
+                    msg += `<br>${index + 1}. ${error}`
                 })
-
-            case 'event_dir_exists':
-                toast.open({
-                    message: 'Eroare de sistem:<br> Fisiserul eventului deja exista.',
-                    type: "error",
-                    duration: 5000,
-                    pauseOnHover: true,
-                    dismissible: false
-                })
-            break
-
+                break
+     
+            default: msg = 'Eroare necunoscuta'
         }
+
+        toast.open({
+            message: msg,
+            type: "error",
+            duration: 5000,
+            pauseOnHover: true,
+            dismissible: false
+        })
+    }
+    else if(data.hasOwnProperty('be_msg_success'))
+    {
+        events.value.push({
+            'title': state.title,
+            'description': state.description,
+            'tickets': state.tickets,
+            'start': state.start,
+            'end': state.end,
+            'images': data.images
+        })
+
+        toast.open({
+            message: 'Evenimentul a fost adaugat cu success',
+            type: "success",
+            duration: 5000,
+            pauseOnHover: true,
+        })
+
+        v.value.$reset()
+
+        state.title = ''
+        state.description = ''
+        state.tickets = 1
+        state.start = getCurrDate()
+        state.end = getCurrDate()
+
+        files.value = []
     }
 
     sending.value = false
 }
 
-getEvents()
-
 onMounted(() => {
     initFlowbite()
-
+    
     const fileInput = document.getElementById('dropzone-file');
     fileInput.onchange = () => {
         const selectedFiles = [...fileInput.files];
         let restrictedFiles = []
         let alreadyExistsingFiles = []
+        let sizeExceeded = []
 
         for(let i = 0; i < selectedFiles.length; i++)
         {
@@ -193,11 +281,17 @@ onMounted(() => {
                 continue
             }
 
+            if(file.size > 10485760)
+            {
+                sizeExceeded.push(file.name)
+                continue
+            }
+
             let fileFounded = false
 
             for(let j = 0; j < files.value.length; j++)
             {
-                if (files.value[i].fileObj.size === file.size) {
+                if (files.value[j].fileObj.size === file.size) {
                     alreadyExistsingFiles.push(file.name)
                     fileFounded = true
                     break
@@ -228,6 +322,20 @@ onMounted(() => {
             })
         }
 
+        if (restrictedFiles.length > 0) {
+            let msg = 'Fisierele urmatoare nu au putut fi<br>incarcate deoarece au o dimensiune prea mare:'
+
+            sizeExceeded.forEach((file, index) => {
+                msg += `<br><b>${index + 1}.</b> ${file}`
+            })
+
+            toast.open({
+                message: msg,
+                type: "error",
+                duration: 7500,
+            })
+        }
+
         if (alreadyExistsingFiles.length > 0) {
             let msg = 'Fisierele urmatoare nu au putut fi<br>incarcate deoarece deja exista:'
 
@@ -244,10 +352,11 @@ onMounted(() => {
     }
 })
 
+getEvents()
+
 const deleteImage = (imgSize) => {
     files.value = files.value.filter(file => file.fileObj.size !== imgSize)
 }
-
 </script>
 
 <template>
@@ -273,7 +382,7 @@ const deleteImage = (imgSize) => {
                             <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                             <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                         </div>
-                        <input id="dropzone-file" type="file" name="images" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
+                        <input id="dropzone-file" multiple type="file" name="images" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
                     </label>
                 </div>
                 
@@ -290,20 +399,18 @@ const deleteImage = (imgSize) => {
                     </div>
                 </div>
 
-
                 <MazBtn v-if="!sending" @click="submitEvent" class="bg-black">Adauga eveniment</MazBtn>
-                <MazBtn v-else loading class="bg-black">Adauga eveniment</MazBtn>
-                
+                <MazBtn v-else loading class="bg-black">Adauga eveniment</MazBtn>     
             </form>
         </div>
+
         <div class="mt-[50px] p-[30px]">
-            <div v-if="eventsExists">
-                <h1>Events..</h1>
+            <div v-if="eventsExists" class="flex flex-col gap-[20px]">
+                <Event v-for="(event, index) in getEvValue" :key="index" :event="event" />
             </div>
             <div v-else>
                 <h1 class="w-full text-center text-[19px]">Momentan nu este niciun event activ!</h1>
             </div>
         </div>
-
     </div>
 </template>

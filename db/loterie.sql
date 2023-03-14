@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2023 at 12:13 AM
+-- Generation Time: Mar 14, 2023 at 09:18 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -52,6 +52,14 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES
+(29, 'Masina 2023', 'undefined', 0, 17500, 'O masina', '[\"events_images/1678821846/167882184602.png\"]'),
+(30, 'Ceva', 'undefined', 0, 123, '123131', '[\"events_images/1678821874/16788218740Screenshot_14.png\"]');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -77,13 +85,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

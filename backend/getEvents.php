@@ -1,4 +1,12 @@
 <?php
+$postData = file_get_contents('php://input');
+
+$data = json_decode($postData, true);
+
+if (!array_key_exists('getEvents', $data)) {
+    return;
+}
+
 $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
@@ -13,7 +21,11 @@ $result = mysqli_query($db, $query);
 if (!$result) {
     print('-1');
 } else {
-    print json_encode(mysqli_fetch_assoc($result));
+    $events = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        array_push($events, $row);
+    }
+    print json_encode($events);
 }
 
 mysqli_close($db);

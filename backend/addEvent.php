@@ -1,65 +1,62 @@
 <?php
 $postData = file_get_contents('php://input');
 
-$data = json_decode($postData, true);
+if (!isset($_POST['title'])) {
+    return;
+}
 
 $db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
-    print('Conexiunea la baza de date a esuat!');
+    print json_encode(array(["be_msg_error" => "fail_create_main_dir"]));
     return;
 }
 
-if (!isset($_FILES['images[]'])) {
-    print json_encode(["be_msg" => "no_images"]);
-    return;
-}
 
 if (!file_exists('events_images')) {
     if (!mkdir('events_images')) {
-        print json_encode(array(["be_msg" => "fail_create_main_dir"]));
+        print json_encode(array(["be_msg_error" => "fail_create_main_dir"]));
         return;
     }
 }
 
-$query = "SELECT MAX(id) FROM `events`";
-
-$result = mysqli_query($db, $query);
-
-$db_id = mysqli_fetch_assoc($result);
-
-$id = 1;
-
-if ($db_id['MAX(id)']) {
-    $id = $db_id['MAX(id)'] + 1;
-}
-
-$folder = './events_images/' . $id;
+$folder = './events_images/' . time();
 
 if (!file_exists($folder)) {
-    if (!mkdir($folder)) {
-        print json_encode(["be_msg" => "fail_create_event_dir", "dir_name" => $id]);
-        return;
+    mkdir($folder);
+}
+
+$errorObj = array("be_msg_error" => "uploaded_file_errors", "errors" => array());
+$imagesArr = array();
+
+foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+    $file_name = $_FILES['images']['name'][$key];
+    $file_tmp = $_FILES['images']['tmp_name'][$key];
+
+    $dynamicPath = $folder . "/" . time() . $key . $file_name;
+
+    if (!move_uploaded_file($file_tmp, $dynamicPath)) {
+        $fileErr = "File " . $file_name . " has encountered an error while trying to be moved in " . substr($dynamicPath, 2);
+        array_push($errorObj["errors"], $fileErr);
+    } else {
+        array_push($imagesArr, substr($dynamicPath, 2));
     }
 }
-//  else {
-//     print json_encode(["be_msg" => "event_dir_exists"]);
-//     return;
-// }
 
-print $_FILES['file'];
-
-return;
+if (sizeof($errorObj["errors"]) > 0) {
+    print(json_encode($errorObj));
+}
 
 $query = "INSERT INTO `events` (`title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES 
-        ('" . $data['title'] . "','" . $data['start'] . "','" . $data['end'] . "','" . $data['max_tickets'] . "','" . $data['description'] . "','" . $data['end'] . "')";
+        ('" . $_POST['title'] . "','" . $_POST['start'] . "','" . $_POST['end'] . "','" . $_POST['max_tickets'] . "','" . $_POST['description'] . "','" . json_encode($imagesArr) . "')";
+
 
 $result = mysqli_query($db, $query);
 
 if (!$result) {
-    print('Introducerea in baza de date a esuat! Eroare: ' . mysqli_error($db));
+    print(json_encode(["be_msg_error" => "database_insert_error", "error" => mysqli_error($db)]));
 } else {
-    print "1";
+    print(json_encode(array("be_msg_success" => "success", "images" => json_encode($imagesArr))));
 }
 
 mysqli_close($db);

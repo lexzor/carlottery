@@ -117,6 +117,8 @@ const registerAcc = async () => {
         }
     })
 
+    console.log(data)
+
     if (data == '1') {
         duplicateEmail.value = false
         duplicateUser.value = false
