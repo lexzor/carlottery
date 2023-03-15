@@ -56,7 +56,7 @@ $result = mysqli_query($db, $query);
 if (!$result) {
     print(json_encode(["be_msg_error" => "database_insert_error", "error" => mysqli_error($db)]));
 } else {
-    print(json_encode(array("be_msg_success" => "success", "images" => json_encode($imagesArr))));
+    print(json_encode(array("be_msg_success" => "success", "images" => json_encode($imagesArr), "eventId" => $db->insert_id)));
 }
 
 mysqli_close($db);

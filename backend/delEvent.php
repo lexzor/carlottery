@@ -7,24 +7,44 @@ if (!array_key_exists('id', $data)) {
     return;
 }
 
-print json_encode(["be_msg_success" => "deleted"]);
+$db = mysqli_connect("localhost", "root", "", "loterie");
 
-// $db = mysqli_connect("localhost", "root", "", "loterie");
+if (!$db) {
+    print json_encode(["be_msg_error" => "db_conn_error"]);
+    die();
+}
 
-// if (!$db) {
-//     print('Conexiunea la baza de date a esuat!');
-//     die();
-// }
+$query = "DELETE FROM `events` WHERE `id` = '" . $data['id'] . "'";
 
-// $query = "DELETE * FROM `events` WHERE `id` = '".$data['id']."'";
+$result = mysqli_query($db, $query);
 
-// $result = mysqli_query($db, $query);
+if (!$result) {
+    print json_encode(["be_msg_error" => "not_deleted"]);
+    return;
+}
 
-// if (!$result) {
-//     print json_encode(["be_msg_error" => "not_deleted"]);
-// } else {
-//     print json_encode(["be_msg_success" => "deleted"]);
-// }
+foreach ($data['imgs'] as $folder) {
+    $path = './events_images/' . $folder;
+    if (file_exists($path)) {
+        $it = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
 
-// mysqli_close($db);
+        $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+
+        foreach ($files as $file) {
+            unlink($file->getRealPath());
+        }
+
+        if (!rmdir($path)) {
+            print json_encode(["cant_delete" => "folder_not_exists", "path" => $path]);
+            return;
+        }
+    } else {
+        print json_encode(["be_msg_error" => "folder_not_exists", "path" => $path]);
+        return;
+    }
+}
+
+print json_encode(["be_msg_success" => "success"]);
+
+mysqli_close($db);
 die();

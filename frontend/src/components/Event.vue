@@ -12,15 +12,38 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['delete'])
+const emit = defineEmits(['deleteEvent'])
 
 const event = toRef(props, "event")
 
 const toast = useToast()
 
-const delEvent = async (id) => {
+const delEvent = async (id, imgs) => {
+
+    let folderArr = null
+
+    console.log(imgs)
+    console.log(id)
+
+    JSON.parse(imgs).forEach(img => {
+        const folderName = img.split('/')[1]
+        
+        console.log('folderName', folderName)
+
+        if(folderArr === null)
+        {
+            folderArr = new Array()
+        }
+
+        if(folderArr.find(el => el === folderName) == undefined)
+        {
+            folderArr.push(folderName)
+        }
+    })
+
     const { data } = await axios.post('http://localhost/loterie/delEvent.php', {
-        id: id
+        id: id,
+        imgs: folderArr
     }, {
         headers: {
             'Content-Type': 'application/json'
@@ -36,26 +59,58 @@ const delEvent = async (id) => {
     if(data.hasOwnProperty("be_msg_success"))
     {
         toast.open({
-            message: `Evenimentul <b>${event.title}</b> a fost sters cu succes!`,
+            message: `Evenimentul <b>${event.value.title}</b> a fost sters cu succes!`,
             type: "success",
             duration: 10000,
         })
 
-        emit('deleteEvent', id)
+        emit('deleteEvent', event.value.id)
+    }
+    else if(data.hasOwnProperty("be_msg_error"))
+    {
+        switch(data.be_msg_error)
+        {
+            case 'db_conn_error':
+                toast.open({
+                    message: `Eroare la conexiunea bazei de date!`,
+                    type: "success",
+                    duration: 10000,
+                })
+            break 
+
+            case 'not_deleted':
+                toast.open({
+                message: `Evenimentul nu mai exista in baza de date!`,
+                type: "success",
+                duration: 10000,
+            })
+
+            case 'cant_delete':
+                toast.open({
+                message: `Folderul ${data.path} nu a putut fii sters!`,
+                type: "success",
+                duration: 10000,
+            })
+            
+            case 'folder_not_exists':
+                toast.open({
+                message: `Folderul ${data.path} nu exista!`,
+                type: "success",
+                duration: 10000,
+            })
+        }
     }
     else
     {
         toast.open({
-            message: `Evenimentul nu mai exista!`,
+            message: `Erroare necunoscuta!<br>`,
             type: "error",
-            duration: 10000,
+            duration: 20000,
         })
     }
 }
 
 const getEventImages = computed(() => {
-    // return `http://localhost/loterie/${JSON.parse(event.value.images)}`
-
     let imagesArray = []
 
     JSON.parse(event.value.images).forEach(image => {
@@ -75,6 +130,6 @@ const getEventImages = computed(() => {
             <h1>{{ event.start }}</h1>
             <h1>{{ event.end }}</h1>
         </div>
-        <MazBtn @click="delEvent(event.id)" color="danger" onDelete="" class="max-h-[20px]">Delete</MazBtn>
+        <MazBtn @click="delEvent(event.id, event.images)" color="danger" class="max-h-[20px]">Delete</MazBtn>
     </div>
 </template>

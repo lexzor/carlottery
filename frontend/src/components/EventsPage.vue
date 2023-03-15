@@ -14,12 +14,6 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import { vuelidateTranslator } from '../additional/translator'
 
-const emit = defineEmits('deleteEvent')
-
-const deleteEvent = (id) => {
-    console.log('Event deleted')
-}
-
 const events = ref([])
 const files = ref([])
 const sending = ref(false)
@@ -61,6 +55,13 @@ const getEvents = async () => {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).catch(err => {
+        toast.open({
+            message: 'Eroare de conexiune!',
+            duration: 10000,
+            type: "error",
+            dismissible: false
+        })
     })
 
     console.log(data)
@@ -73,6 +74,11 @@ const getEvents = async () => {
     {
         events.value.push(data)
     }
+}
+
+const onDeleteEvent = (id) => {
+    console.log("Eventid", id)
+    events.value = events.value.filter(event => event.id !== id)
 }
 
 const eventsExists = computed(() => {
@@ -115,7 +121,7 @@ const getFileName = (filename) => {
 const submitEvent = async () => {
 
     sending.value = true
-    const result = v.value.$validate()
+    const result = await v.value.$validate()
 
     if (!result) {
         console.log('test')
@@ -127,6 +133,11 @@ const submitEvent = async () => {
             errorMessage += "<br>"
             errorMessage += `${totalErrors}. ${vuelidateTranslator(error.$property, error.$message)}`
         })
+
+        if(files.value.length === 0)
+        {
+            errorMessage += `<br>${totalErrors + 1}. Trebuie incarcata cel putin o imagine`
+        }
 
         toast.open({
             message: `${errorMessage}`,
@@ -142,7 +153,7 @@ const submitEvent = async () => {
 
     if (files.value.length === 0) {
         toast.open({
-            message: `Eroare de sistem:<br>Trebuie incarcata cel putin o imagine!`,
+            message: `<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span><br>1. Trebuie incarcata cel putin o imagine!`,
             type: "error",
             duration: 6000,
             pauseOnHover: true,
@@ -232,7 +243,9 @@ const submitEvent = async () => {
     }
     else if(data.hasOwnProperty('be_msg_success'))
     {
+        console.log(data.eventId)
         events.value.push({
+            'id' : data.eventId,
             'title': state.title,
             'description': state.description,
             'tickets': state.tickets,
@@ -406,7 +419,7 @@ const deleteImage = (imgSize) => {
 
         <div class="mt-[50px] p-[30px]">
             <div v-if="eventsExists" class="flex flex-col gap-[20px]">
-                <Event v-for="(event, index) in getEvValue" :key="index" :event="event" />
+                <Event v-for="(event, index) in getEvValue" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
             </div>
             <div v-else>
                 <h1 class="w-full text-center text-[19px]">Momentan nu este niciun event activ!</h1>

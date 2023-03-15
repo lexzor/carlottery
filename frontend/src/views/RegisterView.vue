@@ -1,13 +1,21 @@
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onUnmounted } from 'vue'
 import axios from 'axios'
 import MazInput from 'maz-ui/components/MazInput'
 import MazBtn from 'maz-ui/components/MazBtn'
-import { useToast } from 'vue-toast-notification';
-import router from '../router';
+import { useToast } from 'vue-toast-notification'
+import router from '../router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength, maxLength } from '@vuelidate/validators'
-import { vuelidateTranslator } from '../additional/translator';
+import { vuelidateTranslator } from '../additional/translator'
+import { useAccountStore } from '../stores/account'
+
+const account = useAccountStore()
+
+if(account.isLogged())
+{
+    router.push({path: '/'})
+}
 
 const MIN_LENGTH = 6
 const MAX_LENGTH = 18
@@ -17,6 +25,7 @@ const sending = ref(false)
 const duplicateUser = ref(false)
 const duplicateEmail = ref(false)
 const toast = useToast();
+let redTimeout = null
 
 const state = reactive({
     email: '',
@@ -69,6 +78,13 @@ const hasEmailErr = computed(() => {
 
 const hasUsernameErr = computed(() => {
     return duplicateUser.value
+})
+
+onUnmounted(() => {
+    if(redTimeout !== null)
+    {
+        clearTimeout(redTimeout)
+    }
 })
 
 const registerAcc = async () => {
@@ -132,7 +148,7 @@ const registerAcc = async () => {
             }
         })
 
-        let timeout = setTimeout(() => {
+        redTimeout = setTimeout(() => {
             router.push({ path: '/login' })
             clearTimeout(timeout)
         }, REDIRECT_TIME * 1000)

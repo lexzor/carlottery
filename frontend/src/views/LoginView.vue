@@ -8,11 +8,17 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import { vuelidateTranslator } from '../additional/translator';
 import { useAccountStore } from '../stores/account';
-import { useRouter } from 'vue-router'
+import router from '../router'
+
+const account = useAccountStore()
+
+if(account.isLogged())
+{
+    router.push({path: '/'})
+}
 
 const toast = useToast();
 const sending = ref(false)
-const router = useRouter();
 
 const state = reactive({
     email: 'super.alexx@yahoo.com',
