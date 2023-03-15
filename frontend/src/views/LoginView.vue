@@ -10,6 +10,8 @@ import { vuelidateTranslator } from '../additional/translator';
 import { useAccountStore } from '../stores/account';
 import router from '../router'
 
+import NavBar from '../components/NavBar.vue'
+
 const account = useAccountStore()
 
 if(account.isLogged())
@@ -90,6 +92,7 @@ const loginAcc = async () => {
 </script>
 
 <template>
+    <NavBar />
     <div class="max-w-[400px] bg-[#fdfdfd] mx-auto mt-[200px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
         <div class="flex justify-center flex-col items-center">
             <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Logare</h1>

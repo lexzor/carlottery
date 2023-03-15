@@ -373,27 +373,41 @@ const deleteImage = (imgSize) => {
 </script>
 
 <template>
+    <table v-if="eventsExists" class="table-fixed w-full">
+        <thead class="text-left">
+            <tr class="border-b border-gray-200">
+                <th class="py-4 px-8 border-gray-200 border-r">Eveniment</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Titlu</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Descriere</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Tickets</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Start Date</th>
+                <th class="py-4 px-8 border-gray-200 border-r">End Date</th>
+                <th class="py-4 px-8 border-gray-200">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <Event v-for="(event, index) in getEvValue" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
+        </tbody>
+    </table>
+    <div v-else class="flex justify-center items-center">
+        <p class="p-5">Momentan nu este niciun event activ.</p>
+    </div>
     <div class="mt-[50px]">
         <div>
             <form class="flex flex-col max-w-[500px] mx-auto gap-[30px]">
                 <h1 class="w-full text-center text-[30px]">Adauga un eveniment</h1>
-                <MazInput required auto-focus v-if="v.title.$error" error no-radius label="Titlu" v-model="state.title" />
-                <MazInput required auto-focus v-else no-radius label="Titlu" v-model="state.title" />
-                <MazTextarea required v-if="v.description.$error" error label="Descriere" v-model="state.description"  />
-                <MazTextarea required v-else no-radius label="Descriere" v-model="state.description"  />
-                <MazInputNumber required auto-focus v-if="v.tickets.$error" error no-radius label="Numar bilete" v-model="state.tickets"  />
-                <MazInputNumber required auto-focus v-else no-radius label="Numar bilete" v-model="state.tickets"  />
-                <MazPicker required v-if="v.start.$error" error time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
-                <MazPicker required v-else time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
-                <MazPicker required v-if="v.end.$error" error time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />
-                <MazPicker required v-else time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />
+                <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu" v-model="state.title" />
+                <MazTextarea required no-radius :error="v.description.$error ? true : false" label="Descriere" v-model="state.description"  />
+                <MazInputNumber required auto-focus :error="v.tickets.$error ? true : false" no-radius label="Numar bilete" v-model="state.tickets"  />
+                <MazPicker required :error="v.start.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
+                <MazPicker required :error="v.end.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />
 
                 <div class="relative flex items-center justify-center w-full">
                     <label for="dropzone-file" class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                             <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
                         </div>
                         <input id="dropzone-file" multiple type="file" name="images" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
                     </label>
@@ -417,13 +431,13 @@ const deleteImage = (imgSize) => {
             </form>
         </div>
 
-        <div class="mt-[50px] p-[30px]">
+        <!-- <div class="mt-[50px] p-[30px]">
             <div v-if="eventsExists" class="flex flex-col gap-[20px]">
                 <Event v-for="(event, index) in getEvValue" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
             </div>
             <div v-else>
                 <h1 class="w-full text-center text-[19px]">Momentan nu este niciun event activ!</h1>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

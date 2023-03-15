@@ -10,6 +10,8 @@ import { required, email, minLength, maxLength } from '@vuelidate/validators'
 import { vuelidateTranslator } from '../additional/translator'
 import { useAccountStore } from '../stores/account'
 
+import NavBar from '../components/NavBar.vue'
+
 const account = useAccountStore()
 
 if(account.isLogged())
@@ -92,7 +94,7 @@ const registerAcc = async () => {
 
     const result = await v.value.$validate()
     const pwMatch = passwordMatch(state.password, state.confirmPassword)
- 
+
     if (!result || !pwMatch) {
         let errorMessage = '<span class="text-[17px]">Nu poti crea contul deoarece:</span>'
         let totalErrors = 0
@@ -191,6 +193,7 @@ const registerAcc = async () => {
 </script>
 
 <template>
+    <NavBar />
     <div class="relative max-w-[400px] mx-auto mt-[150px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
         <div>
             <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">Înregistrare</h1>

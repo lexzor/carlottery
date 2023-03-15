@@ -1,4 +1,6 @@
 <script setup>
+import Hero from "@/components/admin/Hero.vue"
+
 import { useRoute, useRouter } from 'vue-router'
 import { computed, defineAsyncComponent } from 'vue'
 
@@ -28,19 +30,19 @@ const getCurrAdminPage = computed(() => {
 </script>
 
 <template>
-    <div>
-        <div class=" mt-[100px] w-[70%] mx-auto">
-            <ul class="w-full flex gap-[30px]">
-                <router-link to="/adminpanel/evenimente" tag="li" class="text-[19px] px-[12px] py-[5px]" active-class="activePage">Evenimente</router-link>
-                <router-link to="/adminpanel/utilizatiori" tag="li" class="text-[19px] px-[12px] py-[5px]" active-class="activePage">Utilizatori</router-link>
-            </ul>
-            
+    <Hero hero-title="Dashboard" />
+    <div class="mx-auto container">
+        <div class="bg-white rounded-[10px] box-shadow">
             <component :is="getCurrAdminPage"></component>
         </div>
     </div>
+    
 </template>
 
 <style scoped>
+.box-shadow {
+    box-shadow: 0px 15px 90px -20px rgba(0, 0, 0, 0.2);
+}
 .activePage:hover {
     color: white;
     background-color: black;
