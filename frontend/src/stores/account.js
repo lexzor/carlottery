@@ -1,5 +1,6 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
+import axios from "axios"
 
 const OWNER_ACCESS = 1
 
@@ -27,11 +28,16 @@ export const useAccountStore = defineStore("account", () => {
     return uData.value.access == OWNER_ACCESS ? true : false
   }
 
+  const autoLogin = async () => {
+    // await axios.post("http://localhost/autoLogin.php")
+  }
+
   return {
     isLogged,
     getUsername,
     logOut,
     setData,
     isOwner,
+    autoLogin,
   }
 })

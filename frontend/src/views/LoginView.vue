@@ -82,6 +82,11 @@ const loginAcc = async () => {
     }
     else 
     {
+        let now = new Date();
+        let time = now.getTime();
+        time += 3600 * 1000;
+        now.setTime(time);
+        document.cookie = `login_key=${data.login_key}; expires=${now.toUTCString()}`
         const account = useAccountStore()
         account.setData(data)
         router.push({ path: '/' })
@@ -100,12 +105,9 @@ const loginAcc = async () => {
         </div>
 
         <div class="w-full flex flex-col gap-[30px] items-center">
-            <MazInput no-radius auto-focus v-if="v.email.$error" error label="Email" class="w-full" v-model="state.email" />
-            <MazInput no-radius auto-focus v-else label="Email" class="w-full" v-model="state.email" />
-            <MazInput no-radius auto-focus v-if="v.password.$error" error label="Password" class="w-full" type="password" v-model="state.password" />
-            <MazInput no-radius auto-focus v-else label="Password" class="w-full" type="password" v-model="state.password" />
-            <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
-            <MazBtn v-else loading class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
+            <MazInput no-radius :error="v.email.$error ? true : false" label="Email" class="w-full" v-model="state.email" />
+            <MazInput no-radius :error="v.password.$error ? true : false" error label="Password" class="w-full" type="password" v-model="state.password" />
+            <MazBtn :loading="sending ? true : false" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
         </div>
     </div>
 </template>

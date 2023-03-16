@@ -62,10 +62,12 @@ const getEvents = async () => {
             type: "error",
             dismissible: false
         })
+
+        console.error(err)
     })
-
+    
     console.log(data)
-
+    
     if(Array.isArray(data))
     {
         events.value = data
@@ -90,7 +92,6 @@ const getFiles = computed(() => {
 })
 
 const getEvValue = computed(() => {
-    console.log(events.value)
     return events.value
 })
 
@@ -106,17 +107,9 @@ const createGallery = computed(() => {
     return gallery
 })
 
-const getFileName = (filename) => {
-    if(filename.length > 33)
-    {
-        const extension = filename.slice(filename.length - 4, filename.length)
-        return filename.slice(0,33) + '...' + extension
-    }
-    else 
-    {
-        return filename
-    }
-}
+const deleteImage = (imgSize) => { files.value = files.value.filter(file => file.fileObj.size !== imgSize) }
+
+const getFileName = (filename) => { return filename.length > 33 ? `${filename.slice(0,33)}...${filename.slice(filename.length - 4, filename.length)}` : filename }
 
 const submitEvent = async () => {
 
@@ -277,9 +270,8 @@ const submitEvent = async () => {
 
 onMounted(() => {
     initFlowbite()
-    
-    const fileInput = document.getElementById('dropzone-file');
-    fileInput.onchange = () => {
+
+    document.getElementById('dropzone-file').onchange = () => {
         const selectedFiles = [...fileInput.files];
         let restrictedFiles = []
         let alreadyExistsingFiles = []
@@ -312,7 +304,9 @@ onMounted(() => {
             }
 
             if(fileFounded)
+            {
                 continue
+            }
 
             files.value.push({
                 "fileObj": file,
@@ -367,9 +361,6 @@ onMounted(() => {
 
 getEvents()
 
-const deleteImage = (imgSize) => {
-    files.value = files.value.filter(file => file.fileObj.size !== imgSize)
-}
 </script>
 
 <template>
@@ -386,7 +377,7 @@ const deleteImage = (imgSize) => {
             </tr>
         </thead>
         <tbody>
-            <Event v-for="(event, index) in getEvValue" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
+            <Event v-for="(event, index) in events" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
         </tbody>
     </table>
     <div v-else class="flex justify-center items-center">

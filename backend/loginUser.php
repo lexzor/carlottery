@@ -21,7 +21,11 @@ $result = mysqli_query($db, $query);
 if (!$result) {
     print('-1');
 } else {
-    print json_encode(mysqli_fetch_assoc($result));
+    $data = mysqli_fetch_assoc($result);
+    $data["login_key"] = md5(uniqid($data['id'], true));
+    $query = "UPDATE `accounts` SET `login_key` = '" . $data["login_key"] . "' WHERE `id` = '" . $data["id"] . "'";
+    mysqli_query($db, $query);
+    print json_encode($data);
 }
 
 mysqli_close($db);
