@@ -27,13 +27,8 @@ const delEvent = async (id, imgs) => {
 
     let folderArr = null
 
-    console.log(imgs)
-    console.log(id)
-
     JSON.parse(imgs).forEach(img => {
         const folderName = img.split('/')[1]
-        
-        console.log('folderName', folderName)
 
         if(folderArr === null)
         {

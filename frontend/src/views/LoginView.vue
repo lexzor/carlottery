@@ -89,6 +89,11 @@ const loginAcc = async () => {
         document.cookie = `login_key=${data.login_key}; expires=${now.toUTCString()}`
         const account = useAccountStore()
         account.setData(data)
+        toast.open({
+            message: `Ai fost logat cu succes!`,
+            type: "success",
+            duration: 3000,
+        })
         router.push({ path: '/' })
     }
 

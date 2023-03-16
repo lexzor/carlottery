@@ -3,6 +3,7 @@ import Navbar from "@/components/admin/NavBar.vue";
 import { useAccountStore } from '@/stores/account';
 
 const account = useAccountStore()
+
 </script>
 
 <template>
@@ -22,7 +23,7 @@ const account = useAccountStore()
         </div>
     </div>
     <div class="mx-auto container mt-[-220px]">
-        <h2 class="text-white font-semibold text-[32px] my-[40px]">{{ heroTitle }}</h2>
+        <h2 class="text-white font-semibold text-[32px] my-[40px]">{{ getHeroTitle() }}</h2>
     </div>
 </template>
 
@@ -30,6 +31,31 @@ const account = useAccountStore()
 export default {
     props: {
         heroTitle: String
+    },
+    methods: {
+        getHeroTitle() {
+            let heroTitle = 'Dashboard'
+ 
+            switch(this.$route.params.section)
+            {
+                case 'utilizatori':
+                    heroTitle += ' / Utilizatori'
+                break
+
+                case 'evenimente':
+                    heroTitle += ' / Evenimente'
+                break
+            }
+
+            switch(this.$route.name)
+            {
+                case 'edituser':
+                    heroTitle += ' / Editeaza'
+                break 
+            }
+
+            return heroTitle
+        }
     }
 }
 </script>

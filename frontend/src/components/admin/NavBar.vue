@@ -10,7 +10,7 @@
                 </div>
                 <div class="flex gap-[66px] text-[#FFFFFF87] text-[18px]">
                     <router-link to="/adminpanel/evenimente" class="hover:text-white" active-class="link-underline text-white">Evenimente</router-link>
-                    <router-link to="/adminpanel/utilizatiori" class="hover:text-white" active-class="link-underline text-white">Utilizatori</router-link>
+                    <router-link to="/adminpanel/utilizatori" class="hover:text-white" active-class="link-underline text-white">Utilizatori</router-link>
                     <router-link to="/adminpanel/castigatori" class="hover:text-white" active-class="link-underline text-white">Castigatori</router-link>
                     <router-link to="/adminpanel/comenzi" class="hover:text-white" active-class="link-underline text-white">Comenzi</router-link>
                 </div>

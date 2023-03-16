@@ -11,17 +11,20 @@ const account = useAccountStore()
 const route = useRoute()
 const router = useRouter()
 
-
 if (!account.isLogged()) {
     router.push({path: "/"})
 }
 
 const EventsPage = defineAsyncComponent({
-    loader: () => import('../components/EventsPage.vue')
+    loader: () => import('@/components/admin/EventsPage.vue')
 })
 
 const UsersPage = defineAsyncComponent( {
-    loader: () => import('../components/UsersPage.vue')
+    loader: () => import('@/components/admin/UsersPage.vue')
+})
+
+const EditUserPage = defineAsyncComponent({
+    loader: () => import('@/components/admin/EditUserPage.vue')
 })
 
 const getCurrAdminPage = computed(() => {
@@ -30,7 +33,12 @@ const getCurrAdminPage = computed(() => {
         case 'evenimente':
             return EventsPage
 
-        case 'utilizatiori':
+        case 'utilizatori':
+            if(route.name === 'edituser')
+            {
+                return EditUserPage
+            }    
+
             return UsersPage
             
         default: router.push({ path: '/adminpanel/evenimente' })

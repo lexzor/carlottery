@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import HomeView from "../views/HomeView.vue"
+import EventView from "@/views/EventsView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 
@@ -16,7 +17,7 @@ const router = createRouter({
     {
       path: "/evenimente",
       name: "evenimente",
-      component: HomeView,
+      component: EventView,
     },
     {
       path: "/login",
@@ -32,6 +33,13 @@ const router = createRouter({
       path: "/adminpanel/:section",
       name: "adminpanel",
       component: AdminPanelView,
+      children: [
+        {
+          path: "/adminpanel/:section/edit_user/:id",
+          name: "edituser",
+          component: AdminPanelView,
+        },
+      ],
     },
   ],
 })

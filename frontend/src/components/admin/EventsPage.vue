@@ -12,12 +12,23 @@ import { initFlowbite } from 'flowbite'
 import { useToast } from 'vue-toast-notification'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
-import { vuelidateTranslator } from '../additional/translator'
+import { vuelidateTranslator } from '@/additional/translator'
+import { getEvents } from '@/additional/axiosPosts'
 
 const events = ref([])
 const files = ref([])
 const sending = ref(false)
 const toast = useToast()
+
+events.value = getEvents()
+
+const waitEvents = async () => {
+    events.value = await getEvents()
+}
+
+waitEvents()
+
+
 
 const getCurrDate = () => {
     const date = new Date().toLocaleDateString('ro-RO')
@@ -48,51 +59,13 @@ const rules = {
 
 const v = useVuelidate(rules, state)
 
-const getEvents = async () => {
-    let { data } = await axios.post('http://localhost/loterie/getEvents.php', {
-        getEvents: "1"
-    }, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).catch(err => {
-        toast.open({
-            message: 'Eroare de conexiune!',
-            duration: 10000,
-            type: "error",
-            dismissible: false
-        })
-
-        console.error(err)
-    })
-    
-    console.log(data)
-    
-    if(Array.isArray(data))
-    {
-        events.value = data
-    }
-    else 
-    {
-        events.value.push(data)
-    }
-}
 
 const onDeleteEvent = (id) => {
-    console.log("Eventid", id)
     events.value = events.value.filter(event => event.id !== id)
 }
 
 const eventsExists = computed(() => {
     return ( events.value === null || events.value.length === 0 ) ? false : true
-})
-
-const getFiles = computed(() => {
-    return files.value
-})
-
-const getEvValue = computed(() => {
-    return events.value
 })
 
 const createGallery = computed(() => {
@@ -117,7 +90,6 @@ const submitEvent = async () => {
     const result = await v.value.$validate()
 
     if (!result) {
-        console.log('test')
         let errorMessage = '<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span>'
         let totalErrors = 0
 
@@ -164,11 +136,9 @@ const submitEvent = async () => {
     formData.append('title', state.title)
     formData.append('description', state.description)
     formData.append('max_tickets', state.tickets)
-    formData.append('start', state.value)
-    formData.append('end', state.value)
+    formData.append('start', state.start)
+    formData.append('end', state.end)
     images.forEach(image => formData.append('images[]', image))
-
-    console.log(document.getElementById("dropzone-file").files[0])
 
     let { data } = await axios.post('http://localhost/loterie/addEvent.php', formData, {
         headers: {
@@ -236,7 +206,6 @@ const submitEvent = async () => {
     }
     else if(data.hasOwnProperty('be_msg_success'))
     {
-        console.log(data.eventId)
         events.value.push({
             'id' : data.eventId,
             'title': state.title,
@@ -271,7 +240,9 @@ const submitEvent = async () => {
 onMounted(() => {
     initFlowbite()
 
-    document.getElementById('dropzone-file').onchange = () => {
+    const fileInput = document.getElementById('dropzone-file')
+
+    fileInput.onchange = () => {
         const selectedFiles = [...fileInput.files];
         let restrictedFiles = []
         let alreadyExistsingFiles = []
@@ -408,7 +379,7 @@ getEvents()
                     <h1 class="text-[20px]">Galerie imagini</h1>
                     <MazGallery class="p-[10px] bg-black" :images="createGallery" />
                     
-                        <div v-if="getFiles.length > 0" v-for="(file, index) in getFiles">
+                        <div v-if="files.length > 0" v-for="(file, index) in files" :key="index">
                         <div class="flex gap-[20px]">
                             <MazBtn color="danger" class="min-w-fit" @click="deleteImage(file.fileObj.size)">Delete</MazBtn>
                             <img :src="file.previewImage" class="max-w-[50px] max-h-[50px]">

@@ -16,7 +16,7 @@ const account = useAccountStore()
 
 if(account.isLogged())
 {
-    router.push({path: '/'})
+    router.push({ path: '/' })
 }
 
 const MIN_LENGTH = 6
