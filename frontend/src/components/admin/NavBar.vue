@@ -4,8 +4,8 @@
             <div class="flex justify-between items-center py-4">
                 <div>
                     <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] text-white" to="/">
-                        <span class="text-black bg-[#fff] px-[20px]">CAR</span>
-                        <span>LOTERRY</span>
+                        <span class="text-black bg-[#fff] px-[20px]">WIN</span>
+                        <span>AUTO</span>
                     </router-link>
                 </div>
                 <div class="flex gap-[66px] text-[#FFFFFF87] text-[18px]">

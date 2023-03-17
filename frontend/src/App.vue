@@ -11,6 +11,6 @@ account.autoLogin()
 
 <template>
   <RouterView />
-  <Footer />
+  <!-- <Footer /> -->
 </template>
 

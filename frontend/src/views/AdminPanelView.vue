@@ -47,7 +47,7 @@ const getCurrAdminPage = computed(() => {
 </script>
 
 <template>
-    <Hero hero-title="Dashboard" />
+    <Hero />
     <div class="mx-auto container">
         <div class="bg-white rounded-[10px] box-shadow">
             <component :is="getCurrAdminPage"></component>

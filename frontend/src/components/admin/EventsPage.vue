@@ -348,52 +348,64 @@ onMounted(() => {
     <div v-else class="flex justify-center items-center">
         <p class="p-5">Momentan nu este niciun event activ.</p>
     </div>
-    <div class="mt-[50px]">
-        <div>
-            <form class="flex flex-col max-w-[500px] mx-auto gap-[30px]">
-                <h1 class="w-full text-center text-[30px]">Adauga un eveniment</h1>
-                <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu" v-model="state.title" />
-                <MazTextarea required no-radius :error="v.description.$error ? true : false" label="Descriere" v-model="state.description"  />
-                <MazInputNumber required auto-focus :error="v.tickets.$error ? true : false" no-radius label="Numar bilete" v-model="state.tickets"  />
-                <MazPicker required :error="v.start.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
-                <MazPicker required :error="v.end.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />
 
-                <div class="relative flex items-center justify-center w-full">
-                    <label for="dropzone-file" class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
-                        </div>
-                        <input id="dropzone-file" multiple type="file" name="images" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
-                    </label>
+    <div id="createEventModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+        <div class="relative w-full h-full max-w-2xl md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Adauga Eveniment
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="createEventModal">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                    </button>
                 </div>
-                
-                <div v-if="files.length > 0" class="flex flex-col gap-[20px]">
-                    <h1 class="text-[20px]">Galerie imagini</h1>
-                    <MazGallery class="p-[10px] bg-black" :images="createGallery" />
-                    
-                        <div v-if="files.length > 0" v-for="(file, index) in files" :key="index">
-                        <div class="flex gap-[20px]">
-                            <MazBtn color="danger" class="min-w-fit" @click="deleteImage(file.fileObj.size)">Delete</MazBtn>
-                            <img :src="file.previewImage" class="max-w-[50px] max-h-[50px]">
-                            {{getFileName(file.fileObj.name)}}
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    <form class="flex flex-col gap-3">
+                        <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu" v-model="state.title" />
+                        <MazTextarea required no-radius :error="v.description.$error ? true : false" label="Descriere" v-model="state.description"  />
+                        <MazInputNumber required auto-focus :error="v.tickets.$error ? true : false" no-radius label="Numar bilete" v-model="state.tickets"  />
+                        <div class="flex gap-2">
+                            <MazPicker class="w-full" required :error="v.start.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
+                            <MazPicker class="w-full" required :error="v.end.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />
                         </div>
+
+                        <div class="relative flex items-center justify-center w-full">
+                            <label for="dropzone-file" class="relative flex flex-col items-center justify-center w-full h-34 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
+                                </div>
+                                <input id="dropzone-file" multiple type="file" name="images" class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
+                            </label>
+                        </div>
+                        
+                        <div v-if="files.length > 0" class="flex flex-col gap-[20px]">
+                            <h1 class="text-[20px]">Galerie imagini</h1>
+                            <MazGallery class="p-[10px] bg-black" :images="createGallery" />
+                            
+                                <div v-if="files.length > 0" v-for="(file, index) in files" :key="index">
+                                <div class="flex gap-[20px]">
+                                    <MazBtn color="danger" class="min-w-fit" @click="deleteImage(file.fileObj.size)">Delete</MazBtn>
+                                    <img :src="file.previewImage" class="max-w-[50px] max-h-[50px]">
+                                    {{getFileName(file.fileObj.name)}}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <div>
+                        <MazBtn v-if="!sending" @click="submitEvent">Adauga eveniment</MazBtn>
+                        <MazBtn v-else loading>Adauga eveniment</MazBtn>
                     </div>
+                    <MazBtn data-modal-hide="createEventModal" outline class="border-black">Anuleaza</MazBtn>
                 </div>
-
-                <MazBtn v-if="!sending" @click="submitEvent" class="bg-black">Adauga eveniment</MazBtn>
-                <MazBtn v-else loading class="bg-black">Adauga eveniment</MazBtn>     
-            </form>
+            </div>
         </div>
-
-        <!-- <div class="mt-[50px] p-[30px]">
-            <div v-if="eventsExists" class="flex flex-col gap-[20px]">
-                <Event v-for="(event, index) in getEvValue" v-on:deleteEvent="onDeleteEvent" :key="index" :event="event" />
-            </div>
-            <div v-else>
-                <h1 class="w-full text-center text-[19px]">Momentan nu este niciun event activ!</h1>
-            </div>
-        </div> -->
     </div>
 </template>

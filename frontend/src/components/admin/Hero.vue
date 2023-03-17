@@ -40,18 +40,19 @@
       </div>
     </div>
   </div>
-  <div class="mx-auto container mt-[-220px]">
+  <div class="mx-auto container mt-[-220px] flex justify-between items-center">
     <h2 class="text-white font-semibold text-[32px] my-[40px]">
       {{ getHeroTitle() }}
     </h2>
+    <button v-if="this.$route.params.section == 'evenimente'" data-modal-target="createEventModal" data-modal-toggle="createEventModal" class="bg-[#fff] text-black rounded-full px-4 py-3 flex gap-2 items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path></svg>
+      Creeaza eveniment
+    </button>
   </div>
 </template>
 
 <script>
   export default {
-    props: {
-      heroTitle: String,
-    },
     methods: {
       getHeroTitle() {
         let heroTitle = "Dashboard"

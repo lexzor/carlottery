@@ -23,8 +23,8 @@ const displayAccBtn = computed(() => {
         <div class="flex justify-between items-center px-[45px]">
             <div>
                 <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black" to="/">
-                    <span class="text-white bg-[#000000] px-[20px]">CAR</span>
-                    <span>LOTERRY</span>
+                    <span class="text-white bg-[#000000] px-[20px]">WIN</span>
+                    <span>AUTO</span>
                 </router-link>
             </div>
             <div class="flex flex-row gap-[50px] text-[20px] font-regular">
