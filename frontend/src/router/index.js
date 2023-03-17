@@ -18,6 +18,11 @@ const router = createRouter({
       path: "/evenimente",
       name: "evenimente",
       component: EventView,
+      children: [
+        {
+          path: "/evenimente/",
+        },
+      ],
     },
     {
       path: "/login",
@@ -37,6 +42,11 @@ const router = createRouter({
         {
           path: "/adminpanel/:section/edit_user/:id",
           name: "edituser",
+          component: AdminPanelView,
+        },
+        {
+          path: "/adminpanel",
+          redirect: "/adminpanel/evenimente/:hashed_id",
           component: AdminPanelView,
         },
       ],

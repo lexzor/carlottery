@@ -20,15 +20,11 @@ const files = ref([])
 const sending = ref(false)
 const toast = useToast()
 
-events.value = getEvents()
-
 const waitEvents = async () => {
     events.value = await getEvents()
 }
 
 waitEvents()
-
-
 
 const getCurrDate = () => {
     const date = new Date().toLocaleDateString('ro-RO')
@@ -329,8 +325,6 @@ onMounted(() => {
         }
     }
 })
-
-getEvents()
 
 </script>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2023 at 09:18 PM
+-- Generation Time: Mar 17, 2023 at 02:34 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -32,8 +32,16 @@ CREATE TABLE `accounts` (
   `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `upassword` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `username` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `access` int(11) NOT NULL DEFAULT 0
+  `access` int(11) NOT NULL DEFAULT 0,
+  `login_key` varchar(33) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `accounts`
+--
+
+INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`) VALUES
+(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '438081f0be003974ef4b1424b39cad94');
 
 -- --------------------------------------------------------
 
@@ -45,8 +53,8 @@ CREATE TABLE `events` (
   `id` int(11) NOT NULL,
   `title` text NOT NULL,
   `start` text NOT NULL,
-  `end` int(12) NOT NULL,
-  `max_tickets` int(11) NOT NULL,
+  `end` text NOT NULL,
+  `max_tickets` text NOT NULL,
   `description` text NOT NULL,
   `images` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -56,8 +64,7 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES
-(29, 'Masina 2023', 'undefined', 0, 17500, 'O masina', '[\"events_images/1678821846/167882184602.png\"]'),
-(30, 'Ceva', 'undefined', 0, 123, '123131', '[\"events_images/1678821874/16788218740Screenshot_14.png\"]');
+(61, 'Porsche', '17-03-2023 00:19', '12-04-2023 07:35', '1', 'Un mare porsche din 2023', '[\"events_images/1679005197/16790051970images.jpg\"]');
 
 --
 -- Indexes for dumped tables
@@ -85,13 +92,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

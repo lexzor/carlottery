@@ -4,16 +4,13 @@ import axios from 'axios'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useToast } from 'vue-toast-notification';
 import { useAccountStore } from '@/stores/account';
-import { useRouter, useRoute } from 'vue-router'
-import router from '../../router';
+import { useRouter } from 'vue-router';
 
 const users = ref([])
 const deleting = ref(false)
 const toast = useToast()
 const container = ref()
-
-const route = useRoute()
-
+const router = useRouter()
 
 const deleteUser = async id => {
     const account = useAccountStore()
@@ -65,9 +62,7 @@ const deleteUser = async id => {
     })
 }
 
-const editUser = (id) => {
-    router.push({ path: `/adminpanel/utilizatori/edit_user/${id}` })
-}
+const editUser = (id) => { router.push({ path: `/adminpanel/utilizatori/edit_user/${id}` }) }
 
 const getUsers = async () => {
     await axios.post("http://localhost/loterie/getUsers.php", {
@@ -90,14 +85,13 @@ const getUsers = async () => {
 }
 
 getUsers()
-
 </script>
 
 <template>
     <div>
         <h1 class="p-[20px]">User page</h1> 
         
-        <div v-for="(user, index) in users" :key="index" :id="'userid' + user.id" class="flex justify-between items-center px-[20px] py-[10px]">
+        <div v-for="(user, index) in users" :key="index" :id="'userid' + user.id" class="flex items-center justify-evenly px-[20px] py-[10px]">
             <div ref="container"></div>  
             <h1>{{ user.id }}</h1>
             <h1>{{ user.email }}</h1>

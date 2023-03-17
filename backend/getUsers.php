@@ -3,7 +3,7 @@ $postData = file_get_contents('php://input');
 
 $data = json_decode($postData, true);
 
-if (!array_key_exists('getEvents', $data)) {
+if (!array_key_exists('getUsers', $data)) {
     return;
 }
 
@@ -14,19 +14,18 @@ if (!$db) {
     die();
 }
 
-$query = "SELECT * FROM `events`";
+$query = "SELECT * FROM `accounts`";
 
 $result = mysqli_query($db, $query);
 
 if (!$result) {
     print('-1');
 } else {
-    $events = array();
+    $udata = array();
     while ($row = mysqli_fetch_assoc($result)) {
-        $row['hashed_id'] = md5($row['id']);
-        array_push($events, $row);
+        array_push($udata, $row);
     }
-    print json_encode($events);
+    print json_encode($udata);
 }
 
 mysqli_close($db);
