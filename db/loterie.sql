@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2023 at 02:34 AM
+-- Generation Time: Mar 18, 2023 at 08:26 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -41,7 +41,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`) VALUES
-(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '438081f0be003974ef4b1424b39cad94');
+(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '8c0b298afc29d690044c9ba87e423d69');
 
 -- --------------------------------------------------------
 
@@ -66,6 +66,19 @@ CREATE TABLE `events` (
 INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES
 (61, 'Porsche', '17-03-2023 00:19', '12-04-2023 07:35', '1', 'Un mare porsche din 2023', '[\"events_images/1679005197/16790051970images.jpg\"]');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tickets`
+--
+
+CREATE TABLE `tickets` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `eid` int(11) NOT NULL,
+  `bought_time` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -85,6 +98,12 @@ ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -99,6 +118,12 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `tickets`
+--
+ALTER TABLE `tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

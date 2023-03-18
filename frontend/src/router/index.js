@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from "vue-router"
 import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import HomeView from "../views/HomeView.vue"
-import EventView from "@/views/EventsView.vue"
+import EventsView from "@/views/EventsView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
+const SpecificEventView = () => import("../views/SpecificEventView.vue")
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,12 +18,12 @@ const router = createRouter({
     {
       path: "/evenimente",
       name: "evenimente",
-      component: EventView,
-      children: [
-        {
-          path: "/evenimente/",
-        },
-      ],
+      component: EventsView,
+    },
+    {
+      path: "/evenimente/:hashed_id",
+      name: "view_event",
+      component: SpecificEventView,
     },
     {
       path: "/login",
@@ -44,12 +45,15 @@ const router = createRouter({
           name: "edituser",
           component: AdminPanelView,
         },
-        {
-          path: "/adminpanel",
-          redirect: "/adminpanel/evenimente/:hashed_id",
-          component: AdminPanelView,
-        },
       ],
+    },
+    // {
+    //   path: "/adminpanel",
+    //   redirect: "/adminpanel/evenimente/",
+    // },
+    {
+      path: "/(.*)*",
+      redirect: "/",
     },
   ],
 })
