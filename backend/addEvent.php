@@ -5,13 +5,7 @@ if (!isset($_POST['title'])) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print json_encode(array(["be_msg_error" => "fail_create_main_dir"]));
-    return;
-}
-
+require_once 'dbConn.php';
 
 if (!file_exists('events_images')) {
     if (!mkdir('events_images')) {

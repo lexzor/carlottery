@@ -7,12 +7,7 @@ if (!array_key_exists('getEvents', $data)) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print('Conexiunea la baza de date a esuat!');
-    die();
-}
+require_once 'dbConn.php';
 
 $query = "SELECT * FROM `events`";
 

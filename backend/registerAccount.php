@@ -7,12 +7,7 @@ if (!array_key_exists('email', $data)) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print('Conexiunea la baza de date a esuat!');
-    return;
-}
+require_once 'dbConn.php';
 
 $query = "INSERT INTO `accounts` (`email`, `upassword`, `username`) VALUES 
         ('" . $data['email'] . "','" . $data['password'] . "','" . $data['username'] . "')";

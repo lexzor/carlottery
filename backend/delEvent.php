@@ -7,12 +7,7 @@ if (!array_key_exists('id', $data)) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print json_encode(["be_msg_error" => "db_conn_error"]);
-    die();
-}
+require_once 'dbConn.php';
 
 $query = "DELETE FROM `events` WHERE `id` = '" . $data['id'] . "'";
 

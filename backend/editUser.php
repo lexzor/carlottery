@@ -7,15 +7,7 @@ if (!array_key_exists('id', $data)) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print('Conexiunea la baza de date a esuat!');
-    return;
-}
-
-// $query = "INSERT INTO `accounts` (`email`, `upassword`, `username`) VALUES 
-//         ('" . $data['email'] . "','" . $data['password'] . "','" . $data['username'] . "')";
+require_once 'dbConn.php';
 
 $query = "UPDATE `accounts` SET `email` = '" . $data['email'] . "', `upassword` = '" . $data['upassword'] . "', `username` = '" . $data['username'] . "', `access` = " . $data['access'] . " WHERE `id` = " . $data['id'] . "";
 
