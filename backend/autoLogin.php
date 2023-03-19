@@ -1,20 +1,13 @@
 <?php
 require_once 'corsHeaders.php';
 
-// $postData = file_get_contents('php://input');
-
 $data = $_POST;
 
 if (!array_key_exists('login_key', $data)) {
     return;
 }
 
-$db = mysqli_connect("localhost", "root", "", "loterie");
-
-if (!$db) {
-    print('Conexiunea la baza de date a esuat!');
-    die();
-}
+require_once 'dbConn.php';
 
 $query = "SELECT * FROM `accounts` WHERE `login_key` = '" . $data['login_key'] . "';";
 

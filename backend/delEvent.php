@@ -1,6 +1,8 @@
 <?php
 require_once 'corsHeaders.php';
 
+$_POST = json_decode(file_get_contents('php://input'), true);
+
 // $postData = file_get_contents('php://input');
 
 $data = $_POST;
