@@ -16,7 +16,7 @@ export const useAccountStore = defineStore("account", () => {
   }
 
   const removeItemStore = (itemid) => {
-    userStore.value = userStore.value.filter(item => item !== itemid)
+    userStore.value = userStore.value.filter((item) => item !== itemid)
   }
 
   const isLogged = () => {
@@ -78,7 +78,7 @@ export const useAccountStore = defineStore("account", () => {
     const login_key = temp.length > 32 ? temp.slice(0, 32) : temp
 
     await axios
-      .post("http://localhost/loterie/autoLogin.php", {
+      .post("https://carlottery-api.eway-design.com/autoLogin.php", {
         login_key: login_key,
       })
       .then((res) => {
@@ -112,7 +112,7 @@ export const useAccountStore = defineStore("account", () => {
     autoLogin,
     getId,
     addItemStore,
-    removeItemStore
+    removeItemStore,
     // setSpecificData,
   }
 })

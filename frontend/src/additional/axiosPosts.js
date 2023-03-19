@@ -6,7 +6,7 @@ export const getEvents = async () => {
 
   let { data } = await axios
     .post(
-      "http://localhost/loterie/getEvents.php",
+      "https://carlottery-api.eway-design.com/getEvents.php",
       {
         getEvents: "1",
       },
@@ -41,7 +41,7 @@ export const getEvents = async () => {
 export const getEventsTickets = async () => {
   let { data } = await axios
     .post(
-      "http://localhost/loterie/getEventsTickets.php",
+      "https://carlottery-api.eway-design.com/getEventsTickets.php",
       {
         tickets: "1",
       },
