@@ -146,6 +146,7 @@ const getEventImages = computed(() => {
         <td class="py-4 px-8 border-gray-200 border-r">{{ event.title }}</td>
         <td class="py-4 px-8 border-gray-200 border-r">{{ event.description }}</td>
         <td class="py-4 px-8 border-gray-200 border-r">{{ event.max_tickets }}</td>
+        <td class="py-4 px-8 border-gray-200 border-r">{{ event.price }} EUR</td>
         <td class="py-4 px-8 border-gray-200 border-r">{{ event.start }}</td>
         <td class="py-4 px-8 border-gray-200 border-r">{{ event.end }}</td>
         <td class="py-4 px-8 border-gray-200 flex items-center gap-3">

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { ref, computed, reactive, onMounted } from 'vue'
 import MazInput from 'maz-ui/components/MazInput'
 import MazInputNumber from 'maz-ui/components/MazInputNumber'
+import MazInputPrice from 'maz-ui/components/MazInputPrice'
 import MazPicker from 'maz-ui/components/MazPicker'
 import MazTextarea from 'maz-ui/components/MazTextArea'
 import MazBtn from 'maz-ui/components/MazBtn'
@@ -40,17 +41,19 @@ const getCurrDate = () => {
 const state = reactive({
     title: '',
     description:  '',
-    tickets: 1,
+    max_tickets: 1,
     start: getCurrDate(),
-    end: getCurrDate()
+    end: getCurrDate(),
+    price: 0
 })
 
 const rules = {
     title: { required },
     description: { required },
-    tickets: { required, minValue: minValue(1) },
+    max_tickets: { required, minValue: minValue(1) },
     start: { required },
-    end: { required }
+    end: { required },
+    price: { required, minValue: minValue(0.0) }
 }
 
 const v = useVuelidate(rules, state)
@@ -83,6 +86,7 @@ const getFileName = (filename) => { return filename.length > 33 ? `${filename.sl
 const submitEvent = async () => {
 
     sending.value = true
+    console.log(state.price)
     const result = await v.value.$validate()
 
     if (!result) {
@@ -131,9 +135,10 @@ const submitEvent = async () => {
     let formData = new FormData()
     formData.append('title', state.title)
     formData.append('description', state.description)
-    formData.append('max_tickets', state.tickets)
+    formData.append('max_tickets', state.max_tickets)
     formData.append('start', state.start)
     formData.append('end', state.end)
+    formData.append('price', state.price)
     images.forEach(image => formData.append('images[]', image))
 
     let { data } = await axios.post('http://localhost/loterie/addEvent.php', formData, {
@@ -168,6 +173,8 @@ const submitEvent = async () => {
             return
         }
     } )
+
+    console.log(data)
 
     if(data.hasOwnProperty('be_msg_error'))
     {
@@ -206,10 +213,11 @@ const submitEvent = async () => {
             'id' : data.eventId,
             'title': state.title,
             'description': state.description,
-            'tickets': state.tickets,
+            'max_tickets': state.max_tickets,
             'start': state.start,
             'end': state.end,
-            'images': data.images
+            'images': data.images,
+            'price': state.price
         })
 
         toast.open({
@@ -223,7 +231,7 @@ const submitEvent = async () => {
 
         state.title = ''
         state.description = ''
-        state.tickets = 1
+        state.max_tickets = 1
         state.start = getCurrDate()
         state.end = getCurrDate()
 
@@ -335,9 +343,10 @@ onMounted(() => {
                 <th class="py-4 px-8 border-gray-200 border-r">Eveniment</th>
                 <th class="py-4 px-8 border-gray-200 border-r">Titlu</th>
                 <th class="py-4 px-8 border-gray-200 border-r">Descriere</th>
-                <th class="py-4 px-8 border-gray-200 border-r">Tickets</th>
-                <th class="py-4 px-8 border-gray-200 border-r">Start Date</th>
-                <th class="py-4 px-8 border-gray-200 border-r">End Date</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Bilete</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Pret bilet</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Data incepere</th>
+                <th class="py-4 px-8 border-gray-200 border-r">Data sfarsit</th>
                 <th class="py-4 px-8 border-gray-200">Action</th>
             </tr>
         </thead>
@@ -367,7 +376,10 @@ onMounted(() => {
                     <form class="flex flex-col gap-3">
                         <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu" v-model="state.title" />
                         <MazTextarea required no-radius :error="v.description.$error ? true : false" label="Descriere" v-model="state.description"  />
-                        <MazInputNumber required auto-focus :error="v.tickets.$error ? true : false" no-radius label="Numar bilete" v-model="state.tickets"  />
+                        <div class="flex justify-between items-center">
+                            <MazInputNumber required auto-focus :error="v.max_tickets.$error ? true : false" no-radius label="Numar bilete" v-model="state.max_tickets"  />
+                            <MazInputPrice no-radius :min="0" locale="ro-RO" currency="EUR" required label="Pret bilet" v-model="state.price" />
+                        </div>
                         <div class="flex gap-2">
                             <MazPicker class="w-full" required :error="v.start.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand incepe" v-model="state.start"  />
                             <MazPicker class="w-full" required :error="v.end.$error ? true : false" time format="DD-MM-YYYY HH:mm" locale="ro-RO" no-radius label="Cand se termina" v-model="state.end" />

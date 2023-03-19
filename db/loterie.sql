@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2023 at 08:26 PM
+-- Generation Time: Mar 19, 2023 at 08:09 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -41,7 +41,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`) VALUES
-(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '8c0b298afc29d690044c9ba87e423d69');
+(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, 'bf95d6a80bb02e3c6f5e0916c3cbbb2e');
 
 -- --------------------------------------------------------
 
@@ -55,6 +55,7 @@ CREATE TABLE `events` (
   `start` text NOT NULL,
   `end` text NOT NULL,
   `max_tickets` text NOT NULL,
+  `price` float NOT NULL,
   `description` text NOT NULL,
   `images` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -63,8 +64,8 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES
-(61, 'Porsche', '17-03-2023 00:19', '12-04-2023 07:35', '1', 'Un mare porsche din 2023', '[\"events_images/1679005197/16790051970images.jpg\"]');
+INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `price`, `description`, `images`) VALUES
+(66, 'dsadsa', '19-03-2023 20:36', '29-03-2023 20:36', '1500', 123, 'dasdsadsa', '[\"events_images/1679250977/16792509770images.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `tickets`

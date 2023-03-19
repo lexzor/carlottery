@@ -9,6 +9,15 @@ const OWNER_ACCESS = 1
 export const useAccountStore = defineStore("account", () => {
   const uData = ref({ ceva: "cacat" })
   const router = useRouter()
+  const userStore = ref([])
+
+  const addItemStore = (itemid) => {
+    userStore.value.push(itemid)
+  }
+
+  const removeItemStore = (itemid) => {
+    userStore.value = userStore.value.filter(item => item !== itemid)
+  }
 
   const isLogged = () => {
     return uData.value.hasOwnProperty("id")
@@ -102,6 +111,8 @@ export const useAccountStore = defineStore("account", () => {
     isOwner,
     autoLogin,
     getId,
+    addItemStore,
+    removeItemStore
     // setSpecificData,
   }
 })

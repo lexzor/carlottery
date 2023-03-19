@@ -47,8 +47,8 @@ if (sizeof($errorObj["errors"]) > 0) {
     print(json_encode($errorObj));
 }
 
-$query = "INSERT INTO `events` (`title`, `start`, `end`, `max_tickets`, `description`, `images`) VALUES 
-        ('" . $_POST['title'] . "','" . $_POST['start'] . "','" . $_POST['end'] . "','" . $_POST['max_tickets'] . "','" . $_POST['description'] . "','" . json_encode($imagesArr) . "')";
+$query = "INSERT INTO `events` (`title`, `start`, `end`, `max_tickets`, `description`, `images`, `price`) VALUES 
+        ('" . $_POST['title'] . "','" . $_POST['start'] . "','" . $_POST['end'] . "','" . $_POST['max_tickets'] . "','" . $_POST['description'] . "','" . json_encode($imagesArr) . "', " . $_POST['price'] . ")";
 
 
 $result = mysqli_query($db, $query);

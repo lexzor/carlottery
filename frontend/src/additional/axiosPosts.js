@@ -38,7 +38,7 @@ export const getEvents = async () => {
   return returnValue
 }
 
-export const getEventsTickets = async (id) => {
+export const getEventsTickets = async () => {
   let { data } = await axios
     .post(
       "http://localhost/loterie/getEventsTickets.php",
