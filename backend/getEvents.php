@@ -1,7 +1,8 @@
 <?php
-$postData = file_get_contents('php://input');
+require_once 'corsHeaders.php';
+// $postData = file_get_contents('php://input');
 
-$data = json_decode($postData, true);
+$data = $_POST;
 
 if (!array_key_exists('getEvents', $data)) {
     return;

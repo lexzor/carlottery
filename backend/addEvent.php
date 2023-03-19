@@ -1,5 +1,5 @@
 <?php
-$postData = file_get_contents('php://input');
+require_once 'corsHeaders.php';
 
 if (!isset($_POST['title'])) {
     return;
