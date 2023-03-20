@@ -1,7 +1,11 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 require_once 'corsHeaders.php';
 
-$_POST = json_decode(file_get_contents('php://input'), true);
+// $_POST = json_decode(file_get_contents('php://input'), true);
+
+// echo json_encode($_POST);
 
 if (!isset($_POST['title'])) {
     return;
