@@ -26,11 +26,6 @@
         "https://carlottery-api.eway-design.com/getUser.php",
         {
           id: id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       )
       .catch((err) => {

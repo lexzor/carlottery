@@ -8,7 +8,7 @@ import MazInputNumber from 'maz-ui/components/MazInputNumber'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
-import { loadStripe } from '@stripe/stripe-js/pure';
+import axios from "axios"
 
 const route = useRoute()
 const currentEvent = ref(null)
@@ -50,17 +50,19 @@ const addInCart = () => {
     })
 }
 
-const stripePromise = loadStripe('your_publishable_key');
-const paymentError = reactive({ message: null });
+const makePayment = async () => {
+    const { data } = await axios.post('http://localhost/loterie/makePayment.php', {
+        'quantity': 2,
+        'event_id': 66
+    },
+    {
+        headers: {
+          "Content-Type": "application/json",
+        },
+    })
 
-onMounted(async () => {
-    const stripe = await stripePromise;
-    const elements = stripe.elements();
-
-    // Create a Stripe Element for card payments
-    const card = elements.create('card');
-    card.mount(cardElement.value);
-})
+    window.location.href = data
+}
 
 </script>
 
@@ -80,6 +82,7 @@ onMounted(async () => {
                 <div class="flex items-center justify-between gap-[20px]">
                     <MazInputNumber v-model="ticketNum" label="Bilete" />
                     <MazBtn @click="addInCart"> Adauga in cos </MazBtn>
+                    <MazBtn @click="makePayment"> CUMPARA </MazBtn>
                     <div ref="cardElement"></div>
                 </div>
             </div>
