@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import NavBar from '@/components/NavBar.vue'
 import { getEvents, getEventsTickets } from '@/additional/axiosPosts'
 import { useRoute } from 'vue-router'
@@ -8,14 +8,26 @@ import MazInputNumber from 'maz-ui/components/MazInputNumber'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
+import { useVuelidate } from "@vuelidate/core"
+import { minValue } from "@vuelidate/validators"
 import axios from "axios"
 
+const account = useAccountStore()
+
 const route = useRoute()
-const currentEvent = ref(null)
-const ticketNum = ref(1)
+const currentEvent = ref({tickets: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
+const state = reactive({
+    ticketNum: 1
+})
 const cardElement = ref(null)
 
+const rules = {
+    ticketNum: {
+        minValue: minValue(1)
+    }
+}
 
+const v = useVuelidate(rules, state)
 
 const retrieveEvents = async () => {
     const events = await getEvents()
@@ -25,12 +37,8 @@ const retrieveEvents = async () => {
     {
         router.push({path: '/evenimente'})
     }
-
-    const tickets = await getEventsTickets()
-
-    currentEvent.value['tickets'] = tickets === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
-
-    console.table(currentEvent.value)
+    
+    currentEvent.value['tickets'] = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
 }
 
 retrieveEvents()
@@ -39,23 +47,39 @@ const getTicketsProcent = computed(() => {
     return `width: ${(100 * currentEvent.value.tickets) / currentEvent.value.max_tickets}%`;
 })
 
-const addInCart = () => {
-    const account = useAccountStore()
-    account.addItemStore(currentEvent.value.id)
-
+const makePayment = async () => {
     const toast = useToast()
 
-    toast.open({
-        
-    })
-}
+    const result = await v.value.$validate()
 
-const makePayment = async () => {
+    if(!result) {
+        console.log(v.value)
+        state.ticketNum = 1
+        console.log('what')
+        toast.open({
+            message: 'Numarul minim de bilete este 1',
+            duration: 5000,
+            type: "error"
+        })
+
+        return
+    }
+
+
+    if(currentEvent.value.tickets == currentEvent.value.max_tickets) {
+        toast.open({
+            message: 'Ne pare rau! Toate biletele pentru acest event au fost cumparate!',
+            duration: 5000,
+            type: "info"
+        })
+
+        return
+    }
+
     const { data } = await axios.post('http://localhost/loterie/makePayment.php', {
-        'quantity': 2,
-        'event_id': 66
-    },
-    {
+        'quantity': state.ticketNum * currentEvent.value.price,
+        'event_id': currentEvent.value.id
+    }, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,6 +88,43 @@ const makePayment = async () => {
     window.location.href = data
 }
 
+const addEventInStore = async () => {
+    const toast = useToast()
+
+    if (!account.isLogged()) {
+
+        toast.open({
+            message: 'Trebuie sa fii logat pentru a adauga in cos!',
+            duration: 5000,
+            type: "info"
+        })
+
+        return
+    }
+
+    const result = await v.value.$validate()
+
+    if (!result) {
+        console.log(v.value)
+        state.ticketNum = 1
+        console.log('what')
+        toast.open({
+            message: 'Numarul minim de bilete este 1',
+            duration: 5000,
+            type: "error"
+        })
+
+        return
+    }
+
+    account.addItemStore(currentEvent.value.id, state.ticketNum)
+
+    toast.open({
+        message: `Ai adaugat in cos ${state.ticketNum} ${state.ticketNum == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
+        duration: 5000,
+        type: "success"
+    })
+}
 </script>
 
 <template>
@@ -77,12 +138,16 @@ const makePayment = async () => {
         </div>
 
         <div class="max-w-fit">
-            <div v-if="currentEvent.tickets < currentEvent.max_tickets">
+            <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">
                 <h1>Participa cumparand un bilet!</h1>
-                <div class="flex items-center justify-between gap-[20px]">
-                    <MazInputNumber v-model="ticketNum" label="Bilete" />
-                    <MazBtn @click="addInCart"> Adauga in cos </MazBtn>
-                    <MazBtn @click="makePayment"> CUMPARA </MazBtn>
+                <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
+                <div class="flex items-center justify-between gap-[20px] flex-col">
+                    <MazInputNumber v-model="state.ticketNum" label="Bilete" />
+                    <div class="flex flex-col justify-center items-center gap-[20px]">
+                        <MazBtn @click="makePayment"> CUMPARA </MazBtn>
+                        <h1>SAU</h1>
+                        <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>
+                    </div>
                     <div ref="cardElement"></div>
                 </div>
             </div>

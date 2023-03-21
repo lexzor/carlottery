@@ -11,8 +11,20 @@ export const useAccountStore = defineStore("account", () => {
   const router = useRouter()
   const userStore = ref([])
 
-  const addItemStore = (itemid) => {
-    userStore.value.push(itemid)
+  const addItemStore = (itemid, tickets) => {
+    for (let i = 0; i < userStore.value.length; i++) {
+      if (userStore.value[i].eventId == itemid) {
+        userStore.value[i].tickets += tickets
+        return
+      }
+    }
+
+    userStore.value.push({
+      eventId: itemid,
+      tickets: tickets,
+    })
+
+    console.log(userStore.value)
   }
 
   const removeItemStore = (itemid) => {
