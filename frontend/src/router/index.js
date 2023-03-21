@@ -3,6 +3,8 @@ import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import HomeView from "../views/HomeView.vue"
 import EventsView from "@/views/EventsView.vue"
+import SuccessView from "@/views/Order/SuccessView.vue"
+import DeclinedView from "@/views/Order/DeclinedView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
@@ -46,6 +48,16 @@ const router = createRouter({
           component: AdminPanelView,
         },
       ],
+    },
+    {
+      path: "/order/success",
+      name: "order_success",
+      component: SuccessView,
+    },
+    {
+      path: "/order/declined",
+      name: "order_declined",
+      component: DeclinedView,
     },
     // {
     //   path: "/adminpanel",

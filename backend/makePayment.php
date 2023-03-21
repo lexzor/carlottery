@@ -22,8 +22,8 @@ $event = $result->fetch_assoc();
 $stripe = new \Stripe\StripeClient('sk_test_51Mnpq4LJ9kTHN7J8VexLWocqnXPRrNi2ZilMuajXpihkC9qviPedo2aE8XCyLD8s4zaI73QTc9VMGeI0L6xYCnLQ00aU5gtKYJ');
 
 $session = $stripe->checkout->sessions->create([
-    'success_url' => 'http://localhost:5173/success',
-    'cancel_url' => 'http://localhost:5173/cancel',
+    'success_url' => 'http://localhost:5173/order/success',
+    'cancel_url' => 'http://localhost:5173/order/declined',
     'payment_method_types' => ['card'],
     'line_items' => [
         [

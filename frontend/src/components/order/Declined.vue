@@ -1,0 +1,17 @@
+<template>
+    <div class="container mx-auto mt-[77px]">
+        <div class="p-[45px]">
+            <div class="bg-white shadow rounded w-full flex justify-center py-10">
+                <div class="flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" style="fill: rgba(212, 44, 44, 1);transform: ;msFilter:;"><path d="M9.172 16.242 12 13.414l2.828 2.828 1.414-1.414L13.414 12l2.828-2.828-1.414-1.414L12 10.586 9.172 7.758 7.758 9.172 10.586 12l-2.828 2.828z"></path><path d="M12 22c5.514 0 10-4.486 10-10S17.514 2 12 2 2 6.486 2 12s4.486 10 10 10zm0-18c4.411 0 8 3.589 8 8s-3.589 8-8 8-8-3.589-8-8 3.589-8 8-8z"></path></svg>
+                    <h3 class="text-[22px] mt-10 text-[#d42c2c] font-medium">Tranzactia a fost refuzata</h3>
+                    <p class="mt-1 text-[#00000094]">Ne pare rau dar tranzactia dvs. a fost refuzata. Va rugam sa incercati mai tarziu!</p>
+                    <div class="mt-10">
+                        <router-link to="/" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Intoarce-te</router-link>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</template>
