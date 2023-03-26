@@ -27,7 +27,7 @@ export const getEvents = async () => {
       console.error(err)
     })
 
-  let returnValue = null
+  let returnValue = []
 
   if (Array.isArray(data)) {
     returnValue = data

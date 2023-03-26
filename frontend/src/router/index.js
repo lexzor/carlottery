@@ -5,6 +5,7 @@ import HomeView from "../views/HomeView.vue"
 import EventsView from "@/views/EventsView.vue"
 import SuccessView from "@/views/Order/SuccessView.vue"
 import DeclinedView from "@/views/Order/DeclinedView.vue"
+import CartView from "@/views/Order/CartView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
@@ -48,6 +49,11 @@ const router = createRouter({
           component: AdminPanelView,
         },
       ],
+    },
+    {
+      path: "/cart",
+      name: "cart",
+      component: CartView,
     },
     {
       path: "/order/success",

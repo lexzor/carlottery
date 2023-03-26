@@ -39,10 +39,15 @@ const displayAccBtn = computed(() => {
                 <router-link v-if="!account.isLogged()" to="/register" tag="button" class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Inscrie-te</router-link>
                 
                 <!-- <div v-if="account.isLogged()"> -->
-                    <button :class="displayAccBtn" id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
-                        <font-awesome-icon icon="fa-solid fa-user" class="fa-xl" />
-                        <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>
-                    </button>
+                    <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
+                        <router-link to="/cart" tag="button" >
+                            <font-awesome-icon icon="fa-solid fa-cart-shopping" size="lg" class="text-black hover:cursor-pointer" />
+                        </router-link>
+                        <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
+                            <font-awesome-icon icon="fa-solid fa-user" class="fa-xl" />
+                            <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>
+                        </button>
+                    </div>
                     <!-- Dropdown menu -->
                     <div id="dropdownHover" :class="displayAccBtn" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">

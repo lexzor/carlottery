@@ -15,6 +15,7 @@ export const useAccountStore = defineStore("account", () => {
     for (let i = 0; i < userStore.value.length; i++) {
       if (userStore.value[i].eventId == itemid) {
         userStore.value[i].tickets += tickets
+        console.table(userStore.value[i])
         return
       }
     }
@@ -24,11 +25,15 @@ export const useAccountStore = defineStore("account", () => {
       tickets: tickets,
     })
 
-    console.log(userStore.value)
+    console.table(userStore.value)
   }
 
   const removeItemStore = (itemid) => {
-    userStore.value = userStore.value.filter((item) => item !== itemid)
+    userStore.value = userStore.value.filter((item) => item.id !== itemid)
+  }
+
+  const getStore = () => {
+    return userStore.value
   }
 
   const isLogged = () => {
@@ -125,6 +130,7 @@ export const useAccountStore = defineStore("account", () => {
     getId,
     addItemStore,
     removeItemStore,
+    getStore,
     // setSpecificData,
   }
 })

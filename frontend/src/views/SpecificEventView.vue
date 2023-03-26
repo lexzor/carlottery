@@ -53,9 +53,8 @@ const makePayment = async () => {
     const result = await v.value.$validate()
 
     if(!result) {
-        console.log(v.value)
         state.ticketNum = 1
-        console.log('what')
+        
         toast.open({
             message: 'Numarul minim de bilete este 1',
             duration: 5000,
@@ -64,7 +63,6 @@ const makePayment = async () => {
 
         return
     }
-
 
     if(currentEvent.value.tickets == currentEvent.value.max_tickets) {
         toast.open({
@@ -105,9 +103,8 @@ const addEventInStore = async () => {
     const result = await v.value.$validate()
 
     if (!result) {
-        console.log(v.value)
         state.ticketNum = 1
-        console.log('what')
+
         toast.open({
             message: 'Numarul minim de bilete este 1',
             duration: 5000,
