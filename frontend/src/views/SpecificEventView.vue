@@ -8,8 +8,6 @@ import MazInputNumber from 'maz-ui/components/MazInputNumber'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
-import { useVuelidate } from "@vuelidate/core"
-import { minValue } from "@vuelidate/validators"
 import axios from "axios"
 
 const account = useAccountStore()
@@ -20,14 +18,6 @@ const state = reactive({
     ticketNum: 1
 })
 const cardElement = ref(null)
-
-const rules = {
-    ticketNum: {
-        minValue: minValue(1)
-    }
-}
-
-const v = useVuelidate(rules, state)
 
 const retrieveEvents = async () => {
     const events = await getEvents()
@@ -49,20 +39,6 @@ const getTicketsProcent = computed(() => {
 
 const makePayment = async () => {
     const toast = useToast()
-
-    const result = await v.value.$validate()
-
-    if(!result) {
-        state.ticketNum = 1
-        
-        toast.open({
-            message: 'Numarul minim de bilete este 1',
-            duration: 5000,
-            type: "error"
-        })
-
-        return
-    }
 
     if(currentEvent.value.tickets == currentEvent.value.max_tickets) {
         toast.open({
@@ -102,18 +78,6 @@ const addEventInStore = async () => {
 
     const result = await v.value.$validate()
 
-    if (!result) {
-        state.ticketNum = 1
-
-        toast.open({
-            message: 'Numarul minim de bilete este 1',
-            duration: 5000,
-            type: "error"
-        })
-
-        return
-    }
-
     account.addItemStore(currentEvent.value.id, state.ticketNum)
 
     toast.open({
@@ -139,7 +103,7 @@ const addEventInStore = async () => {
                 <h1>Participa cumparand un bilet!</h1>
                 <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
                 <div class="flex items-center justify-between gap-[20px] flex-col">
-                    <MazInputNumber v-model="state.ticketNum" label="Bilete" />
+                    <MazInputNumber v-model="state.ticketNum" :min="1" label="Bilete" />
                     <div class="flex flex-col justify-center items-center gap-[20px]">
                         <MazBtn @click="makePayment"> CUMPARA </MazBtn>
                         <h1>SAU</h1>
