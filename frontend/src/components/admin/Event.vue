@@ -39,7 +39,7 @@
 
     const { data } = await axios
       .post(
-        "https://carlottery-api.eway-design.com/delEvent.php",
+        "http://localhost/loterie/delEvent.php",
         {
           id: id,
           imgs: folderArr,
@@ -110,7 +110,7 @@
     let imagesArray = []
 
     JSON.parse(event.value.images).forEach((image) => {
-      imagesArray.push("https://carlottery-api.eway-design.com/" + image)
+      imagesArray.push("http://localhost/loterie/" + image)
     })
 
     return imagesArray

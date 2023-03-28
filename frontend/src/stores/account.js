@@ -5,31 +5,53 @@ import { useToast } from "vue-toast-notification"
 import { useRouter } from "vue-router"
 
 const OWNER_ACCESS = 1
+const LOGIN_TIME = 1 // in ore
 
 export const useAccountStore = defineStore("account", () => {
   const uData = ref({ ceva: "cacat" })
   const router = useRouter()
   const userStore = ref([])
 
+  const internalSaveUserStore = async () => {
+    await axios
+      .post(
+        "http://localhost/loterie/updateCart.php",
+        {
+          id: uData.value.id,
+          cart:
+            userStore.value.length > 0
+              ? JSON.stringify(userStore.value)
+              : "NULL",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .catch((err) => console.err)
+  }
+
   const addItemStore = (itemid, tickets) => {
     for (let i = 0; i < userStore.value.length; i++) {
-      if (userStore.value[i].eventId == itemid) {
+      if (userStore.value[i].id == itemid) {
         userStore.value[i].tickets += tickets
-        console.table(userStore.value[i])
+        internalSaveUserStore()
         return
       }
     }
 
     userStore.value.push({
-      eventId: itemid,
+      id: itemid,
       tickets: tickets,
     })
 
-    console.table(userStore.value)
+    internalSaveUserStore()
   }
 
   const removeItemStore = (itemid) => {
     userStore.value = userStore.value.filter((item) => item.id !== itemid)
+    internalSaveUserStore()
   }
 
   const getStore = () => {
@@ -48,19 +70,14 @@ export const useAccountStore = defineStore("account", () => {
     return uData.value.id
   }
 
+  const isOwner = () => {
+    return uData.value.access == OWNER_ACCESS ? true : false
+  }
+
   const logOut = () => {
     uData.value = {}
 
-    if (document.cookie.indexOf("login_key") !== -1) {
-      if (document.cookie.length > "login_key=".length + 32) {
-        document.cookie = document.cookie.slice(
-          "login_key=".length + 32,
-          document.cookie.length + 1
-        )
-      } else {
-        document.cookie = "login_key=; Max-Age=-999999"
-      }
-    }
+    localStorage.removeItem("auto_login")
 
     const toast = useToast()
     toast.open({
@@ -72,47 +89,47 @@ export const useAccountStore = defineStore("account", () => {
     router.push({ path: "/" })
   }
 
-  const setData = (data) => {
-    uData.value = data
-  }
-
-  // const setSpecificData = (key, data) => {
-  //   if (uData.value.hasOwnProperty(key)) {
-  //     uData.value[key] = data
-  //   }
-  // }
-
-  const isOwner = () => {
-    return uData.value.access == OWNER_ACCESS ? true : false
-  }
-
   const autoLogin = async () => {
-    if (document.cookie.indexOf("login_key") === -1) {
+    const autoLoginData = localStorage.getItem("auto_login")
+
+    if (autoLoginData === null) {
       return
     }
 
-    const temp = document.cookie.split("login_key=")[1]
-    const login_key = temp.length > 32 ? temp.slice(0, 32) : temp
+    const autoLoginDataObj = JSON.parse(autoLoginData)
+    const now = new Date()
+
+    if (
+      autoLoginDataObj.expiry < now.getTime() &&
+      autoLoginDataObj.expiry !== 0
+    ) {
+      localStorage.removeItem("auto_login")
+      return
+    }
 
     await axios
-      .post("https://carlottery-api.eway-design.com/autoLogin.php", {
-        login_key: login_key,
+      .post("http://localhost/loterie/autoLogin.php", {
+        login_key: autoLoginDataObj.login_key,
       })
       .then((res) => {
         if (res.data != -1 && res.data !== null) {
-          setData(res.data)
+          uData.value = res.data
 
-          let now = new Date()
-          let time = now.getTime()
+          if (res.data.cart !== null) {
+            userStore.value = JSON.parse(res.data.cart)
+          }
 
-          time += 3600 * 1000
-          now.setTime(time)
-
-          document.cookie = `login_key=${login_key}; expires=${now.toUTCString()}; path=/`
+          if (autoLoginDataObj.expiry > 0) {
+            localStorage.setItem(
+              "auto_login",
+              JSON.stringify({
+                login_key: res.data.login_key,
+                expiry: now.getTime() + LOGIN_TIME * 3600000,
+              })
+            )
+          }
         } else {
-          document.cookie = "login_key=; Max-Age=-999999"
-          setData({})
-          router.push({ path: "/" })
+          localStorage.removeItem("auto_login")
         }
       })
       .catch((err) => {
@@ -120,17 +137,41 @@ export const useAccountStore = defineStore("account", () => {
       })
   }
 
+  const loginAcc = (data, permanent) => {
+    uData.value = data
+
+    if (data.cart !== null) {
+      userStore.value = JSON.parse(data.cart)
+    }
+
+    let expireTime = 0
+
+    if (permanent) {
+      expireTime = 0
+    } else {
+      const date = new Date()
+      expireTime = date.getTime() + LOGIN_TIME * 3600000
+    }
+
+    localStorage.setItem(
+      "auto_login",
+      JSON.stringify({
+        login_key: data.login_key,
+        expiry: expireTime,
+      })
+    )
+  }
+
   return {
     isLogged,
     getUsername,
     logOut,
-    setData,
     isOwner,
     autoLogin,
     getId,
     addItemStore,
     removeItemStore,
     getStore,
-    // setSpecificData,
+    loginAcc,
   }
 })

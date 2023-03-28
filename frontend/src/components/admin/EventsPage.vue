@@ -153,7 +153,7 @@
     images.forEach((image) => formData.append("images[]", image))
 
     let { data } = await axios
-      .post("https://carlottery-api.eway-design.com/addEvent.php", formData, {
+      .post("http://localhost/loterie/addEvent.php", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

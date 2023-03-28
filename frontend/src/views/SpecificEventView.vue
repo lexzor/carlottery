@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import NavBar from '@/components/NavBar.vue'
 import { getEvents, getEventsTickets } from '@/additional/axiosPosts'
 import { useRoute } from 'vue-router'
@@ -14,10 +14,9 @@ const account = useAccountStore()
 
 const route = useRoute()
 const currentEvent = ref({tickets: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
-const state = reactive({
-    ticketNum: 1
-})
+const ticketNum = ref(1)
 const cardElement = ref(null)
+const interval = null
 
 const retrieveEvents = async () => {
     const events = await getEvents()
@@ -29,6 +28,21 @@ const retrieveEvents = async () => {
     }
     
     currentEvent.value['tickets'] = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    currentEvent.value['startTimestamp'] = formatTimeStamp(currentEvent.value.start)
+    currentEvent.value['endTimestamp'] = formatTimeStamp(currentEvent.value.end)
+    currentEvent.value['remainingTime'] = currentEvent.value.endTimestamp - currentEvent.value.startTimestamp
+    console.log(currentEvent.value.remainingTime)
+    interval = setInterval(() => {
+        currentEvent.value['remainingTime']--
+    }, 1000)
+}
+
+const formatTimeStamp = (time) => {
+    const evDate = time.split(' ')
+    const splittedDate = evDate[0].split('-')
+    const correctlyFormatedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]} ${evDate[1]}`
+    console.log(correctlyFormatedDate)
+    return Date.parse(correctlyFormatedDate)
 }
 
 retrieveEvents()
@@ -51,7 +65,7 @@ const makePayment = async () => {
     }
 
     const { data } = await axios.post('http://localhost/loterie/makePayment.php', {
-        'quantity': state.ticketNum * currentEvent.value.price,
+        'quantity': ticketNum.value * currentEvent.value.price,
         'event_id': currentEvent.value.id
     }, {
         headers: {
@@ -76,16 +90,19 @@ const addEventInStore = async () => {
         return
     }
 
-    const result = await v.value.$validate()
-
-    account.addItemStore(currentEvent.value.id, state.ticketNum)
+    account.addItemStore(currentEvent.value.id, ticketNum.value)
 
     toast.open({
-        message: `Ai adaugat in cos ${state.ticketNum} ${state.ticketNum == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
+        message: `Ai adaugat in cos ${ticketNum.value} ${ticketNum.value == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
         duration: 5000,
         type: "success"
     })
 }
+
+const getTemplateRemainingTime = computed(() => {
+    const days = currentEvent.value.remainingTime / 3600 / 24 / 60 / 60
+    return Math.floor(days)
+})
 </script>
 
 <template>
@@ -100,16 +117,17 @@ const addEventInStore = async () => {
 
         <div class="max-w-fit">
             <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">
-                <h1>Participa cumparand un bilet!</h1>
+                <h1>Participa cumparand un bilet! Remaining time</h1>
+                <h1>{{ getTemplateRemainingTime }}</h1>
                 <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
                 <div class="flex items-center justify-between gap-[20px] flex-col">
-                    <MazInputNumber v-model="state.ticketNum" :min="1" label="Bilete" />
+                    <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
+                    <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
                     <div class="flex flex-col justify-center items-center gap-[20px]">
                         <MazBtn @click="makePayment"> CUMPARA </MazBtn>
                         <h1>SAU</h1>
                         <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>
                     </div>
-                    <div ref="cardElement"></div>
                 </div>
             </div>
             <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>

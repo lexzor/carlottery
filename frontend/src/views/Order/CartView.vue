@@ -8,29 +8,32 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import MazInputNumber from 'maz-ui/components/MazInputNumber'
 
 const account = useAccountStore()
-
-if(!account.isLogged())
-{
-    const router = useRouter()
-    router.push({path: '/'})
-}
-
-console.log(account.getStore())
-
 const events = ref([])
+const router = useRouter()
 
 const retrieveEvents = async () => {
     const allEv = await getEvents()
 
-    account.getStore().forEach(storedItem => {
-        console.table(storedItem)
-        let item = allEv.filter(ev => ev.id == storedItem.eventId)[0]
-        item['tickets'] = storedItem.tickets
-        events.value.push(allEv.filter(ev => ev.id == storedItem.eventId)[0])
-    })
-    
-    console.table(events.value)
+    for(let i = 0; i < account.getStore().length; i++)
+    {   
+        let item = allEv.filter(ev => ev.id == account.getStore()[i].id)[0]
+
+        if(item === undefined)
+        {
+            console.error(`Event with id '${account.getStore()[i].id}' has not been found for user [${account.getId()}] '${account.getUsername()}'`)
+            continue
+        }
+
+        item['tickets'] = account.getStore()[i].tickets
+        events.value.push(item)
+    }
+
+    if(!account.isLogged())
+    {
+        router.push({path: '/login'})
+    }
 }
+
 retrieveEvents()
 
 const removeItem = (itemid) => {
@@ -48,28 +51,25 @@ const totalPrice = computed(() => {
     return totalPrice
 })
 
-const checkEventTickets = (event) => {
-    if(event.tickets < 1) {
-        event.tickets = 1
-    }
-
-    console.log(event.tickets)
+const show = (value, id, pos) => {
+    account.addItemStore(id, value - events.value[pos].tickets)
+    events.value[pos].tickets = value
 }
 
 </script>
 
 <template>
     <NavBar />
-    <div class="mt-[200px] w-[1500px] mx-auto">
+    <div class="mt-[200px] w-fit mx-auto">
         <div class="flex flex-col gap-[20px]">
-            <div v-for="item in events" class="flex items-center justify-between gap-[20px] p-[5px] border-black border-[1px]">
+            <div v-for="(item, index) in events" class="flex items-center justify-between gap-[20px] p-[5px] border-black border-[1px]">
                 <img :src="'http://localhost/loterie/' + JSON.parse(item.images)[0]" class="max-w-[125px]">
                 <div class="">
                     <h1>Eveniment</h1>
                     <h1 class="text">{{ item.title }}</h1>
                 </div>
                 <div>
-                    <MazInputNumber label="Bilete" v-model="item.tickets" :min="1" />
+                    <MazInputNumber @update:model-value="show($event, item.id, index)" :modelValue="item.tickets" label="Bilete" :min="1" />
                 </div>
                 <div>
                     <h1>Pret Bilet</h1>

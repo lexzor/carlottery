@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect("185.234.69.234", "carlottery", "gwug4JJAhyFwBVzY", "carlottery");
+$db = mysqli_connect("localhost", "root", "", "loterie");
 
 if (!$db) {
     print('Conexiunea la baza de date a esuat!');

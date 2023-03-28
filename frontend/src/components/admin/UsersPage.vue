@@ -27,7 +27,7 @@
 
     await axios
       .post(
-        "https://carlottery-api.eway-design.com/delUser.php",
+        "http://localhost/loterie/delUser.php",
         {
           id: id,
         },
@@ -72,7 +72,7 @@
   const getUsers = async () => {
     await axios
       .post(
-        "https://carlottery-api.eway-design.com/getUsers.php",
+        "http://localhost/loterie/getUsers.php",
         {
           getUsers: "1",
         },
@@ -160,15 +160,5 @@
         </tr>
       </tbody>
     </table>
-    <!-- <h1 class="p-[20px]">User page</h1> 
-        <div v-for="(user, index) in users" :key="index" :id="'userid' + user.id" class="flex items-center justify-evenly px-[20px] py-[10px]">
-            <div ref="container"></div>  
-            <h1>{{ user.id }}</h1>
-            <h1>{{ user.email }}</h1>
-            <h1>{{ user.upassword }}</h1>
-            <h1>{{ user.username }}</h1>
-            <MazBtn @click="deleteUser(user.id)" :loading="deleting ? true : false" color="danger">Delete</MazBtn>
-            <MazBtn @click="editUser(user.id)">Edit</MazBtn>
-        </div> -->
   </div>
 </template>

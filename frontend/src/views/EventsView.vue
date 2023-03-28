@@ -24,9 +24,9 @@ retrieveEvents()
     <NavBar />
     <div class="w-[80%] mx-auto mt-[100px]">
         <h1>Toate competitiile noastre!</h1>
-        <div class="">
-            <div v-for="(event, index) in events" :key="index" class="w-[250px] h-[250px] bg-slate-200 flex justify-center items-center flex-col gap-[20px]">
-                <h1>{{ event.title }}</h1>
+        <div class="flex gap-[20px] mt-[60px]">
+            <div v-for="(event, index) in events" :key="index" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" class="w-[270px] h-[150px] bg-slate-200 flex justify-center items-center flex-col gap-[20px] bg-no-repeat bg-contain bg-center">
+                <h1 class="text-white">{{ event.title }}</h1>
                 <button class="px-[10px] py-[10px] bg-red-100" @click="goTo(event.hashed_id)">Participa</button>
             </div>
         </div>

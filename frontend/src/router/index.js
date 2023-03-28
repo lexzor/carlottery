@@ -65,10 +65,6 @@ const router = createRouter({
       name: "order_declined",
       component: DeclinedView,
     },
-    // {
-    //   path: "/adminpanel",
-    //   redirect: "/adminpanel/evenimente/",
-    // },
     {
       path: "/(.*)*",
       redirect: "/",

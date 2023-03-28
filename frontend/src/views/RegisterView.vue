@@ -126,7 +126,7 @@
     }
 
     let { data } = await axios.post(
-      "https://carlottery-api.eway-design.com/registerAccount.php",
+      "http://localhost/loterie/registerAccount.php",
       {
         email: state.email,
         username: state.username,
@@ -202,43 +202,21 @@
       </p>
     </div>
     <MazInput
-      v-if="hasEmailErr || v.email.$error"
-      error
+      :error="hasEmailErr || v.email.$error ? true : false"
       label="Adresa de e-mail"
       class="w-full"
       no-radius
-      auto-focus
       v-model="state.email"
     />
     <MazInput
-      v-else
-      label="Adresa de e-mail"
-      class="w-full"
-      no-radius
-      auto-focus
-      v-model="state.email"
-    />
-    <MazInput
-      v-if="hasUsernameErr || v.username.$error"
-      error
-      auto-focus
+      :error="hasUsernameErr || v.username.$error ? true : false"
       label="Nume de utilizator"
       class="w-full"
       no-radius
       v-model="state.username"
     />
     <MazInput
-      v-else
-      label="Nume de utilizator"
-      auto-focus
-      class="w-full"
-      no-radius
-      v-model="state.username"
-    />
-    <MazInput
-      v-if="v.password.$error"
-      auto-focus
-      error
+      :error="v.password.$error ? true : false"
       label="Parola"
       class="w-full"
       no-radius
@@ -246,28 +224,8 @@
       v-model="state.password"
     />
     <MazInput
-      v-else
-      label="Parola"
-      auto-focus
-      class="w-full"
-      no-radius
-      type="password"
-      v-model="state.password"
-    />
-    <MazInput
-      v-if="confirmPasswordError"
-      auto-focus
-      error
+      :error="confirmPasswordError ? true : false"
       label="Confirmare parola"
-      class="w-full"
-      no-radius
-      type="password"
-      v-model="state.confirmPassword"
-    />
-    <MazInput
-      v-else
-      label="Confirmare parola"
-      auto-focus
       class="w-full"
       no-radius
       type="password"
