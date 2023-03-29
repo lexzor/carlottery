@@ -13,10 +13,10 @@ import axios from "axios"
 const account = useAccountStore()
 
 const route = useRoute()
-const currentEvent = ref({tickets: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
+const currentEvent = ref({tickets: 0, remainingTime: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
 const ticketNum = ref(1)
 const cardElement = ref(null)
-const interval = null
+let interval = null
 
 const retrieveEvents = async () => {
     const events = await getEvents()
@@ -27,21 +27,27 @@ const retrieveEvents = async () => {
         router.push({path: '/evenimente'})
     }
     
-    currentEvent.value['tickets'] = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
-    currentEvent.value['startTimestamp'] = formatTimeStamp(currentEvent.value.start)
-    currentEvent.value['endTimestamp'] = formatTimeStamp(currentEvent.value.end)
-    currentEvent.value['remainingTime'] = currentEvent.value.endTimestamp - currentEvent.value.startTimestamp
-    console.log(currentEvent.value.remainingTime)
+    currentEvent.value.tickets = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    currentEvent.value.remainingTime = formatTimeStamp(currentEvent.value.end) - new Date().getTime()
+    
     interval = setInterval(() => {
-        currentEvent.value['remainingTime']--
+        --currentEvent.value.remainingTime
     }, 1000)
 }
+
+const getRemainingTime = computed(() => {
+    console.log(currentEvent.value.remainingTime)
+    const days = Math.floor(currentEvent.value.remainingTime / (3600*24) )
+    const hours = Math.floor(currentEvent.value.remainingTime / 3600)
+    const minutes = Math.floor(currentEvent.value.remainingTime / 60)
+    const seconds = Math.floor(currentEvent.value.remainingTime % 60)
+    return `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+})
 
 const formatTimeStamp = (time) => {
     const evDate = time.split(' ')
     const splittedDate = evDate[0].split('-')
-    const correctlyFormatedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]} ${evDate[1]}`
-    console.log(correctlyFormatedDate)
+    const correctlyFormatedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]} ${evDate[1]}:00`
     return Date.parse(correctlyFormatedDate)
 }
 
@@ -99,9 +105,9 @@ const addEventInStore = async () => {
     })
 }
 
-const getTemplateRemainingTime = computed(() => {
-    const days = currentEvent.value.remainingTime / 3600 / 24 / 60 / 60
-    return Math.floor(days)
+
+onUnmounted(() => {
+    clearInterval(interval)
 })
 </script>
 
@@ -118,7 +124,7 @@ const getTemplateRemainingTime = computed(() => {
         <div class="max-w-fit">
             <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">
                 <h1>Participa cumparand un bilet! Remaining time</h1>
-                <h1>{{ getTemplateRemainingTime }}</h1>
+                <h1>{{ getRemainingTime }}</h1>
                 <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
                 <div class="flex items-center justify-between gap-[20px] flex-col">
                     <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
