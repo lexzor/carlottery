@@ -77,3 +77,18 @@ textarea {
 .textarea-maz {
     height: 5rem !important;
 }
+
+.contact-input {
+    width: 100%;
+    border: 2px solid black !important;
+    outline: none !important;
+}
+
+.contact-input::placeholder {
+    color: black !important;
+}
+
+.contact-input:focus {
+    border-color: black !important;
+    box-shadow: none !important;
+}
