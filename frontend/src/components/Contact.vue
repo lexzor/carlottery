@@ -8,16 +8,16 @@ import MazInput from "maz-ui/components/MazInput"
             <h3 class="text-[32px] font-medium text-[#000]">CONTACT</h3>
             <p class="text-[20px] font-light text-[#000] mt-[10px]">Dacă aveți orice fel de problema, puteți completa formularul următor.</p>
             <div class="flex gap-[40px] mt-[30px]">
-                <div class="w-full">
+                <form class="w-full">
                     <div class="flex gap-[10px]">
-                        <input type="text" class="contact-input" placeholder="Prenume">
-                        <input type="text" class="contact-input" placeholder="Nume">
+                        <input type="text" class="contact-input" placeholder="Prenume" required>
+                        <input type="text" class="contact-input" placeholder="Nume" required>
                     </div>
                     <div class="flex mt-[10px]">
-                        <input type="text" class="contact-input" placeholder="Adresa de email">
+                        <input type="email" class="contact-input" placeholder="Adresa de email" required>
                     </div>
                     <div class="flex mt-[10px]">
-                        <textarea class="contact-input h-[181px]" placeholder="Content"></textarea>
+                        <textarea class="contact-input h-[181px]" placeholder="Content" required></textarea>
                     </div>
                     <div class="flex justify-between items-center mt-6">
                         <div class="flex gap-10">
@@ -38,12 +38,16 @@ import MazInput from "maz-ui/components/MazInput"
                         </div>
                         <div>
                             <div class="boxed-btn">
-                                <router-link to="/" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px]">Trimite</router-link>
+                                <button type="submit" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px]">Trimite</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="w-[90%] border-2 border-black flex flex-col justify-center px-[40px] py-[24px]">
+                </form>
+                <div class="w-[90%] border-2 border-black flex flex-col justify-center px-[40px]">
+                    <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black mb-10" to="/">
+                        <span class="text-white bg-[#000000] px-[20px]">WIN</span>
+                        <span>AUTO</span>
+                    </router-link>
                     <h3 class="text-[#000] text-[18px]">Ne puteti contacta oricand intre orele afisate mai jos:</h3>
                     <ul class="text-[#000] font-light my-[16px] list-disc pl-[23px]">
                         <li>Luni - 8am - 8pm</li>
