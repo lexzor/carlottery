@@ -73,3 +73,7 @@ textarea {
 .--primary {
     background-color: black !important;
 }
+
+.textarea-maz {
+    height: 5rem !important;
+}
