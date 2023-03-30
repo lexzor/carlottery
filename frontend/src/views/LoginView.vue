@@ -1,82 +1,82 @@
 <script setup>
-  import { ref, reactive } from "vue"
-  import axios from "axios"
-  import MazInput from "maz-ui/components/MazInput"
-  import MazBtn from "maz-ui/components/MazBtn"
-  import { useToast } from "vue-toast-notification"
-  import { useVuelidate } from "@vuelidate/core"
-  import { required, email } from "@vuelidate/validators"
-  import { vuelidateTranslator } from "../additional/translator"
-  import { useAccountStore } from "../stores/account"
-  import router from "../router"
+import { ref, reactive } from "vue"
+import axios from "axios"
+import MazInput from "maz-ui/components/MazInput"
+import MazBtn from "maz-ui/components/MazBtn"
+import { useToast } from "vue-toast-notification"
+import { useVuelidate } from "@vuelidate/core"
+import { required, email } from "@vuelidate/validators"
+import { vuelidateTranslator } from "../additional/translator"
+import { useAccountStore } from "../stores/account"
+import router from "../router"
+import NavBar from "../components/NavBar.vue"
+import MazCheckbox from 'maz-ui/components/MazCheckbox'
 
-  import NavBar from "../components/NavBar.vue"
+const account = useAccountStore()
 
-  const account = useAccountStore()
+if (account.isLogged()) {
+  router.push({ path: "/" })
+}
 
-  if (account.isLogged()) {
-    router.push({ path: "/" })
+const toast = useToast()
+const sending = ref(false)
+
+const state = reactive({
+  email: "super.alexx@yahoo.com",
+  password: "parolamea",
+  remember: false
+})
+
+const rules = {
+  email: { required, email },
+  password: { required },
+}
+
+const v = useVuelidate(rules, state)
+
+const loginAcc = async () => {
+  const result = await v.value.$validate()
+  sending.value = true
+
+  if (!result) {
+    let errorMessage =
+      '<span class="text-[17px]">Nu te poti loga deoarece:</span>'
+    let totalErrors = 0
+
+    v.value.$errors.forEach((error) => {
+      totalErrors++
+      errorMessage += "<br>"
+      errorMessage += `${totalErrors}. ${vuelidateTranslator(
+        error.$property,
+        error.$message
+      )}`
+    })
+
+    toast.open({
+      message: `${errorMessage}`,
+      type: "error",
+      duration: totalErrors * 6000,
+      pauseOnHover: true,
+      dismissible: false,
+    })
+
+    sending.value = false
+    return
   }
 
-  const toast = useToast()
-  const sending = ref(false)
-
-  const state = reactive({
-    email: "super.alexx@yahoo.com",
-    password: "parolamea",
-  })
-
-  const rules = {
-    email: { required, email },
-    password: { required },
-  }
-
-  const v = useVuelidate(rules, state)
-
-  const loginAcc = async () => {
-    const result = await v.value.$validate()
-    sending.value = true
-
-    if (!result) {
-      let errorMessage =
-        '<span class="text-[17px]">Nu te poti loga deoarece:</span>'
-      let totalErrors = 0
-
-      v.value.$errors.forEach((error) => {
-        totalErrors++
-        errorMessage += "<br>"
-        errorMessage += `${totalErrors}. ${vuelidateTranslator(
-          error.$property,
-          error.$message
-        )}`
-      })
-
-      toast.open({
-        message: `${errorMessage}`,
-        type: "error",
-        duration: totalErrors * 6000,
-        pauseOnHover: true,
-        dismissible: false,
-      })
-
-      sending.value = false
-      return
-    }
-
-    let { data } = await axios.post(
-      "https://carlottery-api.eway-design.com/loginUser.php",
-      {
-        email: state.email,
-        password: state.password,
+    await axios.post(
+    "http://localhost/loterie/loginUser.php",
+    {
+      email: state.email,
+      password: state.password,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-
-    if (typeof data !== "object" || data === null) {
+    }
+  ).catch(err => console.error).then(res => {
+    if (typeof res.data !== "object" || res.data === null) {
       toast.open({
         message: "Datele introduse sunt incorecte",
         duration: 5000,
@@ -84,25 +84,13 @@
         type: "error",
       })
     } else {
-      let now = new Date()
-      let time = now.getTime()
-      time += 3600 * 1000
-      now.setTime(time)
-      document.cookie = `login_key=${
-        data.login_key
-      }; expires=${now.toUTCString()}`
-      const account = useAccountStore()
-      account.setData(data)
-      toast.open({
-        message: `Ai fost logat cu succes!`,
-        type: "success",
-        duration: 3000,
-      })
+      account.loginAcc(res.data, state.remember)
       router.push({ path: "/" })
     }
+  })
 
-    sending.value = false
-  }
+  sending.value = false
+}
 </script>
 
 <template>
@@ -139,6 +127,9 @@
         type="password"
         v-model="state.password"
       />
+      
+      <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>
+      
       <MazBtn
         :loading="sending ? true : false"
         class="w-full px-0 py-[20px]"

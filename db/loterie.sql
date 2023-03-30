@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2023 at 08:09 PM
+-- Generation Time: Mar 28, 2023 at 11:14 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,15 +33,16 @@ CREATE TABLE `accounts` (
   `upassword` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `username` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `access` int(11) NOT NULL DEFAULT 0,
-  `login_key` varchar(33) NOT NULL
+  `login_key` varchar(33) NOT NULL,
+  `cart` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`) VALUES
-(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, 'bf95d6a80bb02e3c6f5e0916c3cbbb2e');
+INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`, `cart`) VALUES
+(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '5d1b0efa581485eb48718a2ab9b9447b', '[{\"id\":\"66\",\"tickets\":15}]');
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,7 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `price`, `description`, `images`) VALUES
-(66, 'dsadsa', '19-03-2023 20:36', '29-03-2023 20:36', '1500', 123, 'dasdsadsa', '[\"events_images/1679250977/16792509770images.jpg\"]');
+(67, 'BMW ROSU FA', '28-03-2023 00:10', '31-03-2023 23:10', '7000', 15, 'Descriere', '[\"events_images/1680037848/16800378480bmw-4-series-gran-coupe-onepager-sp-desktop.jpg.asset.1676973690941.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -118,7 +119,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `tickets`

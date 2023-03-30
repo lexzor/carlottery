@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import NavBar from '@/components/NavBar.vue'
 import { getEvents, getEventsTickets } from '@/additional/axiosPosts'
 import { useRoute } from 'vue-router'
@@ -8,26 +8,15 @@ import MazInputNumber from 'maz-ui/components/MazInputNumber'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
-import { useVuelidate } from "@vuelidate/core"
-import { minValue } from "@vuelidate/validators"
-import axios from "axios"
+
 
 const account = useAccountStore()
 
 const route = useRoute()
-const currentEvent = ref({tickets: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
-const state = reactive({
-    ticketNum: 1
-})
+const currentEvent = ref({tickets: 0, remainingTime: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
+const ticketNum = ref(1)
 const cardElement = ref(null)
-
-const rules = {
-    ticketNum: {
-        minValue: minValue(1)
-    }
-}
-
-const v = useVuelidate(rules, state)
+let interval = null
 
 const retrieveEvents = async () => {
     const events = await getEvents()
@@ -38,7 +27,27 @@ const retrieveEvents = async () => {
         router.push({path: '/evenimente'})
     }
     
-    currentEvent.value['tickets'] = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    currentEvent.value.tickets = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
+    
+    interval = setInterval(() => {
+        --currentEvent.value.remainingTime
+    }, 1000)
+}
+
+const getRemainingTime = computed(() => {
+    const seconds = Math.floor(currentEvent.value.remainingTime % 60) 
+    const minutes = Math.floor((currentEvent.value.remainingTime / 60 ) % 60)
+    const hours = Math.floor(((currentEvent.value.remainingTime / 60) / 60 ) % 24) 
+    const days = Math.floor(((currentEvent.value.remainingTime / 60) / 60) / 24)
+    return `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+})
+
+const formatTimeStamp = (time) => {
+    const evDate = time.split(' ')
+    const splittedDate = evDate[0].split('-')
+    const correctlyFormatedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]} ${evDate[1]}:00`
+    return Date.parse(correctlyFormatedDate)
 }
 
 retrieveEvents()
@@ -47,22 +56,8 @@ const getTicketsProcent = computed(() => {
     return `width: ${(100 * currentEvent.value.tickets) / currentEvent.value.max_tickets}%`;
 })
 
-const makePayment = async () => {
+const redirectToFinishPayment = async () => {
     const toast = useToast()
-
-    const result = await v.value.$validate()
-
-    if(!result) {
-        state.ticketNum = 1
-        
-        toast.open({
-            message: 'Numarul minim de bilete este 1',
-            duration: 5000,
-            type: "error"
-        })
-
-        return
-    }
 
     if(currentEvent.value.tickets == currentEvent.value.max_tickets) {
         toast.open({
@@ -74,16 +69,8 @@ const makePayment = async () => {
         return
     }
 
-    const { data } = await axios.post('http://localhost/loterie/makePayment.php', {
-        'quantity': state.ticketNum * currentEvent.value.price,
-        'event_id': currentEvent.value.id
-    }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-    })
-
-    window.location.href = data
+    account.addItemStore(currentEvent.value.id, ticketNum.value)
+    router.push({path: '/finish'})
 }
 
 const addEventInStore = async () => {
@@ -100,28 +87,19 @@ const addEventInStore = async () => {
         return
     }
 
-    const result = await v.value.$validate()
-
-    if (!result) {
-        state.ticketNum = 1
-
-        toast.open({
-            message: 'Numarul minim de bilete este 1',
-            duration: 5000,
-            type: "error"
-        })
-
-        return
-    }
-
-    account.addItemStore(currentEvent.value.id, state.ticketNum)
+    account.addItemStore(currentEvent.value.id, ticketNum.value)
 
     toast.open({
-        message: `Ai adaugat in cos ${state.ticketNum} ${state.ticketNum == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
+        message: `Ai adaugat in cos ${ticketNum.value} ${ticketNum.value == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
         duration: 5000,
         type: "success"
     })
 }
+
+
+onUnmounted(() => {
+    clearInterval(interval)
+})
 </script>
 
 <template>
@@ -136,16 +114,20 @@ const addEventInStore = async () => {
 
         <div class="max-w-fit">
             <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">
-                <h1>Participa cumparand un bilet!</h1>
+                <h1>Participa cumparand un bilet! Remaining time</h1>
+                <h1>{{ getRemainingTime }}</h1>
                 <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
                 <div class="flex items-center justify-between gap-[20px] flex-col">
-                    <MazInputNumber v-model="state.ticketNum" label="Bilete" />
+                    <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
+                    <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
                     <div class="flex flex-col justify-center items-center gap-[20px]">
-                        <MazBtn @click="makePayment"> CUMPARA </MazBtn>
+                        <MazBtn @click="redirectToFinishPayment"> CUMPARA </MazBtn>
                         <h1>SAU</h1>
                         <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>
                     </div>
-                    <div ref="cardElement"></div>
+                </div>
+                <div class="">
+                    <h1>Date de facturare</h1>
                 </div>
             </div>
             <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>

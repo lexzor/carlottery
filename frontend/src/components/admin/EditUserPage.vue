@@ -23,7 +23,7 @@
   const getUser = async (id) => {
     await axios
       .post(
-        "https://carlottery-api.eway-design.com/getUser.php",
+        "http://localhost/loterie/getUser.php",
         {
           id: id,
         }
@@ -67,7 +67,7 @@
     }
 
     await axios
-      .post("https://carlottery-api.eway-design.com/editUser.php", userObj, {
+      .post("http://localhost/loterie/editUser.php", userObj, {
         headers: {
           "Content-Type": "application/json",
         },
