@@ -6,6 +6,7 @@ import EventsView from "@/views/EventsView.vue"
 import SuccessView from "@/views/Order/SuccessView.vue"
 import DeclinedView from "@/views/Order/DeclinedView.vue"
 import CartView from "@/views/Order/CartView.vue"
+import FinishView from "@/views/Order/FinishView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
@@ -64,6 +65,11 @@ const router = createRouter({
       path: "/order/declined",
       name: "order_declined",
       component: DeclinedView,
+    },
+    {
+      path: "/finish",
+      name: "finish",
+      component: FinishView,
     },
     {
       path: "/(.*)*",

@@ -8,7 +8,7 @@ import MazInputNumber from 'maz-ui/components/MazInputNumber'
 import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
-import axios from "axios"
+
 
 const account = useAccountStore()
 
@@ -28,7 +28,7 @@ const retrieveEvents = async () => {
     }
     
     currentEvent.value.tickets = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
-    currentEvent.value.remainingTime = formatTimeStamp(currentEvent.value.end) - new Date().getTime()
+    currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {
         --currentEvent.value.remainingTime
@@ -36,11 +36,10 @@ const retrieveEvents = async () => {
 }
 
 const getRemainingTime = computed(() => {
-    console.log(currentEvent.value.remainingTime)
-    const days = Math.floor(currentEvent.value.remainingTime / (3600*24) )
-    const hours = Math.floor(currentEvent.value.remainingTime / 3600)
-    const minutes = Math.floor(currentEvent.value.remainingTime / 60)
-    const seconds = Math.floor(currentEvent.value.remainingTime % 60)
+    const seconds = Math.floor(currentEvent.value.remainingTime % 60) 
+    const minutes = Math.floor((currentEvent.value.remainingTime / 60 ) % 60)
+    const hours = Math.floor(((currentEvent.value.remainingTime / 60) / 60 ) % 24) 
+    const days = Math.floor(((currentEvent.value.remainingTime / 60) / 60) / 24)
     return `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
 })
 
@@ -57,7 +56,7 @@ const getTicketsProcent = computed(() => {
     return `width: ${(100 * currentEvent.value.tickets) / currentEvent.value.max_tickets}%`;
 })
 
-const makePayment = async () => {
+const redirectToFinishPayment = async () => {
     const toast = useToast()
 
     if(currentEvent.value.tickets == currentEvent.value.max_tickets) {
@@ -70,16 +69,8 @@ const makePayment = async () => {
         return
     }
 
-    const { data } = await axios.post('http://localhost/loterie/makePayment.php', {
-        'quantity': ticketNum.value * currentEvent.value.price,
-        'event_id': currentEvent.value.id
-    }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-    })
-
-    window.location.href = data
+    account.addItemStore(currentEvent.value.id, ticketNum.value)
+    router.push({path: '/finish'})
 }
 
 const addEventInStore = async () => {
@@ -130,10 +121,13 @@ onUnmounted(() => {
                     <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
                     <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
                     <div class="flex flex-col justify-center items-center gap-[20px]">
-                        <MazBtn @click="makePayment"> CUMPARA </MazBtn>
+                        <MazBtn @click="redirectToFinishPayment"> CUMPARA </MazBtn>
                         <h1>SAU</h1>
                         <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>
                     </div>
+                </div>
+                <div class="">
+                    <h1>Date de facturare</h1>
                 </div>
             </div>
             <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>
