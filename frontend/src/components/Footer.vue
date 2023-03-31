@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-black">
+    <div class="bg-[#000]">
         <div class="mx-auto container mt-[45px]">
-            <div class="p-[45px]">
-                <div class="flex justify-between">
+            <div class="xl:p-[45px] p-[25px] py-[45px]">
+                <div class="flex xl:flex-row flex-col xl:gap-0 gap-[70px] justify-between">
                     <div>
                         <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-white" to="/">
                             <span class="text-black bg-[#fff] px-[20px]">WIN</span>
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-black border-t border-[#FFFFFF14]">
+    <div class="bg-[#000] border-t border-[#FFFFFF14]">
         <div class="mx-auto container">
             <div class="px-[45px] py-[24px] text-center">
                 <p class="text-[#FFFFFF66] font-light">Copyright ⓒ Car Lottery 2023. All rights reserved.</p>

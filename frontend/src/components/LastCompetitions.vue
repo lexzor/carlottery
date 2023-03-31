@@ -1,9 +1,9 @@
 <template>
-    <div class="container mx-auto mt-[77px]">
-        <div class="p-[45px]">
+    <div class="container mx-auto pl-0 mt-[77px]">
+        <div class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000]">COMPETITII IN DESFASURARE:</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
-            <div class="flex gap-[34px] mt-[44px]">
+            <div class="flex xl:flex-row flex-col gap-[34px] mt-[44px]">
                 <div class="relative boxed-content">
                     <div class="absolute w-full h-full left-0 top-0 z-20">
                         <div class="p-[32px] flex flex-col justify-between h-[85%]">

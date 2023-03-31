@@ -4,62 +4,59 @@ import { CCarousel, CCarouselItem } from '@coreui/vue'
 </script>
 
 <template>
-    <div class="container mx-auto mt-[56px]">
-        <div class="px-[45px]">
+    <div class="container mx-auto pl-0 mt-[56px]">
+        <div class="xl:px-[45px] px-[25px]">
             <CCarousel indicators :interval="false" transition="slide">
-                <CCarouselItem class="relative min-w-full max-h-[406px]">
-                    <div class="relative min-w-full min-h-full">
-                        <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
-                        <img src="/porsche.png" class=" top-[-30px] left-0 w-full z-[-1] h-full" alt="slide 1"/>
-                    </div>
-                    <div class="absolute top-[100px] left-[100px] z-10 flex flex-col gap-[50px]">
-                        <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
-                        <div class="flex flex-nowrap gap-[30px]">
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
-                            </div>
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </CCarouselItem>
-                <CCarouselItem class="relative min-w-full max-h-[406px]">
-                    <div class="relative min-w-full min-h-full">
-                        <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
-                        <img src="/porsche.png" class=" top-[-30px] left-0 w-full z-[-1] h-full" alt="slide 1"/>
-                    </div>
-                    <div class="absolute top-[100px] left-[100px] z-10 flex flex-col gap-[50px]">
-                        <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
-                        <div class="flex flex-nowrap gap-[30px]">
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
-                            </div>
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
+                <CCarouselItem class="relative min-w-full h-[406px]" style="background-image: url('/porsche.png')">
+                    <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
+                    <div class="flex h-full items-center xl:pl-20 pl-5">
+                        <div class="relative z-10 flex flex-col gap-[50px]">
+                            <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
+                            <div class="flex flex-nowrap gap-[30px]">
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                </div>
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </CCarouselItem>
-                <CCarouselItem class="relative min-w-full max-h-[406px]">
-                    <div class="relative min-w-full min-h-full">
-                        <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
-                        <img src="/porsche.png" class=" top-[-30px] left-0 w-full z-[-1] h-full" alt="slide 1"/>
-                    </div>
-                    <div class="absolute top-[100px] left-[100px] z-10 flex flex-col gap-[50px]">
-                        <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
-                        <div class="flex flex-nowrap gap-[30px]">
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Inscrie-te</router-link>
+                <CCarouselItem class="relative min-w-full h-[406px]" style="background-image: url('/porsche.png')">
+                    <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
+                    <div class="flex h-full items-center xl:pl-20 pl-5">
+                        <div class="relative z-10 flex flex-col gap-[50px]">
+                            <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
+                            <div class="flex flex-nowrap gap-[30px]">
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                </div>
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                </div>
                             </div>
-                            <div class="flex w-fit relative gap-[30px]">
-                                <router-link to="/register" tag="button" class="text-black bg-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
-                                <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white text-[20px] px-[28px] py-[16px] whitespace-nowrap">Vezi biletele</router-link>
+                        </div>
+                    </div>
+                </CCarouselItem>
+                <CCarouselItem class="relative min-w-full h-[406px]" style="background-image: url('/porsche.png')">
+                    <div class="absolute top-0 left-0 min-w-full min-h-full setBg"></div>
+                    <div class="flex h-full items-center xl:pl-20 pl-5">
+                        <div class="relative z-10 flex flex-col gap-[50px]">
+                            <h1 class="text-[40px] text-white uppercase font-medium">Vrei sa fii urmatorul<br>castigator?</h1>
+                            <div class="flex flex-nowrap gap-[30px]">
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Inscrie-te</router-link>
+                                </div>
+                                <div class="flex w-fit relative gap-[30px]">
+                                    <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                    <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Vezi biletele</router-link>
+                                </div>
                             </div>
                         </div>
                     </div>

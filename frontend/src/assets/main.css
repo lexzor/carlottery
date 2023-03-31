@@ -8,7 +8,21 @@ body {
     font-family: 'Stolzl';
 }
 
-body::before {
+.slide-fade-enter-active {
+    transition: all 0.3s ease-in-out;
+}
+  
+.slide-fade-leave-active {
+    transition: all 0.3s ease-in-out;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(300px);
+    opacity: 0;
+}
+
+/* body::before {
     position: absolute;
     content: '';
     background-image: url('images/elements/left_lines.png');
@@ -27,7 +41,7 @@ body::after {
     top: 0;
     right: 0;
     z-index: -1;
-}
+} */
 
 .maz-border-primary {
     border-color: black !important;

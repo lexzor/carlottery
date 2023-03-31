@@ -3,11 +3,11 @@ import MazInput from "maz-ui/components/MazInput"
 </script>
 
 <template>
-    <div class="mx-auto container mt-[45px]">
-        <div class="p-[45px]">
+    <div class="mx-auto container mt-[80px] pl-0">
+        <div class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000]">CONTACT</h3>
             <p class="text-[20px] font-light text-[#000] mt-[10px]">Dacă aveți orice fel de problema, puteți completa formularul următor.</p>
-            <div class="flex gap-[40px] mt-[30px]">
+            <div class="flex xl:flex-row flex-col gap-[40px] mt-[30px]">
                 <form class="w-full">
                     <div class="flex gap-[10px]">
                         <input type="text" class="contact-input" placeholder="Prenume" required>
@@ -19,7 +19,7 @@ import MazInput from "maz-ui/components/MazInput"
                     <div class="flex mt-[10px]">
                         <textarea class="contact-input h-[181px]" placeholder="Content" required></textarea>
                     </div>
-                    <div class="flex justify-between items-center mt-6">
+                    <div class="flex xl:flex-row flex-col xl:gap-0 gap-[30px] justify-between xl:items-center items-start mt-6">
                         <div class="flex gap-10">
                             <router-link class="flex gap-3 items-center" to="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" viewBox="0 0 19 19">
@@ -43,7 +43,7 @@ import MazInput from "maz-ui/components/MazInput"
                         </div>
                     </div>
                 </form>
-                <div class="w-[90%] border-2 border-black flex flex-col justify-center px-[40px]">
+                <div class="xl:w-[90%] border-2 border-black flex flex-col justify-center px-[40px] py-[30px] xl:block hidden">
                     <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black mb-10" to="/">
                         <span class="text-white bg-[#000000] px-[20px]">WIN</span>
                         <span>AUTO</span>
