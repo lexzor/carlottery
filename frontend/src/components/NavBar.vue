@@ -59,10 +59,10 @@ const displayAccBtn = computed(() => {
                         
                         <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
                             <router-link to="/cart" tag="button" >
-                                <font-awesome-icon icon="fa-solid fa-cart-shopping" size="lg" class="text-black hover:cursor-pointer" />
+                                <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-white hover:cursor-pointer" />
                             </router-link>
                             <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
-                                <font-awesome-icon icon="fa-solid fa-user" class="fa-xl" />
+                                <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />
                                 <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>
                             </button>
                         </div>
