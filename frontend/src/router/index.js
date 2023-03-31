@@ -49,6 +49,11 @@ const router = createRouter({
           name: "edituser",
           component: AdminPanelView,
         },
+        {
+          path: "/adminpanel/:section:/edit_event/:id",
+          name: "editevent",
+          component: AdminPanelView,
+        },
       ],
     },
     {

@@ -27,10 +27,19 @@ const EditUserPage = defineAsyncComponent({
     loader: () => import('@/components/admin/EditUserPage.vue')
 })
 
+const EditEventPage = defineAsyncComponent({
+    loader: () => import('@/components/admin/EditEventPage.vue')
+})
+
 const getCurrAdminPage = computed(() => {
     switch(route.params.section)
     {
         case 'evenimente':
+            if(route.name === 'editevent')
+            {
+                return EditEventPage
+            }
+
             return EventsPage
 
         case 'utilizatori':
