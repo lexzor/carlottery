@@ -8,7 +8,7 @@ const OWNER_ACCESS = 1
 const LOGIN_TIME = 1 // in ore
 
 export const useAccountStore = defineStore("account", () => {
-  const uData = ref({ ceva: "cacat" })
+  const uData = ref({})
   const router = useRouter()
   const userStore = ref([])
 

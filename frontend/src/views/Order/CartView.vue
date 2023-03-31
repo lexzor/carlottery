@@ -20,7 +20,8 @@ const retrieveEvents = async () => {
 
         if(item === undefined)
         {
-            console.error(`Event with id '${account.getStore()[i].id}' has not been found for user [${account.getId()}] '${account.getUsername()}'`)
+            console.error(`Event with id '${account.getStore()[i].id}' has not been found for user [${account.getId()}] '${account.getUsername()}' in database events list and will be deleted from user store`)
+            account.removeItemStore(account.getStore()[i].id)
             continue
         }
 
