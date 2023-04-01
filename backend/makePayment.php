@@ -13,34 +13,38 @@ $data = $_POST;
 require_once 'stripe/init.php';
 require_once 'dbConn.php';
 
-$event_id = $_POST['event_id'];
+$events = $_POST['events'];
+$eventsData = [];
 
-$query = "SELECT * FROM `events` WHERE `id` = '$event_id'";
-$result = mysqli_query($db, $query);
-$event = $result->fetch_assoc();
+foreach($events as $event) {
+    $query = "SELECT * FROM `events` WHERE `id` = '".$event['id']."'";
+    $result = mysqli_query($db, $query);
+    $eventRes = $result->fetch_assoc();
+
+    $eventData = [
+        'price_data' => [
+            'currency' => 'eur',
+            'unit_amount' => $eventRes['price'] * 100,
+            'product_data' => [
+                'name' => $eventRes['title']
+            ]
+        ],
+        'quantity' => $event['quantity'],
+    ];
+    array_push($eventsData, $eventData);
+}
 
 $stripe = new \Stripe\StripeClient('sk_test_51Mnpq4LJ9kTHN7J8VexLWocqnXPRrNi2ZilMuajXpihkC9qviPedo2aE8XCyLD8s4zaI73QTc9VMGeI0L6xYCnLQ00aU5gtKYJ');
 
 $session = $stripe->checkout->sessions->create([
-    'success_url' => 'http://localhost:5173/order/success',
-    'cancel_url' => 'http://localhost:5173/order/declined',
+    'success_url' => "http://localhost:5173/order/success?session_id={CHECKOUT_SESSION_ID}",
+    'cancel_url' => "http://localhost:5173/order/declined?session_id={CHECKOUT_SESSION_ID}",
     'payment_method_types' => ['card'],
-    'line_items' => [
-        [
-            'price_data' => [
-                'currency' => 'eur',
-                'unit_amount' => $event['price'],
-                'product_data' => [
-                    'name' => 'bilet'
-                ]
-            ],
-            'quantity' => $_POST['quantity'],
-        ],
-    ],
+    'line_items' => $eventsData,
     'mode' => 'payment',
 ]);
 
-echo $session['url'];
+echo $session['id'];
 
 mysqli_close($db);
 return;

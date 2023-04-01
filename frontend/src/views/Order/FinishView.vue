@@ -120,8 +120,6 @@ const stripeLoad = () => {
 }
 
 const makePaymentStripe = async () => {
-    const stripe = stripeLoad()
-
     const eventsIds = []
     events.value.forEach((event) => {
         const eventDict = {
@@ -137,25 +135,13 @@ const makePaymentStripe = async () => {
         headers: {
           "Content-Type": "application/json",
         },
-    }).catch(err => console.error).then(({data}) => {
+    }).catch(err => console.error).then(async ({data}) => {
+        // console.log(data)
+        const stripe = await stripeLoad()
+
         stripe.redirectToCheckout({
             sessionId: data
-        }).then(result => {
-            // Handle the result of the Checkout session
-            if (result.error) {
-                // Handle errors
-            } else {
-                // Make a request to the PHP file to store the order in the database
-                axios.post('http://localhost/loterie/storePayment.php', {
-                    session_id: result.session.id,
-                    payment_status: result.session.payment_status
-                }).then(response => {
-                    // Handle the response
-                }).catch(error => {
-                    // Handle errors
-                });
-            }
-        });
+        })
     })
 
     

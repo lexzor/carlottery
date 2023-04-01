@@ -1,3 +1,14 @@
+<script setup>
+import axios from 'axios'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+console.log(route.query.session_id)
+
+axios.get('http://localhost/loterie/storePayment.php')
+
+</script>
+
 <template>
     <div class="container mx-auto mt-[77px]">
         <div class="p-[45px]">
@@ -12,7 +23,6 @@
                         <router-link to="/" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Intoarce-te</router-link>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
