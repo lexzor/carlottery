@@ -1,5 +1,6 @@
 <script setup>
 import Hero from "@/components/admin/Hero.vue"
+import Footer from "@/components/Footer.vue"
 
 import { useRoute, useRouter } from 'vue-router'
 import { computed, defineAsyncComponent } from 'vue'
@@ -62,7 +63,7 @@ const getCurrAdminPage = computed(() => {
             <component :is="getCurrAdminPage"></component>
         </div>
     </div>
-    
+    <Footer />
 </template>
 
 <style scoped>

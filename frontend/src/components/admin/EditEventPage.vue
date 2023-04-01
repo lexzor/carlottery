@@ -83,7 +83,7 @@ const crGallery = computed(() => {
 const deleteImage = (delFile, isImgRecent = false) => {
     if(!isImgRecent)
     {
-        deletedImages.value.append(delFile)
+        deletedImages.value.push(delFile)
         state.images = state.images.filter((file) => file !== delFile)
     }
     else 
@@ -193,61 +193,60 @@ const submitEvent = async () => {
                 })
 
                 sending.value = false
+            }
+        }).then(({data}) => {
+                if (data.hasOwnProperty("be_msg_error")) {
+                let msg = "Eroare de sistem:"
 
-                return
+                switch (data.be_msg) {
+                    case "no_images":
+                        msg += "<br>Trebuie incarcata cel putin o imagine"
+                        break
+
+                    case "fail_create_main_dir":
+                        msg += "<br>Nu a putut fii creat fisierul <b>event_images</b>"
+                        break
+
+                    case "uploaded_file_errors":
+                        data.errors.forEach((error, index) => {
+                            msg += `<br>${index + 1}. ${error}`
+                        })
+                        break
+
+                    default:
+                        msg = "Eroare necunoscuta"
+                }
+
+                toast.open({
+                    message: msg,
+                    type: "error",
+                    duration: 5000,
+                    pauseOnHover: true,
+                    dismissible: false,
+                })
+            } else if (data.hasOwnProperty("be_msg_success")) {
+                event.value.push({
+                    id: data.eventId,
+                    title: state.title,
+                    description: state.description,
+                    max_tickets: state.max_tickets,
+                    start: state.start,
+                    end: state.end,
+                    images: data.images,
+                    price: state.price,
+                })
+
+                toast.open({
+                    message: "Evenimentul a fost modificat cu success",
+                    type: "success",
+                    duration: 5000,
+                    pauseOnHover: true,
+                })
+
             }
         })
 
 
-    if (data.hasOwnProperty("be_msg_error")) {
-        let msg = "Eroare de sistem:"
-
-        switch (data.be_msg) {
-            case "no_images":
-                msg += "<br>Trebuie incarcata cel putin o imagine"
-                break
-
-            case "fail_create_main_dir":
-                msg += "<br>Nu a putut fii creat fisierul <b>event_images</b>"
-                break
-
-            case "uploaded_file_errors":
-                data.errors.forEach((error, index) => {
-                    msg += `<br>${index + 1}. ${error}`
-                })
-                break
-
-            default:
-                msg = "Eroare necunoscuta"
-        }
-
-        toast.open({
-            message: msg,
-            type: "error",
-            duration: 5000,
-            pauseOnHover: true,
-            dismissible: false,
-        })
-    } else if (data.hasOwnProperty("be_msg_success")) {
-        event.value.push({
-            id: data.eventId,
-            title: state.title,
-            description: state.description,
-            max_tickets: state.max_tickets,
-            start: state.start,
-            end: state.end,
-            images: data.images,
-            price: state.price,
-        })
-
-        toast.open({
-            message: "Evenimentul a fost modificat cu success",
-            type: "success",
-            duration: 5000,
-            pauseOnHover: true,
-        })
-
-    }
 
     sending.value = false
 }

@@ -214,7 +214,8 @@ const makePaymentStripe = async () => {
                 </div>
             </div>
             <div v-if="state.paymentMethod === PAYMENT_METHODS[STRIPE].name" class="mt-[50px]">
-                <h1>Plateste prin <b>Stripe</b> folosind cardul de credit</h1>
+                <h1 class="text-[17px]">Plateste prin <b>Stripe</b> folosind<span class="font-bold"> cardul de credit</span>.</h1>
+                <h2 class="my-[5px] text-[#585858]">Pentru a asigura faptul ca faci plata printr-o metode securizata vei fi redirecitonat catre pagina oficiala Stripe.</h2>
                 <MazBtn
                     class="w-full px-0 py-[20px] mt-3"
                     color="black"

@@ -121,9 +121,9 @@
       <b>[ID: {{ user.id }}]</b>
     </h1>
     <div class="max-w-[400px] mx-auto flex flex-col gap-[30px]">
-      <MazInput label="Email" v-model="user.email" />
-      <MazInput label="Parola" v-model="user.upassword" />
-      <MazInput label="Nume de utilizator" v-model="user.username" />
+      <MazInput no-radius label="Email" v-model="user.email" />
+      <MazInput no-radius label="Parola" v-model="user.upassword" />
+      <MazInput no-radius label="Nume de utilizator" v-model="user.username" />
       <MazCheckbox color="primary" v-model="isAdmin">Administrator</MazCheckbox>
       <MazBtn
         @click="editUser"
