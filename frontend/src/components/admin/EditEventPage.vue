@@ -101,7 +101,7 @@ const getFileName = (filename) => {
         : filename
 }
 
-const submitEvent = async () => {
+const submitEditEvent = async () => {
     sending.value = true
     const result = await v.value.$validate()
 
@@ -119,7 +119,9 @@ const submitEvent = async () => {
             )}`
         })
 
-        if (files.value.length === 0) {
+        console.log('Images length',state.images.length)
+
+        if (files.value.length === 0 && state.images.length === 0) {
             errorMessage += `<br>${totalErrors + 1
                 }. Trebuie incarcata cel putin o imagine`
         }
@@ -153,6 +155,7 @@ const submitEvent = async () => {
     files.value.forEach((file) => images.push(file.fileObj))
 
     let formData = new FormData()
+    formData.append("id", state.id)
     formData.append("title", state.title)
     formData.append("description", state.description)
     formData.append("max_tickets", state.max_tickets)
@@ -162,7 +165,7 @@ const submitEvent = async () => {
     deletedImages.forEach(image => formData.append("deleteImages[]", image))
     images.forEach((image) => formData.append("images[]", image))
 
-    let { data } = await axios
+    await axios
         .post("http://localhost/loterie/updateEvent.php", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -195,7 +198,7 @@ const submitEvent = async () => {
                 sending.value = false
             }
         }).then(({data}) => {
-                if (data.hasOwnProperty("be_msg_error")) {
+            if (data.hasOwnProperty("be_msg_error")) {
                 let msg = "Eroare de sistem:"
 
                 switch (data.be_msg) {
@@ -491,7 +494,7 @@ onMounted(() => {
                     </div>
                   </div>
                   </div>
-                  <MazBtn @click="submitEvent" :loading="sending ? true : false">Editeaza evenimentul</MazBtn>
+                  <MazBtn @click="submitEditEvent" :loading="sending ? true : false">Editeaza evenimentul</MazBtn>
                   
                 </form>
     </div>
