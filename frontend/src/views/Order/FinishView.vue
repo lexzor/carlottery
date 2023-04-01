@@ -13,6 +13,10 @@ import { vuelidateTranslator } from '../../additional/translator';
 import { getEvents } from '../../additional/axiosPosts'
 import { useAccountStore } from '../../stores/account';
 
+import {loadStripe} from '@stripe/stripe-js';
+
+import axios from 'axios'
+
 const events = ref([])
 const account = useAccountStore()
 
@@ -28,7 +32,7 @@ const retrieveEvents = async () => {
         })
     })
 
-    console.log(events.value)
+    console.log(allEvents)
 }
 
 retrieveEvents()
@@ -67,19 +71,6 @@ const PAYMENT_METHODS = [
         name: 'PayPal'
     }
 ]
-
-/*
-    await axios.post('http://localhost/loterie/makePayment.php', {
-        'quantity': ticketNum.value * currentEvent.value.price,
-        'event_id': currentEvent.value.id
-    }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-    }).catch(err => console.error).then(({data}) => {
-        window.location.href = data
-    })
-*/
 
 const state = reactive({
     firstName: '',
@@ -120,6 +111,56 @@ const calculateTotal = () => {
 
     return totalPrice
 }
+
+const stripeLoad = () => {
+    if (!window.stripePromise) {
+        window.stripePromise = loadStripe('pk_test_51Mnpq4LJ9kTHN7J8Kj7FGMIsoMcKWvMFHPN1gkhZnf6JRuiemvMtPWCeg1cNdflysbWoqHgdlKDX0GBXNQDszyES00pmUyGEqk');
+    }
+    return window.stripePromise;
+}
+
+const makePaymentStripe = async () => {
+    const stripe = stripeLoad()
+
+    const eventsIds = []
+    events.value.forEach((event) => {
+        const eventDict = {
+            'id': event.id,
+            'quantity': event.tickets
+        }
+        eventsIds.push(eventDict)
+    })
+
+    await axios.post('http://localhost/loterie/makePayment.php', {
+        'events': eventsIds,
+    }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+    }).catch(err => console.error).then(({data}) => {
+        stripe.redirectToCheckout({
+            sessionId: data
+        }).then(result => {
+            // Handle the result of the Checkout session
+            if (result.error) {
+                // Handle errors
+            } else {
+                // Make a request to the PHP file to store the order in the database
+                axios.post('http://localhost/loterie/storePayment.php', {
+                    session_id: result.session.id,
+                    payment_status: result.session.payment_status
+                }).then(response => {
+                    // Handle the response
+                }).catch(error => {
+                    // Handle errors
+                });
+            }
+        });
+    })
+
+    
+}
+
 </script>
 
 <template>
@@ -173,7 +214,13 @@ const calculateTotal = () => {
                 </div>
             </div>
             <div v-if="state.paymentMethod === PAYMENT_METHODS[STRIPE].name" class="mt-[50px]">
-                <h1>Plateste prin <span>STRIPE</span> folosind cardul de credit</h1>
+                <h1>Plateste prin <b>Stripe</b> folosind cardul de credit</h1>
+                <MazBtn
+                    class="w-full px-0 py-[20px] mt-3"
+                    color="black"
+                    @click="makePaymentStripe"
+                    >Continua</MazBtn
+                >
             </div>
         </div>
 
