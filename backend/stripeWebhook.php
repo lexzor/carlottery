@@ -1,9 +1,6 @@
 <?php
 require_once 'stripe/init.php';
 
-\Stripe\Stripe::setLogger(new \Monolog\Logger('stripe'));
-\Stripe\Stripe::addPlugin(new \Stripe\StripeLoggerPlugin());
-
 $stripe = new \Stripe\StripeClient('sk_test_51Mnpq4LJ9kTHN7J8VexLWocqnXPRrNi2ZilMuajXpihkC9qviPedo2aE8XCyLD8s4zaI73QTc9VMGeI0L6xYCnLQ00aU5gtKYJ');
 
 $endpoint_secret = 'whsec_49724b8dcd2fab4861a8556605265b5ad6b749be034ba3179ca398aa426209d5';
@@ -31,17 +28,32 @@ switch ($event->type) {
     case 'payment_intent.succeeded':
         require_once 'dbConn.php';
         $data = $event->data->object->metadata;
-        print_r($data);
-        // $products = json_encode($data->customerDetails->products);
+        $details = json_decode($data->customerDetails);
+        $date = date('Y-m-d H:i:s');
 
-        // $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
-        // ('" . $data->customerDetails->fistName . "','" . $data->customerDetails->lastName . "','" . $data['customerPhoneNumber'] . "','" . $data->customerEmail . "','" . $data->customerDetails->companyName . "','" . $data->customerDetails->country . "','" . $data->customerDetails->streetName . "','" . $data->customerDetails->houseNumber . "','" . $data->customerDetails->postCode . "','" . $data->customerDetails->city . "','" . $data->customerDetails->notes . "','" . $products . "', 'paid')";
+        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
+        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', 'paid')";
+        mysqli_query($db, $query);
 
-        // // $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
-        // // ('" . $data['customerDetails']['fistName'] . "','" . $data['customerDetails']['lastName'] . "','" . $data['customerPhoneNumber'] . "','" . $data['customerEmail'] . "','" . $data['customerDetails']['companyName'] . "','" . $data['customerDetails']['country'] . "','" . $data['customerDetails']['streetName'] . "','" . $data['customerDetails']['houseNumber'] . "','" . $data['customerDetails']['postCode'] . "','" . $data['customerDetails']['city'] . "','" . $data['customerDetails']['notes'] . "','" . $data['customerDetails']['products'] . "', 'paid')";
-        // $result = mysqli_query($db, $query);
-        // mysqli_close($db);
-        // break;
+        foreach($details->products as $product) {
+            $queryTickets = "INSERT INTO `tickets` (`accountEmail`, `ticketQuantity`, `eventId`, `createdAt`) VALUES ('".$data->customerEmail."', '".$product->quantity."', '".$product->id."', '".$date."')";
+            mysqli_query($db, $queryTickets);
+        }
+
+        mysqli_close($db);
+        break;
+    case 'payment_intent.canceled':
+        require_once 'dbConn.php';
+        $data = $event->data->object->metadata;
+        $details = json_decode($data->customerDetails);
+        $date = date('Y-m-d H:i:s');
+
+        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
+        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', 'unpaid')";
+        mysqli_query($db, $query);
+
+        mysqli_close($db);
+        break;
     default:
         echo 'Received unknown event type ' . $event->type;
 }

@@ -1,5 +1,6 @@
 <script setup>
 import NavBar from '../../components/NavBar.vue';
+import Footer from '../../components/Footer.vue'
 import { useAccountStore } from '../../stores/account';
 import { useRouter } from 'vue-router';
 import { getEvents } from '../../additional/axiosPosts'
@@ -61,32 +62,39 @@ const show = (value, id, pos) => {
 
 <template>
     <NavBar />
-    <div class="mt-[200px] w-fit mx-auto">
-        <div class="flex flex-col gap-[20px]">
-            <div v-for="(item, index) in events" class="flex items-center justify-between gap-[20px] p-[5px] border-black border-[1px]">
-                <img :src="'http://localhost/loterie/' + JSON.parse(item.images)[0]" class="max-w-[125px]">
-                <div class="">
-                    <h1>Eveniment</h1>
-                    <h1 class="text">{{ item.title }}</h1>
-                </div>
-                <div>
-                    <MazInputNumber @update:model-value="show($event, item.id, index)" :modelValue="item.tickets" label="Bilete" :min="1" />
-                </div>
-                <div>
-                    <h1>Pret Bilet</h1>
-                    <h1>{{ item.price }}&#x20AC;</h1>
-                </div>
-                <div>
-                    <h1>De plata</h1>
-                    <h1>{{ item.tickets * item.price }}&#x20AC;</h1>
+    <div class="container mx-auto pl-0 mt-[77px] mb-[12.81%]">
+        <div class="xl:px-[45px] px-[25px]">
+            <div class="w-full mx-auto">
+                <h3 class="text-[32px] font-medium text-[#000]">Coșul cu cumpărături:</h3>
+                <p class="text-[24px] text-[#000] font-light mb-[10px]">Toate produsele din coș.</p>
+                <div class="flex flex-col gap-[20px]">
+                    <div v-for="(item, index) in events" class="flex flex-wrap xl:flex-row flex-col items-center justify-between gap-[20px] p-[5px] border-black border-[1px]">
+                        <img :src="'http://localhost/loterie/' + JSON.parse(item.images)[0]" class="max-w-[125px]">
+                        <div class="">
+                            <h1 class="font-light">Eveniment:</h1>
+                            <h1 class="text">{{ item.title }}</h1>
+                        </div>
+                        <div>
+                            <MazInputNumber @update:model-value="show($event, item.id, index)" :modelValue="item.tickets" label="Bilete" :min="1" />
+                        </div>
+                        <div>
+                            <h1 class="font-light">Preț bilet:</h1>
+                            <h1>{{ item.price }}&#x20AC;</h1>
+                        </div>
+                        <div>
+                            <h1 class="font-light">De plată:</h1>
+                            <h1>{{ item.tickets * item.price }}&#x20AC;</h1>
+                        </div>
+
+                        <MazBtn color="danger" @click="removeItem(item.id)">Sterge</MazBtn>
+                    </div>
                 </div>
 
-                <MazBtn color="danger" @click="removeItem(item.id)">Sterge</MazBtn>
+                <div class="flex justify-end mt-[20px]">
+                    <h1 class="text-[20px]">Total de plata:<span class="font-bold ml-[10px]">{{ totalPrice }}&#x20AC</span></h1>
+                </div>
             </div>
         </div>
-
-        <div class="flex justify-center mt-[20px]">
-            <h1 class="text-[20px]">Total de plata:<span class="font-bold ml-[10px]">{{ totalPrice }}&#x20AC</span></h1>
-        </div>
     </div>
+    <Footer></Footer>
 </template>
