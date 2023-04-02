@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useToast } from "vue-toast-notification"
 
-export const getEvents = async () => {
+export const getEvents = async (max = 0) => {
   const toast = useToast()
 
   let { data } = await axios

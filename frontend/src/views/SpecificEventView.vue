@@ -11,7 +11,7 @@ import { useToast } from 'vue-toast-notification';
 
 
 const account = useAccountStore()
-
+let imageIndex = ref(0);
 const route = useRoute()
 const currentEvent = ref({tickets: 0, remainingTime: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
 const ticketNum = ref(1)
@@ -104,33 +104,80 @@ onUnmounted(() => {
 
 <template>
     <NavBar />
-    <div class="w-[80%] mx-auto mt-[100px] flex flex-col gap-5">
-        <div class="max-w-[300px]">
-            <h1>Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h1>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>
-            </div>
-        </div>
-
-        <div class="max-w-fit">
-            <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">
-                <h1>Participa cumparand un bilet! Remaining time</h1>
-                <h1>{{ getRemainingTime }}</h1>
-                <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>
-                <div class="flex items-center justify-between gap-[20px] flex-col">
-                    <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
-                    <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
-                    <div class="flex flex-col justify-center items-center gap-[20px]">
-                        <MazBtn @click="redirectToFinishPayment"> CUMPARA </MazBtn>
-                        <h1>SAU</h1>
-                        <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>
+    <div class="container mx-auto pl-0 mt-[77px]">
+        <div class="xl:px-[45px] px-[25px]">
+            <div class="grid xl:grid-cols-2 grid-cols-1 gap-4 items-start">
+                <div class="flex gap-2 flex-col">
+                    <div class="h-[500px] w-full bg-cover bg-center" :style="`background-image: url('http://localhost/loterie/${JSON.parse(currentEvent.images)[imageIndex]}'`"></div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) of JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('http://localhost/loterie/${image}'`"></div>
                     </div>
                 </div>
-                <div class="">
-                    <h1>Date de facturare</h1>
+                <div class="border-[1px] border-black">
+                    <div class="flex flex-col gap-2 p-3">
+                        <h1 class="text-[30px] font-medium">{{ currentEvent.title }}</h1>
+                        <h2 class="text-lg">Preț: <span class="font-medium">${{ currentEvent.price.toLocaleString() }}</span></h2>
+                        <div>
+                            <h2 class="text-lg">Descriere:</h2>
+                            <p class="font-light text-gray-500">{{ currentEvent.description }}</p>
+                        </div>
+                    </div>
+                    <div class="border-t-[1px] border-black p-3">
+                        <h2 class="text-lg">Timp rămas:</h2>
+                        <span class="font-medium text-[30px]">{{ getRemainingTime }}</span>
+                    </div>
+                    <div class="border-t-[1px] border-black p-3">
+                        <div class="flex gap-3 flex-col">
+                            <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
+                            <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
+                            <div class="flex flex-row items-center gap-[10px]">
+                                <MazBtn color="info" @click="redirectToFinishPayment">Cumpără</MazBtn>
+                                <MazBtn @click="addEventInStore">Adaugă în cos</MazBtn>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
             </div>
-            <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>
         </div>
-</div>
+    </div>
+<!--    <div class="w-[80%] mx-auto mt-[100px] flex flex-col gap-5">-->
+<!--        <div class="max-w-[300px]">-->
+<!--            <h1>Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h1>-->
+<!--            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">-->
+<!--                <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="max-w-fit">-->
+<!--            <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">-->
+<!--                <h1>Participa cumparand un bilet! Remaining time</h1>-->
+<!--                <h1>{{ getRemainingTime }}</h1>-->
+<!--                <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>-->
+<!--                <div class="flex items-center justify-between gap-[20px] flex-col">-->
+<!--                    <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />-->
+<!--                    <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>-->
+<!--                    <div class="flex flex-col justify-center items-center gap-[20px]">-->
+<!--                        <MazBtn @click="redirectToFinishPayment"> CUMPARA </MazBtn>-->
+<!--                        <h1>SAU</h1>-->
+<!--                        <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="">-->
+<!--                    <h1>Date de facturare</h1>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>-->
+<!--        </div>-->
+<!--    </div>-->
 </template>
+<style lang="css" scoped>
+.selected::after {
+    content: '';
+    position: absolute;
+    background: rgba(0, 0, 0, 0.55);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>

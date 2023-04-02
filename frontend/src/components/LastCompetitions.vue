@@ -3,48 +3,20 @@
         <div class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000]">COMPETITII IN DESFASURARE:</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
-            <div class="flex xl:flex-row flex-col gap-[34px] mt-[44px]">
-                <div class="relative boxed-content">
+<!--            flex xl:flex-row flex-col gap-[34px]-->
+            <div class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]"> 
+                <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="(event, index) in events" :key="index">
                     <div class="absolute w-full h-full left-0 top-0 z-20">
                         <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                            <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">$4,00</span></span>
+                            <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                             <div class="flex flex-col">
-                                <span class="text-[32px] text-white font-medium mb-[10px]">AUDI A8 LI</span>
+                                <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
                                 <span class="text-[16px] text-white font-light">Competiția se încheie în</span>
-                                <span class="text-[20px] text-white font-normal mt-[-3px]">22 zile, 5 ore și 49 minute</span>
+                                <span class="text-[20px] text-white font-normal mt-[-3px]">{{ getRemainingTime(event) }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="linear-bg z-10"></div>
-                    <img class="object-cover w-[484px] h-[407px]" src="../assets/images/a8.webp" alt="Audi A8">
-                </div>
-                <div class="relative boxed-content">
-                    <div class="absolute w-full h-full left-0 top-0 z-20">
-                        <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                            <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">$4,00</span></span>
-                            <div class="flex flex-col">
-                                <span class="text-[32px] text-white font-medium mb-[10px]">AUDI A8 LI</span>
-                                <span class="text-[16px] text-white font-light">Competiția se încheie în</span>
-                                <span class="text-[20px] text-white font-normal mt-[-3px]">22 zile, 5 ore și 49 minute</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="linear-bg z-10"></div>
-                    <img class="object-cover w-[484px] h-[407px]" src="../assets/images/a8.webp" alt="Audi A8">
-                </div>
-                <div class="relative boxed-content">
-                    <div class="absolute w-full h-full left-0 top-0 z-20">
-                        <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                            <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">$4,00</span></span>
-                            <div class="flex flex-col">
-                                <span class="text-[32px] text-white font-medium mb-[10px]">AUDI A8 LI</span>
-                                <span class="text-[16px] text-white font-light">Competiția se încheie în</span>
-                                <span class="text-[20px] text-white font-normal mt-[-3px]">22 zile, 5 ore și 49 minute</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="linear-bg z-10"></div>
-                    <img class="object-cover w-[484px] h-[407px]" src="../assets/images/a8.webp" alt="Audi A8">
                 </div>
             </div>
             <div class="flex justify-center mt-[62px]">
@@ -55,8 +27,47 @@
         </div>
     </div>
 </template>
+<script setup>
+import {getEvents} from "@/additional/axiosPosts";
+import { useRouter } from 'vue-router';
+import {computed, defineProps, ref} from 'vue';
 
+const router = useRouter()
+let events = ref([]);
+
+const retrieveEvents = async () => {
+    events.value = await getEvents()
+}
+
+const getRemainingTime = (event) => {
+    let remainingTime = Math.floor((formatTimeStamp(event.end) - new Date().getTime()) / 1000);
+    console.log(event.end);
+    const minutes = Math.floor((remainingTime / 60 ) % 60)
+    const hours = Math.floor(((remainingTime / 60) / 60 ) % 24)
+    const days = Math.floor(((remainingTime / 60) / 60) / 24)
+    return `${days < 10 ? "0" : ""}${days} zile, ${hours < 10 ? "0" : ""}${hours} ore și ${minutes < 10 ? "0" : ""}${minutes} minute`
+}
+
+const formatTimeStamp = (time) => {
+    const evDate = time.split(' ')
+    const splittedDate = evDate[0].split('-')
+    const correctlyFormatedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]} ${evDate[1]}:00`
+    return Date.parse(correctlyFormatedDate)
+}
+
+const goTo = (hashed_id) => {
+    router.push({path: `/evenimente/${hashed_id}`})
+}
+
+retrieveEvents();
+</script>
 <style scoped>
+.competitions {
+    display: grid;
+    gap: 34px;
+    grid-template-columns: repeat(3, calc(100% / 3));
+}
+
 .boxed-content::after {
     content: '';
     position: absolute;

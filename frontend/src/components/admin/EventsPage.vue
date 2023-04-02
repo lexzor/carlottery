@@ -267,7 +267,8 @@
         let file = selectedFiles[i]
 
         if (
-          file.name.indexOf(".jpg") == -1 &&
+          file.name.indexOf(".jpg") == -1 && 
+            file.name.indexOf(".webp") == -1 &&
           file.name.indexOf(".png") == -1
         ) {
           restrictedFiles.push(file.name)

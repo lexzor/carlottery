@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue' 
 import { getEvents } from '@/additional/axiosPosts';
 import { useRouter } from 'vue-router';
+import LastCompetitions from '../components/LastCompetitions.vue'
 
 const events = ref([])
 
@@ -23,14 +24,6 @@ retrieveEvents()
 
 <template>
     <NavBar />
-    <div class="w-[80%] mx-auto mt-[100px]">
-        <h1>Toate competitiile noastre!</h1>
-        <div class="flex gap-[20px] mt-[60px]">
-            <div v-for="(event, index) in events" :key="index" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" class="w-[270px] h-[150px] bg-slate-200 flex justify-center items-center flex-col gap-[20px] bg-no-repeat bg-contain bg-center">
-                <h1 class="text-white">{{ event.title }}</h1>
-                <button class="px-[10px] py-[10px] bg-red-100" @click="goTo(event.hashed_id)">Participa</button>
-            </div>
-        </div>
-    </div>
+    <LastCompetitions max="0"></LastCompetitions>
     <Footer />
 </template>
