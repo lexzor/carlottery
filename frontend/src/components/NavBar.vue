@@ -118,14 +118,17 @@ const displayAccBtn = computed(() => {
                     <router-link to="/cart" tag="button" >
                         <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-white hover:cursor-pointer" />
                     </router-link>
-                    <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
-                        <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />
-                        <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>
+                    <button class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
+                        <h1 id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-[19px] gap-[6px] text-center flex items-center">
+                            <span class="mt-[3px]">{{ account.getUsername() }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
+                        </h1>
                     </button>
                 </div>
                 <div v-if="account.isLogged()" id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
                     <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
-                        <div class="font-medium ">{{ account.getUsername() }}</div>
+                        <div class="font-medium text-[16px]">{{ account.getUsername() }}</div>
                         <div class="truncate">{{ account.getEmail() }}</div>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
