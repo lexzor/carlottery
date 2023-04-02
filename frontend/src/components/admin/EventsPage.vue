@@ -254,6 +254,7 @@
 
         sending.value = false
       })
+    }
 
   onMounted(() => {
     initFlowbite()
