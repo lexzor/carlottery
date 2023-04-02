@@ -57,10 +57,12 @@ $session = $stripe->checkout->sessions->create([
     'payment_method_types' => ['card'],
     'line_items' => $eventsData,
     'mode' => 'payment',
-    'metadata' => [
-        'customerEmail' => $metadata['customerEmail'],
-        'customerPhoneNumber' => $metadata['customerPhoneNumber'],
-        'customerDetails' => json_encode($customerDetails)
+    'payment_intent_data' => [
+        'metadata' => [
+            'customerEmail' => $metadata['customerEmail'],
+            'customerPhoneNumber' => $metadata['customerPhoneNumber'],
+            'customerDetails' => json_encode($customerDetails)
+        ]
     ]
 ]);
 

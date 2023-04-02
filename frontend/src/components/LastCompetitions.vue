@@ -30,7 +30,7 @@
 <script setup>
 import {getEvents} from "@/additional/axiosPosts";
 import { useRouter } from 'vue-router';
-import {computed, defineProps, ref} from 'vue';
+import { ref } from 'vue';
 
 const router = useRouter()
 let events = ref([]);

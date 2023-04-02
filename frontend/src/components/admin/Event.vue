@@ -1,5 +1,5 @@
 <script setup>
-  import { toRef, computed, onMounted } from "vue"
+  import { toRef, computed, onMounted, defineProps } from "vue"
   import axios from "axios"
   import MazGallery from "maz-ui/components/MazGallery"
   import MazBtn from "maz-ui/components/MazBtn"

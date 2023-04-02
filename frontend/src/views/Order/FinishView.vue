@@ -73,17 +73,17 @@ const PAYMENT_METHODS = [
 ]
 
 const state = reactive({
-    firstName: '',
-    lastName: '',
+    firstName: 'Pavel',
+    lastName: 'Marin',
     companyName: '',
-    country: '',
-    address: '',
-    secondAddress: '',
-    zipCode: '',
-    city: '',
-    phone: '',
-    email: '',
-    additionalInformation: '',
+    country: 'Romania',
+    address: 'pl n cur',
+    secondAddress: '2a',
+    zipCode: '12939',
+    city: 'Baicoi',
+    phone: '07949099021',
+    email: 'pavel@eway-design.com',
+    additionalInformation: 'am pl mare',
     paymentMethod: PAYMENT_METHODS[STRIPE].name
 })
 
