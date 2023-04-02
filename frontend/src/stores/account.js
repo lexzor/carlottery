@@ -66,6 +66,10 @@ export const useAccountStore = defineStore("account", () => {
     return uData.value.username
   }
 
+  const getEmail = () => {
+    return uData.value.email
+  }
+
   const getId = () => {
     return uData.value.id
   }
@@ -165,6 +169,7 @@ export const useAccountStore = defineStore("account", () => {
   return {
     isLogged,
     getUsername,
+    getEmail,
     logOut,
     isOwner,
     autoLogin,
