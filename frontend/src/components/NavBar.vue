@@ -68,8 +68,8 @@ const displayAccBtn = computed(() => {
                         </div>
                         <div v-if="account.isLogged()" id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
                             <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
-                                <div class="font-medium ">{{ account.getUsername() }}</div>
-                                <div class="truncate">{{ account.getEmail() }}</div>
+                                <div class="font-medium" :title="account.getUsername()">{{ account.getUsername() }}</div>
+                                <div class="truncate" :title="account.getEmail()"> {{ account.getEmail() }}</div>
                             </div>
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
                                 <li>
@@ -128,8 +128,8 @@ const displayAccBtn = computed(() => {
                 </div>
                 <div v-if="account.isLogged()" id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
                     <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
-                        <div class="font-medium text-[16px]">{{ account.getUsername() }}</div>
-                        <div class="truncate">{{ account.getEmail() }}</div>
+                        <div class="font-medium text-[16px]" :title="account.getUsername()">{{ account.getUsername() }}</div>
+                        <div class="truncate" :title="account.getEmail()">{{ account.getEmail() }}</div>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
                         <li>
