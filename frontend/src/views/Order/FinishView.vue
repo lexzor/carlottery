@@ -121,6 +121,7 @@ const stripeLoad = () => {
 
 const makePaymentStripe = async () => {
     const eventsIds = []
+    const cartEvents = await getEvents()
     events.value.forEach((event) => {
         const eventDict = {
             'id': event.id,
@@ -128,9 +129,37 @@ const makePaymentStripe = async () => {
         }
         eventsIds.push(eventDict)
     })
+    
+    let cart = []
+
+    events.value.forEach((event) => {
+        let cartData = {
+            "id": event.id,
+            "title": event.title,
+            "quantity": event.tickets,
+            "price": event.price * event.tickets
+        }
+        cart.push(cartData)
+    })
 
     await axios.post('http://localhost/loterie/makePayment.php', {
         'events': eventsIds,
+        'metadata': {
+            customerEmail: state.email,
+            customerPhoneNumber: state.phone,
+            customerDetails: {
+                firstName: state.firstName,
+                lastName: state.lastName,
+                companyName: state.companyName,
+                country: state.country,
+                streetName: state.address,
+                houseNumber: state.secondAddress,
+                postCode: state.zipCode,
+                city: state.city,
+                notes: state.additionalInformation,
+                products: cart,
+            }
+        }
     }, {
         headers: {
           "Content-Type": "application/json",
@@ -140,7 +169,7 @@ const makePaymentStripe = async () => {
         const stripe = await stripeLoad()
 
         stripe.redirectToCheckout({
-            sessionId: data
+            sessionId: data,
         })
     })
 

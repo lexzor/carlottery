@@ -13,6 +13,8 @@ $data = $_POST;
 require_once 'stripe/init.php';
 require_once 'dbConn.php';
 
+$metadata = $_POST['metadata'];
+
 $events = $_POST['events'];
 $eventsData = [];
 
@@ -36,13 +38,33 @@ foreach($events as $event) {
 
 $stripe = new \Stripe\StripeClient('sk_test_51Mnpq4LJ9kTHN7J8VexLWocqnXPRrNi2ZilMuajXpihkC9qviPedo2aE8XCyLD8s4zaI73QTc9VMGeI0L6xYCnLQ00aU5gtKYJ');
 
+$customerDetails = [
+    'firstName' => $metadata['customerDetails']['firstName'],
+    'lastName' => $metadata['customerDetails']['lastName'],
+    'companyName' => $metadata['customerDetails']['companyName'],
+    'country' => $metadata['customerDetails']['country'],
+    'streetName' => $metadata['customerDetails']['streetName'],
+    'houseNumber' => $metadata['customerDetails']['houseNumber'],
+    'postCode' => $metadata['customerDetails']['postCode'],
+    'city' => $metadata['customerDetails']['city'],
+    'notes' => $metadata['customerDetails']['notes'],
+    'products' => $metadata['customerDetails']['products'],
+];
+
 $session = $stripe->checkout->sessions->create([
     'success_url' => "http://localhost:5173/order/success?session_id={CHECKOUT_SESSION_ID}",
     'cancel_url' => "http://localhost:5173/order/declined?session_id={CHECKOUT_SESSION_ID}",
     'payment_method_types' => ['card'],
     'line_items' => $eventsData,
     'mode' => 'payment',
+    'metadata' => [
+        'customerEmail' => $metadata['customerEmail'],
+        'customerPhoneNumber' => $metadata['customerPhoneNumber'],
+        'customerDetails' => json_encode($customerDetails)
+    ]
 ]);
+
+// echo json_encode($metadata['customerDetails']['firstName']);
 
 echo $session['id'];
 
