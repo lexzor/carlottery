@@ -13,6 +13,7 @@ import { useToast } from 'vue-toast-notification';
 import { useVuelidate } from "@vuelidate/core"
 import { required, minValue } from "@vuelidate/validators"
 import axios from "axios"
+import { vuelidateTranslator } from "../../additional/translator"
 
 const route = useRoute()
 const router = useRouter()
@@ -30,6 +31,7 @@ const state = reactive({
 
 const sending = ref(false)
 const deletedImages = ref([])
+let eventFolder = ''
 
 const retrieveEvents = async () => {
     const allEvents = await getEvents()
@@ -49,6 +51,7 @@ const retrieveEvents = async () => {
     existentEvent.max_tickets = Number(existentEvent.max_tickets)
     existentEvent.images = JSON.parse(existentEvent.images)
     Object.assign(state, existentEvent)
+    eventFolder = state.images[0].split('/')[1]
 }
 
 retrieveEvents()
@@ -119,8 +122,6 @@ const submitEditEvent = async () => {
             )}`
         })
 
-        console.log('Images length',state.images.length)
-
         if (files.value.length === 0 && state.images.length === 0) {
             errorMessage += `<br>${totalErrors + 1
                 }. Trebuie incarcata cel putin o imagine`
@@ -138,7 +139,7 @@ const submitEditEvent = async () => {
         return
     }
 
-    if (files.value.length === 0) {
+    if (files.value.length === 0 && state.images.length === 0) {
         toast.open({
             message: `<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span><br>1. Trebuie incarcata cel putin o imagine!`,
             type: "error",
@@ -162,7 +163,11 @@ const submitEditEvent = async () => {
     formData.append("start", state.start)
     formData.append("end", state.end)
     formData.append("price", state.price)
-    deletedImages.forEach(image => formData.append("deleteImages[]", image))
+    formData.append("imageFolder", eventFolder)
+    deletedImages.value.forEach(image => formData.append("deleteImages[]", image))
+    state.images.forEach(image => {
+        formData.append("notDeletedImgs[]", image)
+    })
     images.forEach((image) => formData.append("images[]", image))
 
     await axios
@@ -171,6 +176,10 @@ const submitEditEvent = async () => {
                 "Content-Type": "multipart/form-data",
             },
             onUploadProgress: (progressEvent) => {
+                if(files.value.length === 0) {
+                    return
+                }
+
                 let uploadPercentage = parseInt(
                     Math.round((progressEvent.loaded / progressEvent.total) * 100)
                 )
@@ -198,6 +207,7 @@ const submitEditEvent = async () => {
                 sending.value = false
             }
         }).then(({data}) => {
+            console.log(data)
             if (data.hasOwnProperty("be_msg_error")) {
                 let msg = "Eroare de sistem:"
 
@@ -228,24 +238,12 @@ const submitEditEvent = async () => {
                     dismissible: false,
                 })
             } else if (data.hasOwnProperty("be_msg_success")) {
-                event.value.push({
-                    id: data.eventId,
-                    title: state.title,
-                    description: state.description,
-                    max_tickets: state.max_tickets,
-                    start: state.start,
-                    end: state.end,
-                    images: data.images,
-                    price: state.price,
-                })
-
                 toast.open({
                     message: "Evenimentul a fost modificat cu success",
                     type: "success",
                     duration: 5000,
                     pauseOnHover: true,
                 })
-
             }
         })
 

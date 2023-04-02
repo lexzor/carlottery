@@ -2,7 +2,6 @@
   import { toRef, computed, onMounted } from "vue"
   import axios from "axios"
   import MazGallery from "maz-ui/components/MazGallery"
-  import MazBtn from "maz-ui/components/MazBtn"
   import { useToast } from "vue-toast-notification"
   import { initModals } from "flowbite"
   import { useRouter } from "vue-router"
@@ -13,16 +12,14 @@
     initModals()
   })
 
-
   const props = defineProps({
     event: {
       type: Object,
       required: true,
-    },
+    }
   })
 
   const emit = defineEmits(["deleteEvent"])
-
   const event = toRef(props, "event")
   const toast = useToast()
 

@@ -102,10 +102,11 @@
           errorMessage += "<br>"
           errorMessage += `${totalErrors}. ${vuelidateTranslator(
             error.$property,
-            error.$message,
-            MIN_LENGTH,
-            MAX_LENGTH
-          )}`
+            error.$message, {
+              "minL": MIN_LENGTH,
+              "maxL": MAX_LENGTH
+            }
+            )}`
         })
       }
 

@@ -16,6 +16,9 @@
   import { vuelidateTranslator } from "@/additional/translator"
   import { getEvents } from "@/additional/axiosPosts"
 
+  const MIN_TICKETS_VALUE = 1
+  const MIN_PRICE_VALUE = 0.1
+
   const events = ref([])
   const files = ref([])
   const sending = ref(false)
@@ -44,16 +47,16 @@
     max_tickets: 1,
     start: getCurrDate(),
     end: getCurrDate(),
-    price: 0,
+    price: 0.1,
   })
 
   const rules = {
     title: { required },
     description: { required },
-    max_tickets: { required, minValue: minValue(1) },
+    max_tickets: { required, minValue: minValue(MIN_TICKETS_VALUE) },
     start: { required },
     end: { required },
-    price: { required, minValue: minValue(0.0) },
+    price: { required, minValue: minValue(MIN_PRICE_VALUE) },
   }
 
   const v = useVuelidate(rules, state)
@@ -92,7 +95,6 @@
 
   const submitEvent = async () => {
     sending.value = true
-    console.log(state.price)
     const result = await v.value.$validate()
 
     if (!result) {
@@ -105,8 +107,12 @@
         errorMessage += "<br>"
         errorMessage += `${totalErrors}. ${vuelidateTranslator(
           error.$property,
-          error.$message
+          error.$message, {
+            "minTicketsV": MIN_TICKETS_VALUE,
+            "minPriceV": MIN_PRICE_VALUE 
+          }
         )}`
+        console.log(error.$property, error.$message)
       })
 
       if (files.value.length === 0) {
@@ -152,7 +158,7 @@
     formData.append("price", state.price)
     images.forEach((image) => formData.append("images[]", image))
 
-    let { data } = await axios
+    await axios
       .post("http://localhost/loterie/addEvent.php", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -186,71 +192,68 @@
 
           return
         }
-      })
+      }).then(({data}) => {
+        if (data.hasOwnProperty("be_msg_error")) {
+          let msg = "Eroare de sistem:"
 
-    console.log(data)
+          switch (data.be_msg) {
+            case "no_images":
+              msg += "<br>Trebuie incarcata cel putin o imagine"
+              break
 
-    if (data.hasOwnProperty("be_msg_error")) {
-      let msg = "Eroare de sistem:"
+            case "fail_create_main_dir":
+              msg += "<br>Nu a putut fii creat fisierul <b>event_images</b>"
+              break
 
-      switch (data.be_msg) {
-        case "no_images":
-          msg += "<br>Trebuie incarcata cel putin o imagine"
-          break
+            case "uploaded_file_errors":
+              data.errors.forEach((error, index) => {
+                msg += `<br>${index + 1}. ${error}`
+              })
+              break
 
-        case "fail_create_main_dir":
-          msg += "<br>Nu a putut fii creat fisierul <b>event_images</b>"
-          break
+            default:
+              msg = "Eroare necunoscuta"
+          }
 
-        case "uploaded_file_errors":
-          data.errors.forEach((error, index) => {
-            msg += `<br>${index + 1}. ${error}`
+          toast.open({
+            message: msg,
+            type: "error",
+            duration: 5000,
+            pauseOnHover: true,
+            dismissible: false,
           })
-          break
+        } else if (data.hasOwnProperty("be_msg_success")) {
+          events.value.push({
+            id: data.eventId,
+            title: state.title,
+            description: state.description,
+            max_tickets: state.max_tickets,
+            start: state.start,
+            end: state.end,
+            images: data.images,
+            price: state.price,
+          })
 
-        default:
-          msg = "Eroare necunoscuta"
-      }
+          toast.open({
+            message: "Evenimentul a fost adaugat cu success",
+            type: "success",
+            duration: 5000,
+            pauseOnHover: true,
+          })
 
-      toast.open({
-        message: msg,
-        type: "error",
-        duration: 5000,
-        pauseOnHover: true,
-        dismissible: false,
+          v.value.$reset()
+
+          state.title = ""
+          state.description = ""
+          state.max_tickets = 1
+          state.start = getCurrDate()
+          state.end = getCurrDate()
+
+          files.value = []
+        }
+
+        sending.value = false
       })
-    } else if (data.hasOwnProperty("be_msg_success")) {
-      events.value.push({
-        id: data.eventId,
-        title: state.title,
-        description: state.description,
-        max_tickets: state.max_tickets,
-        start: state.start,
-        end: state.end,
-        images: data.images,
-        price: state.price,
-      })
-
-      toast.open({
-        message: "Evenimentul a fost adaugat cu success",
-        type: "success",
-        duration: 5000,
-        pauseOnHover: true,
-      })
-
-      v.value.$reset()
-
-      state.title = ""
-      state.description = ""
-      state.max_tickets = 1
-      state.start = getCurrDate()
-      state.end = getCurrDate()
-
-      files.value = []
-    }
-
-    sending.value = false
-  }
 
   onMounted(() => {
     initFlowbite()
@@ -441,6 +444,7 @@
               <MazInputPrice
                 no-radius
                 :min="0"
+                :error="v.price.$error ? true : false"
                 locale="ro-RO"
                 currency="EUR"
                 required

@@ -10,7 +10,7 @@ import Footer from '../components/Footer.vue'
 	<NavBar />
 	<div>
 		<Carousel />
-		<LastCompetitions />
+		<LastCompetitions :displayingOnHomePage="true" />
 		<Contact />
 		<Footer />
 	</div>
