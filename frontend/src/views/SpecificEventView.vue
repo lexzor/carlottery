@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onUnmounted } from 'vue';
 import NavBar from '@/components/NavBar.vue'
+import Footer from '../components/Footer.vue'
 import { getEvents, getEventsTickets } from '@/additional/axiosPosts'
 import { useRoute } from 'vue-router'
 import router from '../router';
@@ -113,62 +114,59 @@ onUnmounted(() => {
                         <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) of JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('http://localhost/loterie/${image}'`"></div>
                     </div>
                 </div>
-                <div class="border-[1px] border-black">
+                <div class="border-[1px] border-gray-300">
                     <div class="flex flex-col gap-2 p-3">
                         <h1 class="text-[30px] font-medium">{{ currentEvent.title }}</h1>
-                        <h2 class="text-lg">Preț: <span class="font-medium">${{ currentEvent.price.toLocaleString() }}</span></h2>
+                        <h2 class="text-lg">Preț: <span class="font-medium">&euro;{{ currentEvent.price.toLocaleString() }}</span></h2>
                         <div>
                             <h2 class="text-lg">Descriere:</h2>
                             <p class="font-light text-gray-500">{{ currentEvent.description }}</p>
                         </div>
                     </div>
-                    <div class="border-t-[1px] border-black p-3">
+                    <div class="border-t-[1px] border-gray-300 p-3">
                         <h2 class="text-lg">Timp rămas:</h2>
                         <span class="font-medium text-[30px]">{{ getRemainingTime }}</span>
+                        <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h2>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                            <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>
+                        </div>
                     </div>
-                    <div class="border-t-[1px] border-black p-3">
-                        <div class="flex gap-3 flex-col">
+                    <div class="border-t-[1px] border-gray-300 p-3" v-if="currentEvent.tickets < currentEvent.max_tickets">
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <h1 class="text-[30px] font-medium">Răspunde la întrebare</h1>
+                                <h2 class="text-lg">Care este model de BMW:</h2>
+                                <div class="flex gap-4">
+                                    <div class="flex gap-2 justify-center items-center">
+                                        <input type="radio" id="m5" name="question_answer" value="M5">
+                                        <label for="m5">M5</label><br>
+                                    </div>
+                                    <div class="flex gap-2 justify-center items-center">
+                                        <input type="radio" id="punto" name="question_answer" value="Punto">
+                                        <label for="punto">Punto</label><br>
+                                    </div>
+                                    <div class="flex gap-2 justify-center items-center">
+                                        <input type="radio" id="logan" name="question_answer" value="Logan">
+                                        <label for="logan">Logan</label>
+                                    </div>
+                                </div>
+                            </div>
                             <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
-                            <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>
+                            <h1 class="font-bold text-[20px]">Total: &euro;{{ currentEvent.price * ticketNum }}</h1>
                             <div class="flex flex-row items-center gap-[10px]">
                                 <MazBtn color="info" @click="redirectToFinishPayment">Cumpără</MazBtn>
                                 <MazBtn @click="addEventInStore">Adaugă în cos</MazBtn>
                             </div>
                         </div> 
                     </div>
+                    <div v-else>
+                        <p>Au fost cumparate toate biletele pentru aceasta competitie</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-<!--    <div class="w-[80%] mx-auto mt-[100px] flex flex-col gap-5">-->
-<!--        <div class="max-w-[300px]">-->
-<!--            <h1>Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h1>-->
-<!--            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">-->
-<!--                <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="max-w-fit">-->
-<!--            <div v-if="currentEvent.tickets < currentEvent.max_tickets" class="flex flex-col gap-[20px]">-->
-<!--                <h1>Participa cumparand un bilet! Remaining time</h1>-->
-<!--                <h1>{{ getRemainingTime }}</h1>-->
-<!--                <h1 class="font-bold text-[20px]">Pret bilet: {{ currentEvent.price }}&euro;</h1>-->
-<!--                <div class="flex items-center justify-between gap-[20px] flex-col">-->
-<!--                    <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />-->
-<!--                    <h1 class="font-bold text-[20px]">Total: {{ currentEvent.price * ticketNum }}&euro;</h1>-->
-<!--                    <div class="flex flex-col justify-center items-center gap-[20px]">-->
-<!--                        <MazBtn @click="redirectToFinishPayment"> CUMPARA </MazBtn>-->
-<!--                        <h1>SAU</h1>-->
-<!--                        <MazBtn @click="addEventInStore"> Adauga in cos </MazBtn>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="">-->
-<!--                    <h1>Date de facturare</h1>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div v-else>Au fost cumparate toate biletele pentru aceasta competitie</div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <Footer />
 </template>
 <style lang="css" scoped>
 .selected::after {
