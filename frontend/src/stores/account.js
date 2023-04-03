@@ -115,19 +115,21 @@ export const useAccountStore = defineStore("account", () => {
       .post("http://localhost/loterie/autoLogin.php", {
         login_key: autoLoginDataObj.login_key,
       })
-      .then((res) => {
-        if (res.data != -1 && res.data !== null) {
-          uData.value = res.data
+      .then(({ data }) => {
+        if (data != -1 && data !== null) {
+          uData.value = data
+          console.log(uData.value)
 
-          if (res.data.cart !== null) {
-            userStore.value = JSON.parse(res.data.cart)
+          if (data.cart !== null) {
+            userStore.value = data.cart
+            delete uData.value.cart
           }
 
           if (autoLoginDataObj.expiry > 0) {
             localStorage.setItem(
               "auto_login",
               JSON.stringify({
-                login_key: res.data.login_key,
+                login_key: data.login_key,
                 expiry: now.getTime() + LOGIN_TIME * 3600000,
               })
             )
@@ -145,7 +147,7 @@ export const useAccountStore = defineStore("account", () => {
     uData.value = data
 
     if (data.cart !== null) {
-      userStore.value = JSON.parse(data.cart)
+      userStore.value = data.cart
     }
 
     let expireTime = 0
@@ -166,6 +168,18 @@ export const useAccountStore = defineStore("account", () => {
     )
   }
 
+  const getSpecificEventTickets = (event_id) => {
+    if (!uData.value.hasOwnProperty("id") || uData.value.tickets.length === 0) {
+      return 0
+    }
+
+    const event = uData.value.tickets.find(
+      (ticket) => ticket.event_id == event_id
+    )
+
+    return event === undefined ? 0 : event.quantity
+  }
+
   return {
     isLogged,
     getUsername,
@@ -178,5 +192,6 @@ export const useAccountStore = defineStore("account", () => {
     removeItemStore,
     getStore,
     loginAcc,
+    getSpecificEventTickets,
   }
 })

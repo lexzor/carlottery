@@ -117,7 +117,7 @@ onUnmounted(() => {
                 <div class="border-[1px] border-gray-300">
                     <div class="flex flex-col gap-2 p-3">
                         <h1 class="text-[30px] font-medium">{{ currentEvent.title }}</h1>
-                        <h2 class="text-lg">Preț: <span class="font-medium">&euro;{{ currentEvent.price.toLocaleString() }}</span></h2>
+                        <h2 class="text-lg">Pre??: <span class="font-medium">&euro;{{ currentEvent.price.toLocaleString() }}</span></h2>
                         <div>
                             <h2 class="text-lg">Descriere:</h2>
                             <p class="font-light text-gray-500">{{ currentEvent.description }}</p>
@@ -126,7 +126,7 @@ onUnmounted(() => {
                     <div class="border-t-[1px] border-gray-300 p-3">
                         <h2 class="text-lg">Timp rămas:</h2>
                         <span class="font-medium text-[30px]">{{ getRemainingTime }}</span>
-                        <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h2>
+                        <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}[Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }}]</h2>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                             <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>

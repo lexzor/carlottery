@@ -26,7 +26,7 @@
             <div v-else>
                 <h3 class="text-[27px] text-center mt-[70px] mb-[100px] font-medium text-[#000]">Momentan nu avem nicio competitie in desfasurare!</h3>
             </div>
-            <div class="flex justify-center mt-[62px]">
+            <div class="flex justify-center mt-[62px]" v-if="displayingOnHomePage">
                 <div class="boxed-btn">
                     <router-link to="/" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
                 </div>
@@ -88,12 +88,10 @@ const retrieveEvents = async () => {
 
         if(event.remainingTime.seconds > 0)
         {
-            console.log('ongoing', event)
             events.value.onGoing.push(event)
         }
         else 
         {
-            console.log('finished', event)
             events.value.finished.push(event)
         }
     })

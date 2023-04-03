@@ -109,7 +109,7 @@ const calculateTotal = () => {
         totalPrice += ev.price * ev.tickets
     })
 
-    return totalPrice
+    return parseFloat(totalPrice.toFixed(2))
 }
 
 const stripeLoad = () => {
@@ -211,7 +211,7 @@ const makePaymentStripe = async () => {
                         <h1>{{ event.title }} <span class="font-bold">x {{ event.tickets }}</span></h1>
                         </div>
                     </div>
-                    <h1>{{ event.tickets * event.price }}&euro;</h1>
+                    <h1>{{ parseFloat((event.tickets * event.price).toFixed(2)) }}&euro;</h1>
                 </div>
             </div>
             <div class="flex justify-between border-b-gray-300 p-[20px]">
