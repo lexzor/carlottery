@@ -116,11 +116,11 @@ const displayAccBtn = computed(() => {
                 
                 <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
                     <router-link to="/cart" tag="button" >
-                        <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-white hover:cursor-pointer" />
+                        <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-black hover:cursor-pointer" />
                     </router-link>
-                    <button class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
+                    <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
-                        <h1 id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-[19px] gap-[6px] text-center flex items-center">
+                        <h1 class="text-[19px] gap-[6px] text-center flex items-center">
                             <span class="mt-[3px]">{{ account.getUsername() }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
                         </h1>

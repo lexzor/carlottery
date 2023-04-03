@@ -15,7 +15,7 @@
                             <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                             <div class="flex flex-col">
                                 <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
-                                <span class="text-[16px] text-white font-light">Competi?�ia se încheie în</span>
+                                <span class="text-[16px] text-white font-light">Competitia se încheie în</span>
                                 <span class="text-[20px] text-white font-normal mt-[-3px]">{{ formatTemplateTime(event.remainingTime) }}</span>
                             </div>
                         </div>
@@ -109,7 +109,7 @@ const getRemainingTime = (event) => {
 }
 
 const formatTemplateTime = (remainingTime) => {
-    return `${remainingTime.days < 10 ? "0" : ""}${remainingTime.days} zile, ${remainingTime.hours < 10 ? "0" : ""}${remainingTime.hours} ore, ${remainingTime.minutes < 10 ? "0" : ""}${remainingTime.minutes} minute �i ${remainingTime.seconds < 10 ? "0" : ""}${remainingTime.seconds}`
+    return `${remainingTime.days < 10 ? "0" : ""}${remainingTime.days} zile, ${remainingTime.hours < 10 ? "0" : ""}${remainingTime.hours} ore si ${remainingTime.minutes < 10 ? "0" : ""}${remainingTime.minutes} minute`
 }
 
 const formatTimeStamp = (time) => {
