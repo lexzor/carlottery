@@ -112,6 +112,8 @@ const calculateTotal = () => {
     return parseFloat(totalPrice.toFixed(2))
 }
 
+let stripeLoading = ref(false)
+
 const stripeLoad = () => {
     if (!window.stripePromise) {
         window.stripePromise = loadStripe('pk_test_51Mnpq4LJ9kTHN7J8Kj7FGMIsoMcKWvMFHPN1gkhZnf6JRuiemvMtPWCeg1cNdflysbWoqHgdlKDX0GBXNQDszyES00pmUyGEqk');
@@ -120,6 +122,7 @@ const stripeLoad = () => {
 }
 
 const makePaymentStripe = async () => {
+    stripeLoading.value = true
     const eventsIds = []
     const cartEvents = await getEvents()
     events.value.forEach((event) => {
@@ -241,6 +244,7 @@ const makePaymentStripe = async () => {
                                     class="w-full px-0 py-[20px] mt-3"
                                     color="black"
                                     @click="makePaymentStripe"
+                                    :loading="stripeLoading"
                                 >
                                     Continua
                                 </MazBtn>
