@@ -20,7 +20,7 @@ axios.get('http://localhost/loterie/storePayment.php')
 
                     <p class="text-[18px] mt-6 text-black text-medium">Ai cumparat cu success <b>3 bilete</b> pentru <b>Audi A8L</b></p>
                     <div class="mt-10">
-                        <router-link to="/" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Intoarce-te</router-link>
+                        <router-link to="/" class="flex items-center gap-2 relative text-white bg-[#000000] text-[19px] px-[22px] py-[16px] whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);"><path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path></svg>Inapoi</router-link>
                     </div>
                 </div>
             </div>
