@@ -180,9 +180,9 @@ const makePaymentStripe = async () => {
 
 <template>
     <NavBar />
-    <div class="container mx-auto mt-[27px]">
-        <div class="p-[45px]">
-            <div class="bg-white shadow rounded flex justify-center p-10">
+    <div class="mx-auto container mt-[80px] pl-0">
+        <div class="xl:px-[45px] px-[25px]">
+            <div class="bg-white shadow rounded flex justify-center xl:p-10 p-4">
                 <div class="flex flex-col xl:flex-row">
                     <div class="flex flex-col gap-4 border-b-2 xl:border-b-0 border-r-0 xl:border-r-2 border-gray-400 border-dashed pb-[21px] xl:pr-[21px] mb-[21px] xl:mr-[21px]">
                         <h1 class="uppercase text-[20px] font-bold">Detalii Pentru Facturare</h1>
@@ -231,7 +231,7 @@ const makePaymentStripe = async () => {
                             <div class="flex gap-[30px]">
                                 <div v-for="(paymentMethod, index) in PAYMENT_METHODS" :key="paymentMethod.id" class="flex gap-[5px] items-center justify-start">
                                     <input @input="selectedPayment" v-model="state.paymentMethod" :value="paymentMethod.name" type="radio" name="pMethod" :id="`pm${paymentMethod.id}`">
-                                    <label :for="paymentMethod.name">{{ paymentMethod.name }}</label>
+                                    <label :for="`pm${paymentMethod.id}`">{{ paymentMethod.name }}</label>
                                 </div>
                             </div>
                             <div v-if="state.paymentMethod === PAYMENT_METHODS[STRIPE].name" class="mt-[50px]">
@@ -241,6 +241,17 @@ const makePaymentStripe = async () => {
                                     class="w-full px-0 py-[20px] mt-3"
                                     color="black"
                                     @click="makePaymentStripe"
+                                >
+                                    Continua
+                                </MazBtn>
+                            </div>
+                            <div v-else-if="state.paymentMethod === PAYMENT_METHODS[PAYPAL].name" class="mt-[50px]">
+                                <h1 class="text-[17px]">Plateste prin <b>PayPal</b> folosind<b> cardul de credit</b> sau <b>contul de PayPal</b>.</h1>
+                                <h2 class="my-[5px] text-[#585858]">Pentru a asigura faptul ca faci plata printr-o metode securizata vei fi redirecitonat catre pagina oficiala PayPal.</h2>
+                                <MazBtn
+                                    class="w-full px-0 py-[20px] mt-3"
+                                    color="black"
+                                    disabled
                                 >
                                     Continua
                                 </MazBtn>

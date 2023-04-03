@@ -131,7 +131,7 @@ onUnmounted(() => {
                         <span class="font-medium text-[30px]">{{ getRemainingTime }}</span>
                         <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h2>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
-                            <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>
+                            <div class="bg-black h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>
                         <span v-if="account.getSpecificEventTickets(currentEvent.id) > 0">
                             Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
@@ -140,8 +140,8 @@ onUnmounted(() => {
                     <div class="border-t-[1px] border-gray-300 p-3" v-if="currentEvent.tickets < currentEvent.max_tickets">
                         <div class="flex flex-col gap-3">
                             <div>
-                                <h1 class="text-[30px] font-medium">Răspunde la întrebare</h1>
-                                <h2 class="text-lg">Care este model de BMW:</h2>
+                                <h1 class="text-[30px] font-medium text-black">Răspunde la întrebare</h1>
+                                <h2 class="text-lg mt-3 mb-2">Care este model de BMW:</h2>
                                 <div class="flex gap-4">
                                     <div class="flex gap-2 justify-center items-center">
                                         <input type="radio" id="m5" name="question_answer" value="M5">
@@ -157,15 +157,20 @@ onUnmounted(() => {
                                     </div>
                                 </div>
                             </div>
-                            <MazInputNumber v-model="ticketNum" :min="1" label="Bilete" />
-                            <h1 class="font-bold text-[20px]">Total: &euro;{{ currentEvent.price * ticketNum }}</h1>
-                            <div class="flex flex-row items-center gap-[10px]">
-                                <MazBtn color="info" @click="redirectToFinishPayment">Cumpără</MazBtn>
-                                <MazBtn @click="addEventInStore">Adaugă în cos</MazBtn>
-                            </div>
                         </div> 
                     </div>
-                    <div v-else>
+                    <div class="border-t-[1px] border-gray-300 p-3">
+                        <h2 class="text-lg mb-2 text-black font-normal">Alege-ti numarul de bilete pe care vrei sa-l achizitionezi:</h2>
+                        <MazInputNumber class="w-full" v-model="ticketNum" :min="1" label="Bilete" />
+                    </div>
+                    <div class="border-t-[1px] border-gray-300 p-3">
+                        <h1 class="font-normal text-[20px] mb-3 text-black">Total: <span class="font-semibold text-black">&euro;{{ currentEvent.price * ticketNum }}</span></h1>
+                        <div class="flex flex-row items-center gap-[10px]">
+                            <MazBtn @click="redirectToFinishPayment">Cumpără</MazBtn>
+                            <MazBtn outline class="border-black" @click="addEventInStore">Adaugă în cos</MazBtn>
+                        </div>
+                    </div>
+                    <div v-if="currentEvent.tickets == currentEvent.max_tickets">
                         <p class="px-3 pb-3">Au fost cumparate toate biletele pentru aceasta competitie</p>
                     </div>
                 </div>

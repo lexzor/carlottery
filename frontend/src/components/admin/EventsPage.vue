@@ -358,7 +358,6 @@
       <tr class="border-b border-gray-200">
         <th class="py-4 px-8 border-gray-200 border-r">Eveniment</th>
         <th class="py-4 px-8 border-gray-200 border-r">Titlu</th>
-        <th class="py-4 px-8 border-gray-200 border-r">Descriere</th>
         <th class="py-4 px-8 border-gray-200 border-r">Bilete</th>
         <th class="py-4 px-8 border-gray-200 border-r">Pret bilet</th>
         <th class="py-4 px-8 border-gray-200 border-r">Data incepere</th>

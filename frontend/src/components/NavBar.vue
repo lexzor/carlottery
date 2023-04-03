@@ -21,10 +21,6 @@ onMounted(() => {
 const logBtnLink = computed(() => {
     return account.isLogged() == true ? '/account' : '/login'
 })
-
-const displayAccBtn = computed(() => {
-    return account.isLogged() ? 'flex' : 'hidden'
-})
 </script>
 
 <template>
@@ -57,7 +53,7 @@ const displayAccBtn = computed(() => {
                         <router-link v-if="!account.isLogged()" :to="logBtnLink" tag="button" class="text-white flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon icon="fa-solid fa-user" class="fa-md" /></router-link>
                         <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-[#000] hover:text-[#000] bg-white text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
                         
-                        <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
+                        <div v-if="account.isLogged()" class="flex items-center gap-[20px]" >
                             <router-link to="/cart" tag="button" >
                                 <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-white hover:cursor-pointer" />
                             </router-link>
@@ -114,7 +110,7 @@ const displayAccBtn = computed(() => {
                 <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-white bg-[#000000] text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
                 <router-link v-if="!account.isLogged()" to="/register" tag="button" class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Inscrie-te</router-link>
                 
-                <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
+                <div v-if="account.isLogged()" class="flex items-center gap-[20px]" >
                     <router-link to="/cart" tag="button" >
                         <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-black hover:cursor-pointer" />
                     </router-link>

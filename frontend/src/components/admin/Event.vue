@@ -168,7 +168,6 @@
   <tr class="border-b border-gray-200">
     <td class="py-4 px-8 border-gray-200 border-r">EVN-{{ event.id }}</td>
     <td class="py-4 px-8 border-gray-200 border-r">{{ event.title }}</td>
-    <td class="py-4 px-8 border-gray-200 border-r">{{ event.description }}</td>
     <td class="py-4 px-8 border-gray-200 border-r">{{ event.max_tickets }}</td>
     <td class="py-4 px-8 border-gray-200 border-r">{{ event.price }} EUR</td>
     <td class="py-4 px-8 border-gray-200 border-r">{{ event.start }}</td>
