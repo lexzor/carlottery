@@ -112,13 +112,12 @@ export const useAccountStore = defineStore("account", () => {
     }
 
     await axios
-      .post("http://localhost/loterie/autoLogin.php", {
+      .post("http://localhost/loterie/authUser.php", {
         login_key: autoLoginDataObj.login_key,
       })
       .then(({ data }) => {
         if (data != -1 && data !== null) {
           uData.value = data
-          console.log(uData.value)
 
           if (data.cart !== null) {
             userStore.value = data.cart

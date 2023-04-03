@@ -8,7 +8,7 @@ export const getEvents = async (max = 0) => {
     .post(
       "http://localhost/loterie/getEvents.php",
       {
-        getEvents: "1",
+        getEvents: 1,
       },
       {
         headers: {
@@ -38,18 +38,10 @@ export const getEvents = async (max = 0) => {
 }
 
 export const getEventsTickets = async () => {
-  let { data } = await axios
-    .post(
-      "http://localhost/loterie/getEventsTickets.php",
-      {
-        tickets: "1",
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+  await axios
+    .post("http://localhost/loterie/getEventsTickets.php", {
+      getEventsTickets: "1",
+    })
     .catch((err) => {
       toast.open({
         message: "Eroare de conexiune!",
@@ -60,16 +52,17 @@ export const getEventsTickets = async () => {
 
       console.error(err)
     })
+    .then(({ data }) => {
+      if (data.length === 0) return null
 
-  if (data.length === 0) return null
+      let returnValue = null
 
-  let returnValue = null
+      if (Array.isArray(data)) {
+        returnValue = data
+      } else {
+        returnValue.push(data)
+      }
 
-  if (Array.isArray(data)) {
-    returnValue = data
-  } else {
-    returnValue.push(data)
-  }
-
-  return returnValue
+      return returnValue
+    })
 }

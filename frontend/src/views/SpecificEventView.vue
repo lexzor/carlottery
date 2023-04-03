@@ -16,7 +16,6 @@ let imageIndex = ref(0);
 const route = useRoute()
 const currentEvent = ref({tickets: 0, remainingTime: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
 const ticketNum = ref(1)
-const cardElement = ref(null)
 let interval = null
 
 const retrieveEvents = async () => {
@@ -24,11 +23,11 @@ const retrieveEvents = async () => {
     currentEvent.value = events.filter(event => event.hashed_id === route.params.hashed_id)[0]
     
     if(typeof currentEvent.value !== 'object' )
-    {
+    {1
         router.push({path: '/evenimente'})
     }
-    
-    currentEvent.value.tickets = await getEventsTickets() === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    const tickets = await getEventsTickets()
+    currentEvent.value.tickets = tickets === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {

@@ -65,16 +65,11 @@ const loginAcc = async () => {
   }
 
     await axios.post(
-    "http://localhost/loterie/loginUser.php",
+    "http://localhost/loterie/authUser.php",
     {
       email: state.email,
       password: state.password,
     },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
   ).catch(err => console.error).then(res => {
     if (typeof res.data !== "object" || res.data === null) {
       toast.open({
@@ -86,6 +81,7 @@ const loginAcc = async () => {
     } else {
       account.loginAcc(res.data, state.remember)
       router.push({ path: "/" })
+      account.authUser
     }
   })
 

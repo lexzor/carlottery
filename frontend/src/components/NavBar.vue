@@ -59,7 +59,7 @@ const displayAccBtn = computed(() => {
                         
                         <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
                             <router-link to="/cart" tag="button" >
-                                <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-white hover:cursor-pointer" />
+                                <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-white hover:cursor-pointer" />
                             </router-link>
                             <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
                                 <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />
@@ -116,7 +116,7 @@ const displayAccBtn = computed(() => {
                 
                 <div :class="displayAccBtn" class="flex items-center gap-[20px]" >
                     <router-link to="/cart" tag="button" >
-                        <font-awesome-icon icon="fa-solid fa-cart-shopping" size="md" class="text-black hover:cursor-pointer" />
+                        <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-black hover:cursor-pointer" />
                     </router-link>
                     <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
