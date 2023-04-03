@@ -14,20 +14,24 @@ import { useToast } from 'vue-toast-notification';
 const account = useAccountStore()
 let imageIndex = ref(0);
 const route = useRoute()
-const currentEvent = ref({tickets: 0, remainingTime: 0}) // am adaugat tickets default value pentru ca dadea eroare cand monta dom-ul din cauza delayului celui de-al doilea post (cel pt biele)
+const currentEvent = ref({tickets: 0, remainingTime: 0})
 const ticketNum = ref(1)
 let interval = null
 
 const retrieveEvents = async () => {
     const events = await getEvents()
     currentEvent.value = events.filter(event => event.hashed_id === route.params.hashed_id)[0]
-    
+
     if(typeof currentEvent.value !== 'object' )
     {1
         router.push({path: '/evenimente'})
     }
     const tickets = await getEventsTickets()
-    currentEvent.value.tickets = tickets === null ? 0 : tickets.filter(ticket => ticket.eid === currentEvent.value.id).length
+    tickets.forEach(ticket => {
+        if(ticket.event_id == currentEvent.value.id) {
+            currentEvent.value.tickets = ticket.quantity
+        }
+    });
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {
@@ -116,7 +120,7 @@ onUnmounted(() => {
                 <div class="border-[1px] border-gray-300">
                     <div class="flex flex-col gap-2 p-3">
                         <h1 class="text-[30px] font-medium">{{ currentEvent.title }}</h1>
-                        <h2 class="text-lg">Pre??: <span class="font-medium">&euro;{{ currentEvent.price.toLocaleString() }}</span></h2>
+                        <h2 class="text-lg">Pret: <span class="font-medium">&euro;{{ currentEvent.price.toLocaleString() }}</span></h2>
                         <div>
                             <h2 class="text-lg">Descriere:</h2>
                             <p class="font-light text-gray-500">{{ currentEvent.description }}</p>
@@ -125,10 +129,13 @@ onUnmounted(() => {
                     <div class="border-t-[1px] border-gray-300 p-3">
                         <h2 class="text-lg">Timp rămas:</h2>
                         <span class="font-medium text-[30px]">{{ getRemainingTime }}</span>
-                        <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}[Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }}]</h2>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                        <h2 class="text-lg mt-2">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h2>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
                             <div class="bg-blue-600 h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>
+                        <span v-if="account.getSpecificEventTickets(currentEvent.id) > 0">
+                            Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
+                        </span>
                     </div>
                     <div class="border-t-[1px] border-gray-300 p-3" v-if="currentEvent.tickets < currentEvent.max_tickets">
                         <div class="flex flex-col gap-3">
@@ -159,7 +166,7 @@ onUnmounted(() => {
                         </div> 
                     </div>
                     <div v-else>
-                        <p>Au fost cumparate toate biletele pentru aceasta competitie</p>
+                        <p class="px-3 pb-3">Au fost cumparate toate biletele pentru aceasta competitie</p>
                     </div>
                 </div>
             </div>

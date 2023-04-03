@@ -43,7 +43,7 @@
                                 <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                                 <div class="flex flex-col">
                                     <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
-                                    <span class="text-[16px] text-white font-light">Competit&#807ie încheita&#774</span>
+                                    <span class="text-[16px] text-white font-light">Competitie încheita</span>
                                 </div>
                             </div>
                         </div>

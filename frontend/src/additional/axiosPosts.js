@@ -38,31 +38,15 @@ export const getEvents = async (max = 0) => {
 }
 
 export const getEventsTickets = async () => {
-  await axios
-    .post("http://localhost/loterie/getEventsTickets.php", {
-      getEventsTickets: "1",
+  try {
+    const res = await axios.get("http://localhost/loterie/getEventsTickets.php")
+    return res.data
+  } catch(err) {
+    toast.open({
+      message: "Eroare de conexiune!",
+      duration: 10000,
+      type: "error",
+      dismissible: false,
     })
-    .catch((err) => {
-      toast.open({
-        message: "Eroare de conexiune!",
-        duration: 10000,
-        type: "error",
-        dismissible: false,
-      })
-
-      console.error(err)
-    })
-    .then(({ data }) => {
-      if (data.length === 0) return null
-
-      let returnValue = null
-
-      if (Array.isArray(data)) {
-        returnValue = data
-      } else {
-        returnValue.push(data)
-      }
-
-      return returnValue
-    })
+  }
 }
