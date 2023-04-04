@@ -1,9 +1,14 @@
 <template>
     <div class="container mx-auto px-0 mt-[77px]">
-        <div v-if="!displayingOnHomePage" class="flex gap-[20px] xl:px-[45px] px-[25px]">
-            <button @click="currentView = true" :class="currentView == true ? 'text-white bg-black' : ''" class="px-[20px] py-[10px] hover:text-white hover:bg-black">In desfasurare</button>
-            <button @click="currentView = false" :class="currentView == false ? 'text-white bg-black' : ''" class="px-[20px] py-[10px] hover:text-white hover:bg-black">Terminate</button>
+        <div v-if="!displayingOnHomePage" class="xl:px-[45px] px-[25px]">
+            <div class="border border-[#000] py-[16px] px-[20px]">
+                <div class="flex gap-[20px]">
+                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">In desfasurare</button>
+                    <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
+                </div>
+            </div>
         </div>
+        
         <div v-if="currentView || displayingOnHomePage" class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITII IN DESFASURARE:</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
@@ -50,13 +55,9 @@
                         <div class="linear-bg z-10"></div>
                     </div>
                 </div>
-                <div v-else>
-                    <h3 class="text-[27px] text-center mt-[70px] mb-[100px] font-medium text-[#000]">Momentan nu avem nicio competitie incheiata!</h3>
-                </div>
-                <div class="flex justify-center mt-[62px]">
-                    <div class="boxed-btn">
-                        <router-link to="/" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
-                    </div>
+                <div class="flex items-center flex-col" v-else>
+                    <img class="mb-3" src="@/assets/images/elements/struggle.png">
+                    <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competitie incheiata</h3>
                 </div>
         </div>
     </div>
@@ -162,5 +163,11 @@ retrieveEvents();
     left: 0;
     top: 0;
     
+}
+
+.active__category {
+    background-color: black;
+    color: white !important;
+    border: 1px solid black;
 }
 </style>
