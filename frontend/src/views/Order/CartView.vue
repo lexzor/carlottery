@@ -94,10 +94,10 @@ const show = (value, id, pos) => {
                                         <div :style="`background-image: url('http://localhost/loterie/${JSON.parse(item.images)[0]}')`" class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat rounded"></div> {{ item.title }}
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{ item.tickets }}
+                                        {{ item.tickets }} buc.
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ item.price }}
+                                        {{ item.price }}&#x20AC;
                                     </td>
                                     <td class="px-6 py-4">
                                         <MazBtn class="btn-cart" size="sm" outline color="danger" @click="addEventInStore">
