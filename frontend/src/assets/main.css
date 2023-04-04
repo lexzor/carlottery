@@ -22,6 +22,15 @@ body {
     opacity: 0;
 }
 
+.btn-cart {
+    font-weight: 400 !important;
+}
+
+.btn-cart:hover svg {
+    fill: white !important;
+    transition: all .4s ease-out;
+}
+
 /* body::before {
     position: absolute;
     content: '';
