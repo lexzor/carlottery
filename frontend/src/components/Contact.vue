@@ -3,7 +3,7 @@ import MazInput from "maz-ui/components/MazInput"
 </script>
 
 <template>
-    <div class="mx-auto container mt-[80px] pl-0">
+    <div class="mx-auto container mt-[80px] px-0">
         <div class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000]">CONTACT</h3>
             <p class="text-[20px] font-light text-[#000] mt-[10px]">Dacă aveți orice fel de problema, puteți completa formularul următor.</p>

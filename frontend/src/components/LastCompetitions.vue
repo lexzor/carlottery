@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto pl-0 mt-[77px]">
+    <div class="container mx-auto px-0 mt-[77px]">
         <div v-if="!displayingOnHomePage" class="flex gap-[20px] xl:px-[45px] px-[25px]">
             <button @click="currentView = true" :class="currentView == true ? 'text-white bg-black' : ''" class="px-[20px] py-[10px] hover:text-white hover:bg-black">In desfasurare</button>
             <button @click="currentView = false" :class="currentView == false ? 'text-white bg-black' : ''" class="px-[20px] py-[10px] hover:text-white hover:bg-black">Terminate</button>

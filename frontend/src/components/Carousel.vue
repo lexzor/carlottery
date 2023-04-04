@@ -4,7 +4,7 @@ import { CCarousel, CCarouselItem } from '@coreui/vue'
 </script>
 
 <template>
-    <div class="container mx-auto pl-0 mt-[56px]">
+    <div class="container mx-auto px-0 mt-[56px]">
         <div class="xl:px-[45px] px-[25px]">
             <CCarousel indicators :interval="false" transition="slide">
                 <CCarouselItem class="relative min-w-full h-[406px]" style="background-image: url('/porsche.png')">

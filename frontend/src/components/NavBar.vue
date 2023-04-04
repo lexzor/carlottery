@@ -26,7 +26,7 @@ const logBtnLink = computed(() => {
 </script>
 
 <template>
-    <div class="container mx-auto mt-[46px] pl-0">
+    <div class="container mx-auto mt-[46px] px-0 pr-0">
         <div class="flex justify-between items-center xl:px-[45px] px-[25px]">
             <div class="w-full">
                 <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black" to="/">

@@ -62,7 +62,7 @@ const show = (value, id, pos) => {
 
 <template>
     <NavBar />
-    <div class="container mx-auto pl-0 mt-[77px] mb-[12.81%]">
+    <div class="container mx-auto px-0 mt-[77px] mb-[12.81%]">
         <div class="xl:px-[45px] px-[25px]">
             <div class="bg-white shadow rounded">
                 <div>

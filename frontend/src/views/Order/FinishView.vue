@@ -183,7 +183,7 @@ const makePaymentStripe = async () => {
 
 <template>
     <NavBar />
-    <div class="mx-auto container mt-[80px] pl-0">
+    <div class="mx-auto container mt-[80px] px-0">
         <div class="xl:px-[45px] px-[25px]">
             <div class="bg-white shadow rounded flex justify-center xl:p-10 p-4">
                 <div class="flex flex-col xl:flex-row">
