@@ -9,9 +9,11 @@ const account = useAccountStore()
 const route = useRoute()
 
 let menu = ref(false)
+let profile = ref(false);
 
 watch(route, (to, from) => {
   menu.value = false;
+  profile.value = false;
 })
 
 onMounted(() => {
@@ -49,7 +51,7 @@ const logBtnLink = computed(() => {
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Bilete</router-link>
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Castigatori</router-link>
 
-                    <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full">
+                    <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full flex-col">
                         <router-link v-if="!account.isLogged()" :to="logBtnLink" tag="button" class="text-white flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon icon="fa-solid fa-user" class="fa-md" /></router-link>
                         <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-[#000] hover:text-[#000] bg-white text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
                         
@@ -57,12 +59,20 @@ const logBtnLink = computed(() => {
                             <router-link to="/cart" tag="button" >
                                 <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-white hover:cursor-pointer" />
                             </router-link>
-                            <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">
-                                <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />
-                                <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>
+<!--                            <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">-->
+<!--                                <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />-->
+<!--                                <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>-->
+<!--                            </button>-->
+
+                            <button @click="profile = !profile;" class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
+                                <h1 class="text-[19px] gap-[6px] text-center flex items-center">
+                                    <span class="mt-[3px]">{{ account.getUsername() }}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path></svg>
+                                </h1>
                             </button>
                         </div>
-                        <div v-if="account.isLogged()" id="dropdownAvatarName" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
+                        <div v-if="account.isLogged()" :class="{ 'hidden': !profile }" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
                             <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
                                 <div class="font-medium" :title="account.getUsername()">{{ account.getUsername() }}</div>
                                 <div class="truncate" :title="account.getEmail()"> {{ account.getEmail() }}</div>
@@ -90,7 +100,7 @@ const logBtnLink = computed(() => {
                                 </li>
                             </ul>
                             <div class="py-2">
-                                <a @click="$event => account.logOut()" class="text-[14px] cursor-pointer flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                                <a @click="$event => account.logOut()" class="text-[14px] cursor-pointer flex items-center gap-[8px] px-3 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path><path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path></svg>
                                     <span>Delogare</span>
                                 </a>
@@ -150,7 +160,7 @@ const logBtnLink = computed(() => {
                         </li>
                     </ul>
                     <div class="py-2">
-                        <a @click="$event => account.logOut()" class="text-[14px] cursor-pointer flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                        <a @click="$event => account.logOut()" class="text-[14px] text-gray-700 cursor-pointer flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path><path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path></svg>
                             <span>Delogare</span>
                         </a>
