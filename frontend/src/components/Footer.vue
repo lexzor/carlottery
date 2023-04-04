@@ -1,6 +1,6 @@
 <template>
     <div class="bg-[#000]">
-        <div class="mx-auto container mt-[45px]">
+        <div class="mx-auto container px-0 mt-[45px]">
             <div class="xl:p-[45px] p-[25px] py-[45px]">
                 <div class="flex xl:flex-row flex-col xl:gap-0 gap-[70px] justify-between">
                     <div>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="bg-[#000] border-t border-[#FFFFFF14]">
-        <div class="mx-auto container">
+        <div class="mx-auto container px-0">
             <div class="px-[45px] py-[24px] text-center">
                 <p class="text-[#FFFFFF66] font-light">Copyright ⓒ Car Lottery 2023. All rights reserved.</p>
             </div>

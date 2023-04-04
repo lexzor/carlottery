@@ -108,7 +108,7 @@ onUnmounted(() => {
 
 <template>
     <NavBar />
-    <div class="container mx-auto pl-0 mt-[77px]">
+    <div class="container mx-auto px-0 mt-[77px]">
         <div class="xl:px-[45px] px-[25px]">
             <div class="grid xl:grid-cols-2 grid-cols-1 gap-4 items-start">
                 <div class="flex gap-2 flex-col">

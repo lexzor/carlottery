@@ -42,6 +42,7 @@ export const getEventsTickets = async () => {
     const res = await axios.get("http://localhost/loterie/getEventsTickets.php")
     return res.data
   } catch(err) {
+    const toast = useToast()
     toast.open({
       message: "Eroare de conexiune!",
       duration: 10000,
