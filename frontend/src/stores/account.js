@@ -95,7 +95,6 @@ export const useAccountStore = defineStore("account", () => {
 
   const autoLogin = async () => {
     const autoLoginData = localStorage.getItem("auto_login")
-
     if (autoLoginData === null) {
       return
     }
@@ -110,6 +109,7 @@ export const useAccountStore = defineStore("account", () => {
       localStorage.removeItem("auto_login")
       return
     }
+    console.log("test")
 
     await axios
       .post("http://localhost/loterie/authUser.php", {

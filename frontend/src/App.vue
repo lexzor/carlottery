@@ -5,7 +5,6 @@ import { useAccountStore } from './stores/account'
 
 const account = useAccountStore()
 account.autoLogin()
-
 </script>
 
 <template>

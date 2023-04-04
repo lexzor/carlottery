@@ -70,8 +70,9 @@ const loginAcc = async () => {
       email: state.email,
       password: state.password,
     },
-  ).catch(err => console.error).then(res => {
-    if (typeof res.data !== "object" || res.data === null) {
+  ).catch(err => console.error).then(({data}) => {
+    console.log(data)
+    if (typeof data !== "object" || data === null) {
       toast.open({
         message: "Datele introduse sunt incorecte",
         duration: 5000,
@@ -79,7 +80,7 @@ const loginAcc = async () => {
         type: "error",
       })
     } else {
-      account.loginAcc(res.data, state.remember)
+      account.loginAcc(data, state.remember)
       router.push({ path: "/" })
       account.authUser
     }
