@@ -1,19 +1,15 @@
 <template>
-    <div class="container mx-auto px-0 mt-[77px]">
-        <div v-if="!displayingOnHomePage" class="xl:px-[45px] px-[25px]">
-            <div class="border border-[#000] py-[16px] px-[20px]">
+    <div class="container mx-auto px-0 mt-[77px]">        
+        <div v-if="currentView || displayingOnHomePage" class="xl:px-[45px] px-[25px]">
+            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITII IN DESFASURARE</h3>
+            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery</p>
+            <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
                 <div class="flex gap-[20px]">
                     <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">In desfasurare</button>
                     <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
                 </div>
             </div>
-        </div>
-        
-        <div v-if="currentView || displayingOnHomePage" class="xl:px-[45px] px-[25px]">
-            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITII IN DESFASURARE:</h3>
-            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
-<!--            flex xl:flex-row flex-col gap-[34px]-->
-            <div v-if="events.onGoing.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]"> 
+            <div v-if="events.onGoing.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[24px]"> 
                 <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="(event, index) in events.onGoing" :key="event.id">
                     <div class="absolute w-full h-full left-0 top-0 z-20">
                         <div class="p-[32px] flex flex-col justify-between h-[85%]">
@@ -38,9 +34,14 @@
             </div>
         </div>
         <div v-else class="xl:px-[45px] px-[25px]">
-            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITIILE TERMINATE:</h3>
-                <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
-    <!--            flex xl:flex-row flex-col gap-[34px]-->
+            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITIILE TERMINATE</h3>
+                <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery</p>
+                <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
+                    <div class="flex gap-[20px]">
+                        <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">In desfasurare</button>
+                        <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
+                    </div>
+                </div>
                 <div v-if="events.finished.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]"> 
                     <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="event in events.finished" :key="event.id">
                         <div class="absolute w-full h-full left-0 top-0 z-20">
