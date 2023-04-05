@@ -10,11 +10,10 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
 
-
+const currentEvent = ref({images: ['["events_images/struggle.png"]'], price: 0})
 const account = useAccountStore()
-let imageIndex = ref(0);
+const imageIndex = ref(0);
 const route = useRoute()
-const currentEvent = ref({tickets: 0, remainingTime: 0})
 const ticketNum = ref(1)
 let interval = null
 
@@ -23,15 +22,18 @@ const retrieveEvents = async () => {
     currentEvent.value = events.filter(event => event.hashed_id === route.params.hashed_id)[0]
 
     if(typeof currentEvent.value !== 'object' )
-    {1
+    {
         router.push({path: '/evenimente'})
     }
+
     const tickets = await getEventsTickets()
+
     tickets.forEach(ticket => {
         if(ticket.event_id == currentEvent.value.id) {
             currentEvent.value.tickets = ticket.quantity
         }
     });
+
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {
@@ -114,7 +116,7 @@ onUnmounted(() => {
                 <div class="flex gap-2 flex-col">
                     <div class="h-[500px] w-full bg-cover bg-center" :style="`background-image: url('http://localhost/loterie/${JSON.parse(currentEvent.images)[imageIndex]}'`"></div>
                     <div class="grid grid-cols-4 gap-2">
-                        <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) of JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('http://localhost/loterie/${image}'`"></div>
+                        <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) in JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('http://localhost/loterie/${image}'`"></div>
                     </div>
                 </div>
                 <div class="border-[1px] border-gray-300">
@@ -133,7 +135,7 @@ onUnmounted(() => {
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
                             <div class="bg-black h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>
-                        <span v-if="account.getSpecificEventTickets(currentEvent.id) > 0">
+                        <span v-if="account.getSpecificEventTickets(currentEvent.id) > 0" class="mt-[100px]">
                             Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
                         </span>
                     </div>
@@ -170,7 +172,7 @@ onUnmounted(() => {
                             <MazBtn outline class="border-black" @click="addEventInStore">Adaugă în cos</MazBtn>
                         </div>
                     </div>
-                    <div v-if="currentEvent.tickets == currentEvent.max_tickets">
+                    <div v-if="currentEvent.tickets >= currentEvent.max_tickets">
                         <p class="px-3 pb-3">Au fost cumparate toate biletele pentru aceasta competitie</p>
                     </div>
                 </div>

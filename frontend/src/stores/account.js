@@ -109,7 +109,6 @@ export const useAccountStore = defineStore("account", () => {
       localStorage.removeItem("auto_login")
       return
     }
-    console.log("test")
 
     await axios
       .post("http://localhost/loterie/authUser.php", {

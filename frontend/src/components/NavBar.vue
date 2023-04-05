@@ -48,7 +48,7 @@ const logBtnLink = computed(() => {
                     
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/">Acasa</router-link>
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Competitii</router-link>
-                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Bilete</router-link>
+                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/bilete">Bilete</router-link>
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Castigatori</router-link>
 
                     <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full flex-col">
@@ -112,7 +112,7 @@ const logBtnLink = computed(() => {
             <div class="xl:flex flex-row gap-[50px] text-[20px] font-regular hidden w-full">
                 <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/">Acasa</router-link>
                 <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Competitii</router-link>
-                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Bilete</router-link>
+                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/bilete">Bilete</router-link>
                 <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Castigatori</router-link>
             </div>
             <div class="xl:flex items-center relative justify-end gap-[30px] hidden w-full">

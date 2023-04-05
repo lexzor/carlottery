@@ -4,21 +4,21 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazSelect from "maz-ui/components/MazSelect"
 import MazTextArea from "maz-ui/components/MazTextArea"
 import MazBtn from "maz-ui/components/MazBtn"
+import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput"
 import Footer from '../../components/Footer.vue';
-
+import { useToast } from 'vue-toast-notification';
 import { reactive, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators'
 import { vuelidateTranslator } from '../../additional/translator';
 import { getEvents } from '../../additional/axiosPosts'
 import { useAccountStore } from '../../stores/account';
-
-import {loadStripe} from '@stripe/stripe-js';
-
+import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios'
 
 const events = ref([])
 const account = useAccountStore()
+const toast = useToast()
 
 const retrieveEvents = async () => {
     const allEvents = await getEvents()
@@ -31,8 +31,6 @@ const retrieveEvents = async () => {
             }
         })
     })
-
-    console.log(allEvents)
 }
 
 retrieveEvents()
@@ -73,32 +71,29 @@ const PAYMENT_METHODS = [
 ]
 
 const state = reactive({
-    firstName: 'Pavel',
-    lastName: 'Marin',
+    firstName: '',
+    lastName: '',
     companyName: '',
-    country: 'Romania',
-    address: 'pl n cur',
-    secondAddress: '2a',
-    zipCode: '12939',
-    city: 'Baicoi',
-    phone: '07949099021',
-    email: 'pavel@eway-design.com',
-    additionalInformation: 'am pl mare',
+    country: '',
+    address: '',
+    secondAddress: '',
+    zipCode: '',
+    city: '',
+    phone: '',
+    email: '',
+    additionalInformation: '',
     paymentMethod: PAYMENT_METHODS[STRIPE].name
 })
 
 const rules = {
     firstName: { required },
     lastName: { required },
-    companyName: { required },
     country: { required },
     address: { required },
-    secondAddress: { required },
     zipCode: { required },
     city: { required },
     phone: { required },
     email: { required, email },
-    additionalInformation: { required },
 }
 
 const v = useVuelidate(rules, state)
@@ -108,7 +103,6 @@ const calculateTotal = () => {
     events.value.forEach(ev => {
         totalPrice += ev.price * ev.tickets
     })
-
     return parseFloat(totalPrice.toFixed(2))
 }
 
@@ -122,6 +116,14 @@ const stripeLoad = () => {
 }
 
 const makePaymentStripe = async () => {
+    const result = await validateForm()
+
+    if(!result)
+    {
+        stripeLoading.value = false
+        return
+    }
+
     stripeLoading.value = true
     const eventsIds = []
     const cartEvents = await getEvents()
@@ -168,15 +170,41 @@ const makePaymentStripe = async () => {
           "Content-Type": "application/json",
         },
     }).catch(err => console.error).then(async ({data}) => {
-        // console.log(data)
         const stripe = await stripeLoad()
 
         stripe.redirectToCheckout({
             sessionId: data,
         })
     })
+}
 
-    
+const validateForm = async () => {
+    const result = await v.value.$validate()
+
+    if (!result) {
+        let errorMessage =
+            '<span class="text-[17px]">Nu poti finaliza plata deoarece:</span>'
+        let totalErrors = 0
+
+        v.value.$errors.forEach((error) => {
+            totalErrors++
+            errorMessage += "<br>"
+            errorMessage += `${totalErrors}. ${vuelidateTranslator(
+                error.$property,
+                error.$message
+            )}`
+        })
+
+        toast.open({
+            message: `${errorMessage}`,
+            type: "error",
+            duration: totalErrors * 6000,
+            pauseOnHover: true,
+            dismissible: false,
+        })
+    }
+
+    return result
 }
 
 </script>
@@ -200,10 +228,10 @@ const makePaymentStripe = async () => {
                         <MazInput no-radius v-model="state.secondAddress" label="Apartament, complex, unitate etc. (optional)" />
                         <MazInput required v-model="state.zipCode" no-radius label="Cod Postal" />
                         <MazInput required v-model="state.city" no-radius label="Oras" />
-                        <MazInput required v-model="state.phone" no-radius label="Telefon" />
+                        <MazPhoneNumberInput :preferred-countries="['RO', 'FR', 'BE', 'DE', 'US', 'GB']" required v-model="state.phone" no-radius label="Telefon" />
                         <MazInput required v-model="state.email" no-radius label="Adresa email" />
                         <h1 class="uppercase text-[20px] font-bold">Informatii Suplimentare</h1>
-                        <MazTextArea required v-model="state.additionalInformation" no-radius label="Note comanda (optional)" placeholder="Note referitoare la comanda ta, de exemplu: anumite note pentru livrare" />
+                        <MazTextArea v-model="state.additionalInformation" no-radius label="Note comanda (optional)" placeholder="Note referitoare la comanda ta, de exemplu: anumite note pentru livrare" />
                     </div>
                     <div>
                         <h1 class="uppercase text-[20px] font-bold mb-4">Comanda Ta</h1>

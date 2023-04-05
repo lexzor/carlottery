@@ -30,10 +30,11 @@ const retrieveEvents = async () => {
         events.value.push(item)
     }
 
-    if(!account.isLogged())
-    {
-        router.push({path: '/login'})
-    }
+    let timeout = setTimeout(() => {
+        if (!account.isLogged()) {
+           router.push({ path: '/login' })
+        }
+    }, 1000)
 }
 
 retrieveEvents()
@@ -57,7 +58,6 @@ const show = (value, id, pos) => {
     account.addItemStore(id, value - events.value[pos].tickets)
     events.value[pos].tickets = value
 }
-
 </script>
 
 <template>
@@ -111,7 +111,7 @@ const show = (value, id, pos) => {
                     <div class="xl:p-10 p-4 flex justify-between items-center xl:flex-row flex-col xl:gap-0 gap-4 text-black">
                         <h3 class="text-slate-700 flex gap-3 items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 110, 107, 1);transform: ;msFilter:;"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M11 11h2v6h-2zm0-4h2v2h-2z"></path></svg>
-                            Vizualizați cu atenție toate produsele pe care le-ați introdus in cos
+                            Vizualiza?쌻 cu aten?쌻e toate produsele pe care le-a?쌻 introdus in cos
                         </h3>
                         <div class="flex gap-4">
                             <div class="text-right">
@@ -127,8 +127,8 @@ const show = (value, id, pos) => {
                 </div>
             </div>
             <!-- <div class="w-full mx-auto">
-                <h3 class="text-[32px] font-medium text-[#000]">Coșul cu cumpărături:</h3>
-                <p class="text-[24px] text-[#000] font-light mb-[10px]">Toate produsele din coș.</p>
+                <h3 class="text-[32px] font-medium text-[#000]">Co?셵l cu cump훱r훱turi:</h3>
+                <p class="text-[24px] text-[#000] font-light mb-[10px]">Toate produsele din co??.</p>
                 <div class="flex flex-col gap-[20px]">
                     <div v-for="(item, index) in events" class="flex flex-wrap xl:flex-row flex-col items-center justify-between gap-[20px] p-[5px] border-black border-[1px]">
                         <img :src="'http://localhost/loterie/' + JSON.parse(item.images)[0]" class="max-w-[125px]">
@@ -140,11 +140,11 @@ const show = (value, id, pos) => {
                             <MazInputNumber @update:model-value="show($event, item.id, index)" :modelValue="item.tickets" label="Bilete" :min="1" />
                         </div>
                         <div>
-                            <h1 class="font-light">Preț bilet:</h1>
+                            <h1 class="font-light">Pre?? bilet:</h1>
                             <h1>{{ item.price }}&#x20AC;</h1>
                         </div>
                         <div>
-                            <h1 class="font-light">De plată:</h1>
+                            <h1 class="font-light">De plat훱:</h1>
                             <h1>{{ item.tickets * item.price }}&#x20AC;</h1>
                         </div>
 

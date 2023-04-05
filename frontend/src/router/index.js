@@ -7,6 +7,8 @@ import SuccessView from "@/views/Order/SuccessView.vue"
 import DeclinedView from "@/views/Order/DeclinedView.vue"
 import CartView from "@/views/Order/CartView.vue"
 import FinishView from "@/views/Order/FinishView.vue"
+import TicketsView from "@/views/TicketsView.vue"
+import SpecificEventTicketsView from "@/views/SpecificEventTicketsView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
@@ -75,6 +77,16 @@ const router = createRouter({
       path: "/finish",
       name: "finish",
       component: FinishView,
+    },
+    {
+      path: "/bilete",
+      name: "bilete",
+      component: TicketsView,
+    },
+    {
+      path: "/bilete/:hashed_id",
+      name: "bilete",
+      component: SpecificEventTicketsView,
     },
     {
       path: "/(.*)*",

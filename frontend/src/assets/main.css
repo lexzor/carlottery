@@ -60,9 +60,9 @@ body::after {
 m-textarea {
     border: unset !important;
 }
-
-/* .maz-rounded {
-    border-radius: 0;
+/* 
+.maz-rounded {
+    border-radius: none !important;
 } */
 
 button,
@@ -95,6 +95,10 @@ textarea {
 
 .--primary {
     background-color: black !important;
+}
+
+.--default-border {
+    border-radius: none !important;
 }
 
 .textarea-maz {

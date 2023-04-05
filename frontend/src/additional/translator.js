@@ -28,6 +28,34 @@ export const vuelidateTranslator = (prop, msg, values) => {
     case "description":
       newProp = "Descriere"
       break
+
+    case "country":
+      newProp = "Tara"
+      break
+
+    case "address":
+      newProp = "Adresa"
+      break
+
+    case "firstName":
+      newProp = "Nume"
+      break
+
+    case "lastName":
+      newProp = "Prenume"
+      break
+
+    case "zipCode":
+      newProp = "Cod Postal"
+      break
+
+    case "city":
+      newProp = "Oras"
+      break
+
+    case "phone":
+      newProp = "Teleefon"
+      break
   }
 
   console.log("Message: ", msg)

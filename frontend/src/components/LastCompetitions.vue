@@ -42,7 +42,7 @@
                 <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery.</p>
     <!--            flex xl:flex-row flex-col gap-[34px]-->
                 <div v-if="events.finished.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]"> 
-                    <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="(event, index) in events.finished" :key="event.id">
+                    <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="event in events.finished" :key="event.id">
                         <div class="absolute w-full h-full left-0 top-0 z-20">
                             <div class="p-[32px] flex flex-col justify-between h-[85%]">
                                 <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
@@ -65,7 +65,7 @@
 <script setup>
 import { getEvents } from "@/additional/axiosPosts";
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, toRef } from 'vue';
 
 const currentView = ref(true)
 const router = useRouter()
@@ -78,8 +78,15 @@ const props = defineProps({
     displayingOnHomePage: {
         type: Boolean,
         required: false
+    },
+    
+    displayingOnTicketsPage: {
+        type: Boolean,
+        required: false
     }
 })
+
+const displayingOnTicketsPage = toRef(props, 'displayingOnTicketsPage')
 
 const retrieveEvents = async () => {
     const allEvents = await getEvents()
@@ -119,6 +126,11 @@ const formatTimeStamp = (time) => {
 }
 
 const goTo = (hashed_id) => {
+    if(displayingOnTicketsPage)
+    {
+        router.push({ path: `/bilete/${hashed_id}` })        
+        return
+    }
     router.push({path: `/evenimente/${hashed_id}`})
 }
 
