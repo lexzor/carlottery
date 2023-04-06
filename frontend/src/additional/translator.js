@@ -56,6 +56,18 @@ export const vuelidateTranslator = (prop, msg, values) => {
     case "phone":
       newProp = "Teleefon"
       break
+
+    case "currPw":
+      newProp = "Parola actuala"
+      break
+
+    case "newPw":
+      newProp = "Parola noua"
+      break
+
+    case "confPw":
+      newProp = "Confirmare parola"
+      break
   }
 
   console.log("Message: ", msg)

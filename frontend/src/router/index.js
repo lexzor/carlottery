@@ -12,6 +12,7 @@ import SpecificEventTicketsView from "@/views/SpecificEventTicketsView.vue"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
+const AccountView = () => import("../views/Account/AccountView.vue")
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,14 +80,21 @@ const router = createRouter({
       component: FinishView,
     },
     {
-      path: "/bilete",
-      name: "bilete",
-      component: TicketsView,
-    },
-    {
       path: "/bilete/:hashed_id",
       name: "bilete",
       component: SpecificEventTicketsView,
+    },
+    {
+      path: "/cont",
+      name: "cont",
+      component: AccountView,
+      children: [
+        {
+          path: "/cont/:page",
+          // name: "cont_comenzi",
+          component: AccountView,
+        },
+      ],
     },
     {
       path: "/(.*)*",

@@ -71,7 +71,6 @@ const loginAcc = async () => {
       password: state.password,
     },
   ).catch(err => console.error).then(({data}) => {
-    console.log(data)
     if (typeof data !== "object" || data === null) {
       toast.open({
         message: "Datele introduse sunt incorecte",
@@ -110,14 +109,14 @@ const loginAcc = async () => {
     <div class="w-full flex flex-col gap-[30px] items-center">
       <MazInput
         no-radius
-        :error="v.email.$error ? true : false"
+        :error="v.email.$error"
         label="Email"
         class="w-full"
         v-model="state.email"
       />
       <MazInput
         no-radius
-        :error="v.password.$error ? true : false"
+        :error="v.password.$error"
         error
         label="Password"
         class="w-full"
@@ -128,7 +127,7 @@ const loginAcc = async () => {
       <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>
       
       <MazBtn
-        :loading="sending ? true : false"
+        :loading="sending"
         class="w-full px-0 py-[20px]"
         color="black"
         @click="loginAcc"

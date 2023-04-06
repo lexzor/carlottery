@@ -38,7 +38,7 @@ if (mysqli_num_rows($result) > 0) {
         }
     }
     print json_encode($events);
-} else
+}
 
-    mysqli_close($db);
+mysqli_close($db);
 die();

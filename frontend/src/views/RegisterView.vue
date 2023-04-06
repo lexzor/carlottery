@@ -203,21 +203,21 @@
       </p>
     </div>
     <MazInput
-      :error="hasEmailErr || v.email.$error ? true : false"
+      :error="hasEmailErr || v.email.$error"
       label="Adresa de e-mail"
       class="w-full"
       no-radius
       v-model="state.email"
     />
     <MazInput
-      :error="hasUsernameErr || v.username.$error ? true : false"
+      :error="hasUsernameErr || v.username.$error"
       label="Nume de utilizator"
       class="w-full"
       no-radius
       v-model="state.username"
     />
     <MazInput
-      :error="v.password.$error ? true : false"
+      :error="v.password.$error"
       label="Parola"
       class="w-full"
       no-radius
@@ -225,7 +225,7 @@
       v-model="state.password"
     />
     <MazInput
-      :error="confirmPasswordError ? true : false"
+      :error="confirmPasswordError"
       label="Confirmare parola"
       class="w-full"
       no-radius

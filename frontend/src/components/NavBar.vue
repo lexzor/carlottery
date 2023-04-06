@@ -85,10 +85,10 @@ const logBtnLink = computed(() => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                                    <router-link to="/cont/comenzi" tag="a" class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;"><path d="M19 3h-2.25a1 1 0 0 0-1-1h-7.5a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 17H5V5h2v2h10V5h2v15z"></path></svg>
                                         <span>Comenzi</span>
-                                    </a>
+                                    </router-link>
                                 </li>
                             </ul>
                             <ul v-if="account.isOwner()" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
@@ -145,10 +145,10 @@ const logBtnLink = computed(() => {
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                            <router-link to="/cont/comenzi" tag="a" class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;"><path d="M19 3h-2.25a1 1 0 0 0-1-1h-7.5a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 17H5V5h2v2h10V5h2v15z"></path></svg>
                                 <span>Comenzi</span>
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                     <ul v-if="account.isOwner()" class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">

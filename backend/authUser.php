@@ -19,7 +19,7 @@ $query = "SELECT accounts.*, invoices.id AS invoice_id, tickets.eventId AS ticke
 if (!array_key_exists('email', $data)) {
     $clause = "WHERE accounts.login_key = '" . $data['login_key'] . "';";
 } else {
-    $clause = "WHERE `email` = '" . $data['email'] . "' AND `upassword` = '" . $data['password'] . "';";
+    $clause = "WHERE email = '" . $data['email'] . "' AND upassword = '" . $data['password'] . "';";
 }
 
 $query = $query . $clause;
@@ -35,6 +35,7 @@ if (mysqli_num_rows($result) > 0) {
 
     $uData["id"] = (int) $rows[0]->id;
     $uData["email"] = $rows[0]->email;
+    $uData["password"] = $rows[0]->upassword;
     $uData["username"] = $rows[0]->username;
     $uData["access"] = (int) $rows[0]->access;
     $uData["cart"] = json_decode($rows[0]->cart);
@@ -50,7 +51,7 @@ if (mysqli_num_rows($result) > 0) {
         if (sizeof($uData['tickets']) > 0) {
             for ($i = 0; $i < sizeof($uData['tickets']); $i++) {
                 if ($uData['tickets'][$i]['event_id'] === (int) $row->ticket_event_id) {
-                    $uData['tickets'][$i][$quantity] += (int) $row->ticket_quantity;
+                    $uData['tickets'][$i]['quantity'] += (int) $row->ticket_quantity;
                     $found = true;
                     break;
                 }

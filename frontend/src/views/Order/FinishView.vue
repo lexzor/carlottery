@@ -219,17 +219,17 @@ const validateForm = async () => {
                         <h1 class="uppercase text-[20px] font-bold">Detalii Pentru Facturare</h1>
                         <h1>Casutele care sunt notate cu <span class="text-red-600">*</span> sunt obligatorii.</h1>
                         <div class="flex justify-between relative gap-[30px] flex-grow-1">
-                            <MazInput required class="w-full" v-model="state.firstName" label="Prenume" no-radius />
-                            <MazInput required class="w-full" v-model="state.lastName" label="Nume" no-radius />
+                            <MazInput :error="v.firstName.$error" required class="w-full" v-model="state.firstName" label="Prenume" no-radius />
+                            <MazInput :error="v.lastName.$error" required class="w-full" v-model="state.lastName" label="Nume" no-radius />
                         </div>
                         <MazInput no-radius v-model="state.companyName" label="Nume Companie (Optional)" />
-                        <MazSelect required v-model="state.country" label="Tara" no-radius :options="countrys" search />
-                        <MazInput required v-model="state.address" no-radius label="Nume strada, numar etc." />
+                        <MazSelect :error="v.country.$error" required v-model="state.country" label="Tara" no-radius :options="countrys" search />
+                        <MazInput :error="v.address.$error" required v-model="state.address" no-radius label="Nume strada, numar etc." />
                         <MazInput no-radius v-model="state.secondAddress" label="Apartament, complex, unitate etc. (optional)" />
-                        <MazInput required v-model="state.zipCode" no-radius label="Cod Postal" />
-                        <MazInput required v-model="state.city" no-radius label="Oras" />
-                        <MazPhoneNumberInput :preferred-countries="['RO', 'FR', 'BE', 'DE', 'US', 'GB']" required v-model="state.phone" no-radius label="Telefon" />
-                        <MazInput required v-model="state.email" no-radius label="Adresa email" />
+                        <MazInput :error="v.zipCode.$error" required v-model="state.zipCode" no-radius label="Cod Postal" />
+                        <MazInput :error="v.city.$error" required v-model="state.city" no-radius label="Oras" />
+                        <MazPhoneNumberInput :error="v.phone.$error" :preferred-countries="['RO', 'FR', 'BE', 'DE', 'US', 'GB']" required v-model="state.phone" no-radius label="Telefon" />
+                        <MazInput :error="v.email.$error" required v-model="state.email" no-radius label="Adresa email" />
                         <h1 class="uppercase text-[20px] font-bold">Informatii Suplimentare</h1>
                         <MazTextArea v-model="state.additionalInformation" no-radius label="Note comanda (optional)" placeholder="Note referitoare la comanda ta, de exemplu: anumite note pentru livrare" />
                     </div>
