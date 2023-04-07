@@ -80,8 +80,13 @@ const router = createRouter({
       component: FinishView,
     },
     {
-      path: "/bilete/:hashed_id",
+      path: "/bilete",
       name: "bilete",
+      component: TicketsView,
+    },
+    {
+      path: "/bilete/:hashed_id",
+      name: "bilete_eveniment",
       component: SpecificEventTicketsView,
     },
     {

@@ -31,6 +31,19 @@ body {
     transition: all .4s ease-out;
 }
 
+.rotate {
+    animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* body::before {
     position: absolute;
     content: '';

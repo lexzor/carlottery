@@ -24,8 +24,9 @@
                     <div class="linear-bg z-10"></div>
                 </div>
             </div>
-            <div v-else>
-                <h3 class="text-[27px] text-center mt-[70px] mb-[100px] font-medium text-[#000]">Momentan nu avem nicio competitie in desfasurare!</h3>
+            <div class="flex items-center flex-col" v-else>
+                <img class="mb-3" src="@/assets/images/elements/struggle.png">
+                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competitie in desfasurare</h3>
             </div>
             <div class="flex justify-center mt-[62px]" v-if="displayingOnHomePage">
                 <div class="boxed-btn">
