@@ -46,14 +46,14 @@ const logBtnLink = computed(() => {
                         </button>
                     </div>
                     
-                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/">Acasa</router-link>
-                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Competitii</router-link>
+                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/">Acasă</router-link>
+                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Competiții</router-link>
                     <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/bilete">Bilete</router-link>
-                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Castigatori</router-link>
+                    <router-link tag="h1" active-class="activePage" class="hover:text-white" to="/evenimente">Câștigători</router-link>
 
                     <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full flex-col">
                         <router-link v-if="!account.isLogged()" :to="logBtnLink" tag="button" class="text-white flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon icon="fa-solid fa-user" class="fa-md" /></router-link>
-                        <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-[#000] hover:text-[#000] bg-white text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
+                        <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-[#000] hover:text-[#000] bg-white text-[19px] px-[20px] py-[5px]">Înscrie-te</router-link>
                         
                         <div v-if="account.isLogged()" class="flex items-center gap-[20px]" >
                             <router-link to="/cart" tag="button" >
@@ -110,15 +110,15 @@ const logBtnLink = computed(() => {
                 </div>
             </Transition>
             <div class="xl:flex flex-row gap-[50px] text-[20px] font-regular hidden w-full">
-                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/">Acasa</router-link>
-                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Competitii</router-link>
+                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/">Acasă</router-link>
+                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Competiții</router-link>
                 <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/bilete">Bilete</router-link>
-                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Castigatori</router-link>
+                <router-link tag="h1" active-class="activePage" class="px-[15px] whitespace-nowrap hover:text-white hover:bg-black hover:border-b-[1px] hover:border-b-black" to="/evenimente">Câștigători</router-link>
             </div>
             <div class="xl:flex items-center relative justify-end gap-[30px] hidden w-full">
                 <router-link v-if="!account.isLogged()" :to="logBtnLink" tag="button" class="text-black flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon icon="fa-solid fa-user" class="fa-xl" /></router-link>
                 <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-white bg-[#000000] text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
-                <router-link v-if="!account.isLogged()" to="/register" tag="button" class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Inscrie-te</router-link>
+                <router-link v-if="!account.isLogged()" to="/register" tag="button" class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Înscrie-te</router-link>
                 
                 <div v-if="account.isLogged()" class="flex items-center gap-[20px]" >
                     <router-link to="/cart" tag="button" >

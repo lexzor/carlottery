@@ -1,11 +1,11 @@
 <template>
     <div class="container mx-auto px-0 mt-[77px]">        
         <div v-if="currentView || displayingOnHomePage" class="xl:px-[45px] px-[25px]">
-            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITII IN DESFASURARE</h3>
-            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery</p>
+            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚII ÎN DESFĂȘURARE</h3>
+            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
             <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
                 <div class="flex gap-[20px]">
-                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">In desfasurare</button>
+                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
                     <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
                 </div>
             </div>
@@ -13,10 +13,10 @@
                 <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="(event, index) in events.onGoing" :key="event.id">
                     <div class="absolute w-full h-full left-0 top-0 z-20">
                         <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                            <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
+                            <span class="text-[20px] text-white font-light">Preț tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                             <div class="flex flex-col">
                                 <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
-                                <span class="text-[16px] text-white font-light">Competitia se încheie în</span>
+                                <span class="text-[16px] text-white font-light">Competiția se încheie în</span>
                                 <span class="text-[20px] text-white font-normal mt-[-3px]">{{ formatTemplateTime(event.remainingTime) }}</span>
                             </div>
                         </div>
@@ -26,20 +26,20 @@
             </div>
             <div class="flex items-center flex-col" v-else>
                 <img class="mb-3" src="@/assets/images/elements/struggle.png">
-                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competitie in desfasurare</h3>
+                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție în desfăsurare</h3>
             </div>
             <div class="flex justify-center mt-[62px]" v-if="displayingOnHomePage">
                 <div class="boxed-btn">
-                    <router-link to="/" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
+                    <router-link to="/evenimente" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
                 </div>
             </div>
         </div>
         <div v-else class="xl:px-[45px] px-[25px]">
-            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETITIILE TERMINATE</h3>
-                <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate competitiile sustinute de CarLottery</p>
+            <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚIILE TERMINATE</h3>
+                <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
                 <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
                     <div class="flex gap-[20px]">
-                        <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">In desfasurare</button>
+                        <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
                         <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
                     </div>
                 </div>
@@ -47,10 +47,10 @@
                     <div class="relative h-[400px] bg-cover boxed-content cursor-pointer bg-center" @click="goTo(event.hashed_id)" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}'`" v-for="event in events.finished" :key="event.id">
                         <div class="absolute w-full h-full left-0 top-0 z-20">
                             <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                                <span class="text-[20px] text-white font-light">Pret tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
+                                <span class="text-[20px] text-white font-light">Preț tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                                 <div class="flex flex-col">
                                     <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
-                                    <span class="text-[16px] text-white font-light">Competitie încheita</span>
+                                    <span class="text-[16px] text-white font-light">Competiție încheita</span>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="flex items-center flex-col" v-else>
                     <img class="mb-3" src="@/assets/images/elements/struggle.png">
-                    <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competitie incheiata</h3>
+                    <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție încheiată</h3>
                 </div>
         </div>
     </div>
