@@ -34,8 +34,6 @@ const retrieveEvents = async () => {
         }
     });
 
-    console.log(currentEvent.value)
-
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {

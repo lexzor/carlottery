@@ -98,8 +98,11 @@ export const useAccountStore = defineStore("account", () => {
   }
 
   const autoLogin = async () => {
+    const event = new CustomEvent("login_finished")
+
     const autoLoginData = localStorage.getItem("auto_login")
     if (autoLoginData === null) {
+      document.dispatchEvent(event)
       return
     }
 
@@ -108,9 +111,10 @@ export const useAccountStore = defineStore("account", () => {
 
     if (
       autoLoginDataObj.expiry < now.getTime() &&
-      autoLoginDataObj.expiry !== 0
+      autoLoginDataObj.expiry != 0
     ) {
       localStorage.removeItem("auto_login")
+      document.dispatchEvent(event)
       return
     }
 
@@ -142,6 +146,9 @@ export const useAccountStore = defineStore("account", () => {
       })
       .catch((err) => {
         console.error(err)
+      })
+      .finally(() => {
+        document.dispatchEvent(event)
       })
   }
 

@@ -41,8 +41,7 @@ getTickets()
                 :columns="[
                     { data: 'ticketId' },
                     { data: 'firstName' },
-                    { data: 'lastName' }
-                        ]">
+                    { data: 'lastName' }]">
                     <thead>
                         <tr>
                             <th>NR. Bilet</th>
