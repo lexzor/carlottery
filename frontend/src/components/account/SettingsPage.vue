@@ -91,7 +91,7 @@ const changePasswordEvent = async () => {
 <template>
     <h3 class="text-[#000] text-[20px] font-normal">Informațiile contului</h3>
     <p class="text-[14px] text-slate-500">Toate informațiile din secțiunea de mai jos sunt foarte importante pentru contul dvs.</p>
-    <div class="mt-3 mb-5 flex justify-between">
+    <div class="mt-3 mb-5 flex xl:flex-row flex-col gap-3 justify-between">
         <div>
             <p class="text-[16px] text-slate-800">Nume de utilizator</p>
             <p class="text-[16px] text-slate-500">{{ account.getUsername() }}</p>
@@ -114,7 +114,7 @@ const changePasswordEvent = async () => {
     <div class="flex mt-3">
         <MazInput class="w-full" :error="passwordVuelidate.currPw.$error || passwordState.pwMatch" v-model="passwordState.currPw" type="password" no-radius label="Parola actuala" />
     </div>
-    <div class="flex mt-3 gap-3">
+    <div class="flex mt-3 xl:flex-row flex-col gap-3">
         <MazInput class="w-full" :error="passwordVuelidate.newPw.$error" v-model="passwordState.newPw" type="password" no-radius label="Parola noua" />
         <MazInput class="w-full" :error="passwordVuelidate.confPw.$error" v-model="passwordState.confPw" type="password" no-radius label="Confirmare Parolă" />
     </div>

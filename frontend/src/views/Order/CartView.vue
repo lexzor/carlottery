@@ -61,8 +61,8 @@ const totalPrice = computed(() => {
             <div class="bg-white shadow rounded">
                 <div>
                     <div class="xl:p-10 p-4">
-                        <h1 class="uppercase text-[20px] font-bold">Coș cu cupărături</h1>
-                        <h1 class="mt-2">Vizualizează toate biletele pe care vrei să le achiziționezi</h1>
+                        <h1 class="uppercase text-[20px] font-bold text-[#000]">Coș cu cupărături</h1>
+                        <h1 class="mt-2 text-slate-600">Vizualizează toate biletele pe care vrei să le achiziționezi</h1>
                     </div>
                     <div class="relative overflow-x-auto sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
