@@ -193,8 +193,21 @@
           ></path>
         </svg>
       </button>
-      <button class="bg-blue-500 text-white px-[7px] py-[7px] min-h-full" @click="redirectToEditPage(event.id)">
-        E
+      <button
+        @click="redirectToEditPage(event.id)"
+        class="bg-[#000] text-black rounded-full w-[38px] h-[38px] flex items-center justify-center"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          style="fill: rgba(255, 255, 255, 1); transform: ; msfilter: "
+        >
+          <path
+            d="m16 2.012 3 3L16.713 7.3l-3-3zM4 14v3h3l8.299-8.287-3-3zm0 6h16v2H4z"
+          ></path>
+        </svg>
       </button>
       <button
         @click="delEvent(event.id, event.images)"

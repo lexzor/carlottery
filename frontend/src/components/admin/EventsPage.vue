@@ -353,8 +353,9 @@
 </script>
 
 <template>
-  <table v-if="eventsExists" class="table-fixed w-full">
-    <thead class="text-left">
+  <div class="relative overflow-x-auto">
+    <table v-if="eventsExists" class="table-fixed w-full">
+      <thead class="text-left">
       <tr class="border-b border-gray-200">
         <th class="py-4 px-8 border-gray-200 border-r">Eveniment</th>
         <th class="py-4 px-8 border-gray-200 border-r">Titlu</th>
@@ -364,18 +365,19 @@
         <th class="py-4 px-8 border-gray-200 border-r">Data sfarsit</th>
         <th class="py-4 px-8 border-gray-200">Action</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <Event
         v-for="(event, index) in events"
         v-on:deleteEvent="onDeleteEvent"
         :key="index"
         :event="event"
       />
-    </tbody>
-  </table>
-  <div v-else class="flex justify-center items-center">
-    <p class="p-5">Momentan nu este niciun event activ.</p>
+      </tbody>
+    </table>
+    <div v-else class="flex justify-center items-center">
+      <p class="p-5">Momentan nu este niciun event activ.</p>
+    </div>
   </div>
 
   <div
@@ -383,7 +385,7 @@
     data-modal-backdrop="static"
     tabindex="-1"
     aria-hidden="true"
-    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full"
+    class="fixed top-0 left-0 right-0 z-50 hidden w-full xl:p-4 p-0 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full"
   >
     <div class="relative w-full h-full max-w-2xl md:h-auto">
       <!-- Modal content -->

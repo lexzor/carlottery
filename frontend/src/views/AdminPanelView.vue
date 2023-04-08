@@ -50,9 +50,11 @@ const getCurrAdminPage = computed(() => {
 
 <template>
     <Hero />
-    <div class="mx-auto container">
-        <div class="bg-white rounded-[10px] box-shadow">
-            <component :is="getCurrAdminPage"></component>
+    <div class="mx-auto px-0 container">
+        <div class="px-3">
+            <div class="bg-white rounded-[10px] box-shadow">
+                <component :is="getCurrAdminPage"></component>
+            </div>
         </div>
     </div>
     <Footer />
