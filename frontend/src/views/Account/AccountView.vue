@@ -39,14 +39,32 @@ const getCurrentPage = computed(() => {
 
 <template>
     <Navbar />
-    <div class="mt-[100px] mx-auto h-fit w-[1000px] flex gap-[20px]">
-        <AccountMenu />
-    
-        <div class="mx-auto container shadow-lg p-[30px]">
-            <div class="bg-white rounded-[10px] box-shadow">
-                <component :is="getCurrentPage"></component>
+    <div class="container mx-auto px-0 mt-[77px]">        
+        <div class="xl:px-[45px] px-[25px]">
+            <div class="flex xl:flex-row flex-col gap-[25px]">
+                <AccountMenu />
+                <div class="shadow-lg p-[30px] xl:w-full roudned">
+                    <div class="bg-white rounded-[10px] box-shadow">
+                        <component :is="getCurrentPage"></component>
+                    </div>
+                </div>
             </div>
+            
+            <!-- <AccountMenu />
+    
+            <div class="shadow-lg p-[30px]">
+                <div class="bg-white rounded-[10px] box-shadow">
+                    <component :is="getCurrentPage"></component>
+                </div>
+            </div> -->
         </div>
     </div>
     <Footer />
 </template>
+
+<style>
+.active__tab {
+    background-color: black !important;
+    color: white !important;
+}
+</style>

@@ -11,6 +11,7 @@ import { faUser, faCartShopping, faSpinner } from "@fortawesome/free-solid-svg-i
 import "vue-toast-notification/dist/theme-default.css"
 import "maz-ui/css/main.css"
 import "./assets/main.css"
+import "./assets/datatables.css"
 
 const app = createApp(App)
 const pinia = createPinia()

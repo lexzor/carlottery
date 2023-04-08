@@ -40,7 +40,7 @@ getTickets()
         <div class="xl:px-[45px] px-[25px]">
             <h1 class="text-[32px] font-medium text-[#000] mt-[40px]">BILETE ACHIZITIONATE</h1>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate biletele cumparate pentru evenimentul {{ event.title }}</p>
-            <div v-if="typeof tickets == 'object' && tickets.length > 0">
+            <div class="mt-4" v-if="typeof tickets == 'object' && tickets.length > 0">
                 <DataTable
                 class="display"
                 :data="tickets"

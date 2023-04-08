@@ -89,10 +89,36 @@ const changePasswordEvent = async () => {
 </script>
 
 <template>
-    <div class="flex flex-col items-center gap-[20px]">
-        <MazInput :error="passwordVuelidate.currPw.$error || passwordState.pwMatch" v-model="passwordState.currPw" type="password" required label="Parola actuala" />
-        <MazInput :error="passwordVuelidate.newPw.$error" v-model="passwordState.newPw" type="password" required label="Parola noua" />
-        <MazInput :error="passwordVuelidate.confPw.$error" v-model="passwordState.confPw" type="password" required label="Confirmare Parola" />
-        <MazBtn :loading="passwordState.changing == true ? true : false" @click="changePasswordEvent">Schimba parola</MazBtn>
+    <h3 class="text-[#000] text-[20px] font-normal">Informațiile contului</h3>
+    <p class="text-[14px] text-slate-500">Toate informațiile din secțiunea de mai jos sunt foarte importante pentru contul dvs.</p>
+    <div class="mt-3 mb-5 flex justify-between">
+        <div>
+            <p class="text-[16px] text-slate-800">Nume de utilizator</p>
+            <p class="text-[16px] text-slate-500">{{ account.getUsername() }}</p>
+        </div>
+        <div>
+            <p class="text-[16px] text-slate-800">Nume</p>
+            <p class="text-[16px] text-slate-500">Marin</p>
+        </div>
+        <div>
+            <p class="text-[16px] text-slate-800">Prenume</p>
+            <p class="text-[16px] text-slate-500">Pavel</p>
+        </div>
+        <div>
+            <p class="text-[16px] text-slate-800">Adresă de e-mail</p>
+            <p class="text-[16px] text-slate-500">{{ account.getEmail() }}</p>
+        </div>
+    </div>
+    <h3 class="text-[#000] text-[20px] font-normal">Schimbă parola</h3>
+    <p class="text-[14px] text-slate-500">Creeați o nouă parolă care să îndeplinească toate cerințele</p>
+    <div class="flex mt-3">
+        <MazInput class="w-full" :error="passwordVuelidate.currPw.$error || passwordState.pwMatch" v-model="passwordState.currPw" type="password" no-radius label="Parola actuala" />
+    </div>
+    <div class="flex mt-3 gap-3">
+        <MazInput class="w-full" :error="passwordVuelidate.newPw.$error" v-model="passwordState.newPw" type="password" no-radius label="Parola noua" />
+        <MazInput class="w-full" :error="passwordVuelidate.confPw.$error" v-model="passwordState.confPw" type="password" no-radius label="Confirmare Parolă" />
+    </div>
+    <div class="flex mt-3">
+        <MazBtn class="w-full" :loading="passwordState.changing == true ? true : false" @click="changePasswordEvent">Schimbă parola</MazBtn>
     </div>
 </template>
