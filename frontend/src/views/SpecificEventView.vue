@@ -32,6 +32,7 @@ const retrieveEvents = async () => {
         if(ticket.event_id == currentEvent.value.id) {
             currentEvent.value.tickets = ticket.quantity
         }
+        currentEvent.value.tickets = 0
     });
 
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
