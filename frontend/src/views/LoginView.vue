@@ -13,11 +13,6 @@ import NavBar from "../components/NavBar.vue"
 import MazCheckbox from 'maz-ui/components/MazCheckbox'
 
 const account = useAccountStore()
-
-if (account.isLogged()) {
-  router.push({ path: "/" })
-}
-
 const toast = useToast()
 const sending = ref(false)
 

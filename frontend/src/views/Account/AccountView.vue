@@ -6,18 +6,7 @@ import AccountMenu from '@/components/account/AccountMenu.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, defineAsyncComponent } from 'vue'
 
-import { useAccountStore } from '@/stores/account'
-
-const account = useAccountStore()
-
 const route = useRoute()
-const router = useRouter()
-
-setTimeout(() => {
-    if (!account.isLogged()) {
-        router.push({ path: '/' })
-    }
-}, 800)
 
 const InvoicesPage = defineAsyncComponent({
     loader: () => import('@/components/account/InvoicesPage.vue')

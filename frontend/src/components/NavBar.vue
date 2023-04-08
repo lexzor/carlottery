@@ -117,7 +117,7 @@ const logBtnLink = computed(() => {
             </div>
             <div class="xl:flex items-center relative justify-end gap-[30px] hidden w-full">
                 <router-link v-if="!account.isLogged()" :to="logBtnLink" tag="button" class="text-black flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon icon="fa-solid fa-user" class="fa-xl" /></router-link>
-                <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-white bg-[#000000] text-[19px] px-[20px] py-[5px]">Inscrie-te</router-link>
+                <router-link v-if="!account.isLogged()" to="/register" tag="button" class="text-white bg-[#000000] text-[19px] px-[20px] py-[5px]">Înscrie-te</router-link>
                 <router-link v-if="!account.isLogged()" to="/register" tag="button" class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Înscrie-te</router-link>
                 
                 <div v-if="account.isLogged()" class="flex items-center gap-[20px]" >
@@ -187,5 +187,4 @@ const logBtnLink = computed(() => {
     background-color: black;
     border-bottom: 1px solid black;
 }
-
 </style>

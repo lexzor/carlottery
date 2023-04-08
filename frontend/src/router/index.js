@@ -9,6 +9,7 @@ import CartView from "@/views/Order/CartView.vue"
 import FinishView from "@/views/Order/FinishView.vue"
 import TicketsView from "@/views/TicketsView.vue"
 import SpecificEventTicketsView from "@/views/SpecificEventTicketsView.vue"
+import { useAccountStore } from "@/stores/account"
 
 const AdminPanelView = () => import("../views/AdminPanelView.vue")
 const SpecificEventView = () => import("../views/SpecificEventView.vue")
@@ -106,6 +107,37 @@ const router = createRouter({
       redirect: "/",
     },
   ],
+})
+
+const restrictedNotLoggedInPaths = [
+  "adminpanel",
+  "cart",
+  "order",
+  "cont",
+  "finish",
+]
+
+const restrictedLoggedInPaths = ["login", "register"]
+
+router.beforeEach((to, from, next) => {
+  const account = useAccountStore()
+  const currentPath = to.path.split("/")[1]
+
+  if (restrictedNotLoggedInPaths.includes(currentPath)) {
+    if (!account.isLogged()) {
+      router.push({ path: "/" })
+      return
+    }
+  }
+
+  if (restrictedLoggedInPaths.includes(currentPath)) {
+    if (account.isLogged()) {
+      router.push({ path: "/" })
+      return
+    }
+  }
+
+  return next()
 })
 
 export default router

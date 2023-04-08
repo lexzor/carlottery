@@ -34,6 +34,8 @@ const retrieveEvents = async () => {
         }
     });
 
+    console.log(currentEvent.value)
+
     currentEvent.value.remainingTime = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
     
     interval = setInterval(() => {
@@ -46,7 +48,7 @@ const getRemainingTime = computed(() => {
     const minutes = Math.floor((currentEvent.value.remainingTime / 60 ) % 60)
     const hours = Math.floor(((currentEvent.value.remainingTime / 60) / 60 ) % 24) 
     const days = Math.floor(((currentEvent.value.remainingTime / 60) / 60) / 24)
-    return `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+    return seconds > 0 ? `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}` : 0
 })
 
 const formatTimeStamp = (time) => {
@@ -129,9 +131,11 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div class="border-t-[1px] border-gray-300 p-3">
-                        <h2 class="text-lg text-black">Timp rămas:</h2>
-                        <span class="font-medium text-[30px] text-black">{{ getRemainingTime }}</span>
-                        <h2 class="text-lg mt-2 text-black">Bilete cumparate: {{ currentEvent.tickets }}/{{ currentEvent.max_tickets }}</h2>
+                        <div v-if="typeof getRemainingTime === 'string'">
+                            <h2 class="text-lg text-black">Timp rămas:</h2>
+                            <span class="font-medium text-[30px] text-black">{{ getRemainingTime }}</span>
+                        </div>
+                        <h2 class="text-lg mt-2 text-black">Bilete cumparate: {{ currentEvent.tickets }}<span class="text-red-500">/</span>{{ currentEvent.max_tickets }}</h2>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
                             <div class="bg-black h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>
@@ -139,7 +143,7 @@ onUnmounted(() => {
                             Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
                         </span>
                     </div>
-                    <div class="border-t-[1px] border-gray-300 p-3" v-if="currentEvent.tickets < currentEvent.max_tickets">
+                    <div class="border-t-[1px] border-gray-300 p-3" v-if="currentEvent.tickets < currentEvent.max_tickets && typeof getRemainingTime === 'string'">
                         <div class="flex flex-col gap-3">
                             <div>
                                 <h1 class="text-[30px] font-medium text-black">Răspunde la întrebare</h1>
@@ -161,16 +165,19 @@ onUnmounted(() => {
                             </div>
                         </div> 
                     </div>
-                    <div class="border-t-[1px] border-gray-300 p-3">
+                    <div v-if="typeof getRemainingTime === 'string'" class="border-t-[1px] border-gray-300 p-3">
                         <h2 class="text-lg mb-2 text-black font-normal">Alege-ti numarul de bilete pe care vrei sa-l achizitionezi:</h2>
                         <MazInputNumber class="w-full" v-model="ticketNum" :min="1" label="Bilete" />
                     </div>
-                    <div class="border-t-[1px] border-gray-300 p-3">
+                    <div v-if="typeof getRemainingTime === 'string'" class="border-t-[1px] border-gray-300 p-3">
                         <h1 class="font-normal text-[20px] mb-3 text-black">Total: <span class="font-semibold text-black">&euro;{{ currentEvent.price * ticketNum }}</span></h1>
                         <div class="flex flex-row items-center gap-[10px]">
                             <MazBtn @click="redirectToFinishPayment">Cumpără</MazBtn>
                             <MazBtn outline class="border-black" @click="addEventInStore">Adaugă în cos</MazBtn>
                         </div>
+                    </div>
+                    <div v-else class="border-t-[1px] border-gray-300 p-3">
+                        <h1 class="font-normal text-[20px] mb-3 text-black"><router-link :to="`/bilete/${currentEvent.hashed_id}`" tag="span" class="font-semibold text-black underline">Click</router-link> pentru a vedea biletele</h1>
                     </div>
                     <div v-if="currentEvent.tickets >= currentEvent.max_tickets">
                         <p class="px-3 pb-3">Au fost cumparate toate biletele pentru aceasta competitie</p>

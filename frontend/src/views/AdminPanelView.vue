@@ -5,16 +5,8 @@ import Footer from "@/components/Footer.vue"
 import { useRoute, useRouter } from 'vue-router'
 import { computed, defineAsyncComponent } from 'vue'
 
-import { useAccountStore } from '../stores/account'
-
-const account = useAccountStore()
-
 const route = useRoute()
 const router = useRouter()
-
-if (!account.isLogged()) {
-    router.push({path: "/"})
-}
 
 const EventsPage = defineAsyncComponent({
     loader: () => import('@/components/admin/EventsPage.vue')

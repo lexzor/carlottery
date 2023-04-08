@@ -12,8 +12,6 @@ const tickets = ref()
 const event = ref({})
 const route = useRoute()
 
-console.log(route.params.hashed_id)
-
 const getTickets = async () => {
     const allEvents = await getEvents()
     event.value = allEvents.filter(event => event.hashed_id === route.params.hashed_id)[0]
@@ -23,15 +21,11 @@ const getTickets = async () => {
         "id": event.value.id
     }).catch(err => console.error).then(({data}) => {
         tickets.value = data
-        console.log(data)
     })
 }
 
 DataTable.use(Select)
 getTickets()
-
-// const dataTable
-
 </script>
 
 <template>
@@ -39,7 +33,7 @@ getTickets()
     <div class="container mx-auto px-0 mt-[77px]">
         <div class="xl:px-[45px] px-[25px]">
             <h1 class="text-[32px] font-medium text-[#000] mt-[40px]">BILETE ACHIZITIONATE</h1>
-            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate biletele cumparate pentru evenimentul {{ event.title }}</p>
+            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate biletele cumparate pentru evenimentul <span class="font-bold">{{ event.title }}</span></p>
             <div class="mt-4" v-if="typeof tickets == 'object' && tickets.length > 0">
                 <DataTable
                 class="display"

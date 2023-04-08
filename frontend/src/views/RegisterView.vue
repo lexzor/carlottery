@@ -14,10 +14,6 @@
 
   const account = useAccountStore()
 
-  if (account.isLogged()) {
-    router.push({ path: "/" })
-  }
-
   const MIN_LENGTH = 6
   const MAX_LENGTH = 18
   const REDIRECT_TIME = 10
