@@ -2,3 +2,4 @@ frontend/node_modules
 frontend/.vscode
 frontend/.idea
 .idea
+frontend/dist

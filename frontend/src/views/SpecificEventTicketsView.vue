@@ -1,5 +1,5 @@
 <script setup>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 import DataTable from 'datatables.net-vue3';
 import Select from 'datatables.net-select'

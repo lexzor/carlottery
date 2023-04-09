@@ -4,7 +4,7 @@ import MazInput from "maz-ui/components/MazInput"
 import MazInputNumber from "maz-ui/components/MazInputNumber"
 import MazInputPrice from "maz-ui/components/MazInputPrice"
 import MazPicker from "maz-ui/components/MazPicker"
-import MazTextarea from "maz-ui/components/MazTextArea"
+// import MazTextarea from "maz-ui/components/MazTextArea"
 import MazBtn from "maz-ui/components/MazBtn"
 import MazGallery from "maz-ui/components/MazGallery"
 import { useRoute, useRouter } from 'vue-router'
@@ -357,13 +357,11 @@ onMounted(() => {
                   label="Titlu"
                   v-model="state.title"
                 />
-                <MazTextarea
+                <textarea
                   required
-                  no-radius
-                  :error="v.description.$error ? true : false"
-                  label="Descriere"
+                  placeholder="Descriere"
                   v-model="state.description"
-                />
+                ></textarea>
                 <div class="flex justify-between items-center">
                   <MazInputNumber
                     required

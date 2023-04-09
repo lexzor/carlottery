@@ -2,7 +2,7 @@
 import NavBar from '../../components/NavBar.vue';
 import MazInput from 'maz-ui/components/MazInput'
 import MazSelect from "maz-ui/components/MazSelect"
-import MazTextArea from "maz-ui/components/MazTextArea"
+// import MazTextArea from "maz-ui/components/MazTextArea"
 import MazBtn from "maz-ui/components/MazBtn"
 import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput"
 import Footer from '../../components/Footer.vue';
@@ -231,7 +231,7 @@ const validateForm = async () => {
                         <MazPhoneNumberInput :error="v.phone.$error" :preferred-countries="['RO', 'FR', 'BE', 'DE', 'US', 'GB']" required v-model="state.phone" no-radius label="Telefon" />
                         <MazInput :error="v.email.$error" required v-model="state.email" no-radius label="Adresa email" />
                         <h1 class="uppercase text-[20px] font-bold">Informatii Suplimentare</h1>
-                        <MazTextArea v-model="state.additionalInformation" no-radius label="Note comanda (optional)" placeholder="Note referitoare la comanda ta, de exemplu: anumite note pentru livrare" />
+                        <textarea v-model="state.additionalInformation" placeholder="Note comanda (optional)" ></textarea>
                     </div>
                     <div>
                         <h1 class="uppercase text-[20px] font-bold mb-4">Comanda Ta</h1>
