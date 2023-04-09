@@ -1,6 +1,6 @@
 <script setup>
 // const Hero = () => import("@/components/admin/Hero.vue")
-import Navbar from "@/components/NavBar.vue"
+import Navbar from "@/components/admin/Test.vue"
 import Hero from "@/components/admin/Hero.vue"
 import Footer from "@/components/Footer.vue"
 
