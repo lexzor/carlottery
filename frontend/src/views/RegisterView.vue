@@ -10,6 +10,8 @@
   import { vuelidateTranslator } from "../additional/translator"
   import { useAccountStore } from "../stores/account"
 
+  const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
   import NavBar from "../components/NavBar.vue"
 
   const account = useAccountStore()
@@ -123,7 +125,7 @@
     }
 
     let { data } = await axios.post(
-      "http://localhost/loterie/registerAccount.php",
+      BASE_URL + "registerAccount.php",
       {
         email: state.email,
         username: state.username,

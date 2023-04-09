@@ -16,6 +16,8 @@ import { useAccountStore } from '../../stores/account';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios'
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const events = ref([])
 const account = useAccountStore()
 const toast = useToast()
@@ -147,7 +149,7 @@ const makePaymentStripe = async () => {
         cart.push(cartData)
     })
 
-    await axios.post('http://localhost/loterie/makePayment.php', {
+    await axios.post(BASE_URL + 'makePayment.php', {
         'events': eventsIds,
         'metadata': {
             customerEmail: state.email,
@@ -244,7 +246,7 @@ const validateForm = async () => {
                                 <div v-for="event in events" :key="event.id" class="flex items-center justify-between w-full">
                                     <div class="py-[10px]">
                                         <div class="flex gap-[20px] items-center">
-                                            <div class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat" :style="`background-image: url('http://localhost/loterie/${JSON.parse(event.images)[0]}')`"></div>
+                                            <div class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat" :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}')`"></div>
                                             <h1>{{ event.title }} <span class="font-bold">x {{ event.tickets }}</span></h1>
                                         </div>
                                     </div>

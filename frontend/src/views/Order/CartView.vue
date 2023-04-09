@@ -7,6 +7,8 @@ import { getEvents } from '../../additional/axiosPosts'
 import { ref, computed } from 'vue';
 import MazBtn from 'maz-ui/components/MazBtn'
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const account = useAccountStore()
 const events = ref([])
 const router = useRouter()
@@ -79,7 +81,7 @@ const totalPrice = computed(() => {
                             <tbody>
                                 <tr v-for="(item, index) in events" :key="item.id" :class="{'bg-gray-50': index % 2 == 1}" class="border-b dark:bg-gray-900 dark:border-gray-700">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center gap-3">
-                                        <div :style="`background-image: url('http://localhost/loterie/${JSON.parse(item.images)[0]}')`" class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat rounded"></div> {{ item.title }}
+                                        <div :style="`background-image: url('${BASE_URL + JSON.parse(item.images)[0]}')`" class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat rounded"></div> {{ item.title }}
                                     </th>
                                     <td class="px-6 py-4">
                                         {{ item.tickets }} buc.

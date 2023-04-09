@@ -5,6 +5,8 @@ import { useAccountStore } from '../../stores/account';
 import DataTable from 'datatables.net-vue3';
 import Select from 'datatables.net-select'
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const account = useAccountStore()
 
 const invoices = ref([])
@@ -12,7 +14,7 @@ const invoices = ref([])
 let loading = ref(false)
 
 const getInvoices = async () => {
-    axios.post('http://localhost/loterie/getInvoicesById.php', {
+    axios.post(BASE_URL + 'getInvoicesById.php', {
         "email": account.getEmail()
     }).catch(err => console.error).then(({data}) => {
         loading.value = true

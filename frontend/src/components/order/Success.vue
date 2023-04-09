@@ -6,8 +6,6 @@ import Footer from '@/components/Footer.vue'
 const route = useRoute()
 console.log(route.query.session_id)
 
-axios.get('http://localhost/loterie/storePayment.php')
-
 </script>
 
 <template>

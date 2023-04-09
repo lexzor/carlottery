@@ -8,6 +8,8 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { getEvents } from '../additional/axiosPosts';
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const tickets = ref()
 const event = ref({})
 const route = useRoute()
@@ -17,7 +19,7 @@ const getTickets = async () => {
     event.value = allEvents.filter(event => event.hashed_id === route.params.hashed_id)[0]
 
     console.log(event.value.id)
-    await axios.post('http://localhost/loterie/getSpecificEventTickets.php', {
+    await axios.post(BASE_URL + 'getSpecificEventTickets.php', {
         "id": event.value.id
     }).catch(err => console.error).then(({data}) => {
         tickets.value = data

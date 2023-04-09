@@ -16,6 +16,8 @@
   import { vuelidateTranslator } from "@/additional/translator"
   import { getEvents } from "@/additional/axiosPosts"
 
+  const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
   const MIN_TICKETS_VALUE = 1
   const MIN_PRICE_VALUE = 0.1
 
@@ -159,7 +161,7 @@
     images.forEach((image) => formData.append("images[]", image))
 
     await axios
-      .post("http://localhost/loterie/addEvent.php", formData, {
+      .post(BASE_URL + "addEvent.php", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

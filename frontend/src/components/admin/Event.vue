@@ -6,6 +6,8 @@
   import { initModals } from "flowbite"
   import { useRouter } from "vue-router"
 
+  const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
   const router = useRouter()
 
   onMounted(() => {
@@ -40,7 +42,7 @@
 
     const { data } = await axios
       .post(
-        "http://localhost/loterie/delEvent.php",
+        BASE_URL + "delEvent.php",
         {
           id: id,
           imgs: folderArr,
@@ -111,7 +113,7 @@
     let imagesArray = []
 
     JSON.parse(event.value.images).forEach((image) => {
-      imagesArray.push("http://localhost/loterie/" + image)
+      imagesArray.push(BASE_URL + image)
     })
 
     return imagesArray

@@ -8,6 +8,8 @@
   import MazBtn from "maz-ui/components/MazBtn"
   import { useAccountStore } from "@/stores/account"
 
+  const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
   const router = useRouter()
   const route = useRoute()
   const toast = useToast()
@@ -23,7 +25,7 @@
   const getUser = async (id) => {
     await axios
       .post(
-        "http://localhost/loterie/getUser.php",
+        BASE_URL + "getUser.php",
         {
           id: id,
         }
@@ -67,7 +69,7 @@
     }
 
     await axios
-      .post("http://localhost/loterie/editUser.php", userObj, {
+      .post(BASE_URL + "editUser.php", userObj, {
         headers: {
           "Content-Type": "application/json",
         },

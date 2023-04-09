@@ -15,6 +15,8 @@ import { required, minValue } from "@vuelidate/validators"
 import axios from "axios"
 import { vuelidateTranslator } from "../../additional/translator"
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
@@ -71,7 +73,7 @@ const crGallery = computed(() => {
 
     if(state.images.length > 0) {
         state.images.forEach(image => {
-            gallery.push(`http://localhost/loterie/${image}`)
+            gallery.push(BASE_URL + image)
         })
     }
 
@@ -171,7 +173,7 @@ const submitEditEvent = async () => {
     images.forEach((image) => formData.append("images[]", image))
 
     await axios
-        .post("http://localhost/loterie/updateEvent.php", formData, {
+        .post(BASE_URL + "updateEvent.php", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -463,7 +465,7 @@ onMounted(() => {
                         >Delete</MazBtn
                       >
                       <img
-                        :src="`http://localhost/loterie/${file}`"
+                        :src="`${BASE_URL + file}`"
                         class="max-w-full max-h-[50px]"
                       />
                       <h1> {{ getFileName(file) }} </h1>

@@ -6,6 +6,8 @@
   import { useAccountStore } from "@/stores/account"
   import { useRouter } from "vue-router"
 
+  const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
   const users = ref([])
   const deleting = ref(false)
   const toast = useToast()
@@ -27,7 +29,7 @@
 
     await axios
       .post(
-        "http://localhost/loterie/delUser.php",
+        BASE_URL + "delUser.php",
         {
           id: id,
         },
@@ -72,7 +74,7 @@
   const getUsers = async () => {
     await axios
       .post(
-        "http://localhost/loterie/getUsers.php",
+        BASE_URL + "getUsers.php",
         {
           getUsers: "1",
         },

@@ -4,6 +4,8 @@ import axios from "axios"
 import { useToast } from "vue-toast-notification"
 import { useRouter } from "vue-router"
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const OWNER_ACCESS = 1
 const LOGIN_TIME = 1 // in ore
 
@@ -15,7 +17,7 @@ export const useAccountStore = defineStore("account", () => {
   const internalSaveUserStore = async () => {
     await axios
       .post(
-        "http://localhost/loterie/updateCart.php",
+        BASE_URL + "updateCart.php",
         {
           id: uData.value.id,
           cart:
@@ -119,7 +121,7 @@ export const useAccountStore = defineStore("account", () => {
     }
 
     await axios
-      .post("http://localhost/loterie/authUser.php", {
+      .post(BASE_URL + "authUser.php", {
         login_key: autoLoginDataObj.login_key,
       })
       .then(({ data }) => {

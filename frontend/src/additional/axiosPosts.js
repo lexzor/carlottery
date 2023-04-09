@@ -1,12 +1,14 @@
 import axios from "axios"
 import { useToast } from "vue-toast-notification"
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 export const getEvents = async (max = 0) => {
   const toast = useToast()
 
   let { data } = await axios
     .post(
-      "http://localhost/loterie/getEvents.php",
+      BASE_URL + "getEvents.php",
       {
         getEvents: 1,
       },
@@ -39,7 +41,7 @@ export const getEvents = async (max = 0) => {
 
 export const getEventsTickets = async () => {
   try {
-    const res = await axios.get("http://localhost/loterie/getEventsTickets.php")
+    const res = await axios.get(BASE_URL + "getEventsTickets.php")
     return res.data
   } catch(err) {
     const toast = useToast()

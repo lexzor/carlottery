@@ -12,6 +12,8 @@ import router from "../router"
 import NavBar from "../components/NavBar.vue"
 import MazCheckbox from 'maz-ui/components/MazCheckbox'
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const account = useAccountStore()
 const toast = useToast()
 const sending = ref(false)
@@ -60,7 +62,7 @@ const loginAcc = async () => {
   }
 
     await axios.post(
-    "http://localhost/loterie/authUser.php",
+    BASE_URL + "authUser.php",
     {
       email: state.email,
       password: state.password,

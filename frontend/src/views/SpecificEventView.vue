@@ -10,6 +10,8 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
 
+const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
+
 const currentEvent = ref({images: ['["events_images/struggle.png"]'], price: 0})
 const account = useAccountStore()
 const imageIndex = ref(0);
@@ -115,9 +117,9 @@ onUnmounted(() => {
         <div class="xl:px-[45px] px-[25px]">
             <div class="grid xl:grid-cols-2 grid-cols-1 gap-4 items-start">
                 <div class="flex gap-2 flex-col">
-                    <div class="h-[500px] w-full bg-cover bg-center" :style="`background-image: url('http://localhost/loterie/${JSON.parse(currentEvent.images)[imageIndex]}'`"></div>
+                    <div class="h-[500px] w-full bg-cover bg-center" :style="`background-image: url('${BASE_URL + JSON.parse(currentEvent.images)[imageIndex]}'`"></div>
                     <div class="grid grid-cols-4 gap-2">
-                        <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) in JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('http://localhost/loterie/${image}'`"></div>
+                        <div class="h-[140px] w-full bg-cover relative bg-center" :class="{ 'selected': imageIndex !== key }" @click="imageIndex = key;" v-for="(image, key) in JSON.parse(currentEvent.images)" :key="key" :style="`background-image: url('${BASE_URL + image}'`"></div>
                     </div>
                 </div>
                 <div class="border-[1px] border-gray-300">
