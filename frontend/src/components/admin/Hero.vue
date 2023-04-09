@@ -1,7 +1,6 @@
 <script setup>
-  // import Navbar from "@/components/admin/NavBar.vue"
   import { useAccountStore } from "@/stores/account"
-  import {useRoute} from "vue-router";
+  import { useRoute } from "vue-router";
 
   const account = useAccountStore()
 
@@ -35,7 +34,6 @@
 </script>
 
 <template>
-<!--  <Navbar />-->
   <div class="bg-[#000]">
     <div class="mx-auto container px-0 pb-[213px]">
       <div
