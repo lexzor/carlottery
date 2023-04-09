@@ -1,12 +1,41 @@
 <script setup>
-  import Navbar from "@/components/admin/NavBar.vue"
+  // import Navbar from "@/components/admin/NavBar.vue"
   import { useAccountStore } from "@/stores/account"
+  import {useRoute} from "vue-router";
 
   const account = useAccountStore()
+
+  const route = useRoute()
+
+  const getHeroTitle = () => {
+      let heroTitle = "Dashboard"
+
+      switch (route.params.section) {
+          case "utilizatori":
+              heroTitle += " / Utilizatori"
+              break
+
+          case "evenimente":
+              heroTitle += " / Evenimente"
+              break
+      }
+
+      switch (route.name) {
+          case "edituser":
+              heroTitle += " / Editeaza"
+              break
+
+          case "editevent":
+              heroTitle += " / Editeaza "
+              break
+      }
+
+      return heroTitle
+  }
 </script>
 
 <template>
-  <Navbar />
+<!--  <Navbar />-->
   <div class="bg-[#000]">
     <div class="mx-auto container px-0 pb-[213px]">
       <div
@@ -52,35 +81,3 @@
       </div>
   </div>
 </template>
-
-<script>
-  export default {
-    methods: {
-      getHeroTitle() {
-        let heroTitle = "Dashboard"
-
-        switch (this.$route.params.section) {
-          case "utilizatori":
-            heroTitle += " / Utilizatori"
-            break
-
-          case "evenimente":
-            heroTitle += " / Evenimente"
-            break
-        }
-
-        switch (this.$route.name) {
-          case "edituser":
-            heroTitle += " / Editeaza"
-            break
-
-          case "editevent":
-            heroTitle += " / Editeaza "
-            break
-        }
-
-        return heroTitle
-      },
-    },
-  }
-</script>
