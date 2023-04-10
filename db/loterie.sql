@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2023 at 03:27 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Apr 10, 2023 at 03:58 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,14 +44,14 @@ CREATE TABLE `accounts` (
   `houseNumber` text NOT NULL,
   `postCode` text NOT NULL,
   `city` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
 INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login_key`, `cart`, `firstName`, `lastName`, `phoneNumber`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`) VALUES
-(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, '5bd49a6a4c60f1126712e37f7f19eed2', '[{\"id\":\"67\",\"tickets\":1}]', 'Nicolae', 'Alex', '0740222107', '', 'Romania', 'strada', 'nr8', '277701', 'Craiova');
+(39, 'super.alexx@yahoo.com', 'parolamea', 'lexzor', 1, 'baeb4a5e048f4cd779bbd041cd9fb80b', '[{\"id\":\"73\",\"tickets\":1}]', 'Nicolae', 'Alex', '0740222107', '', 'Romania', 'strada', 'nr8', '277701', 'Craiova');
 
 -- --------------------------------------------------------
 
@@ -68,14 +68,15 @@ CREATE TABLE `events` (
   `price` float NOT NULL,
   `description` text NOT NULL,
   `images` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `price`, `description`, `images`) VALUES
-(67, 'dasdasdas', '05-04-2023 03:39', '06-04-2023 03:39', '1888', 0.1, 'dasdasdas', '[\"events_images/1680655188/16806551880download.jpg\"]');
+(67, 'dasdasdas', '05-04-2023 03:39', '13-04-2023 22:46', '1888', 2, 'dasdasdas', '[\"events_images/1680655188/16806551880download.jpg\"]'),
+(73, 'pros', '06-04-2023 22:46', '13-04-2023 22:47', '500', 2, 'pors puternic', '[\"events_images/1680817636/16808176360porsche.png\"]');
 
 -- --------------------------------------------------------
 
@@ -97,16 +98,16 @@ CREATE TABLE `invoices` (
   `city` text NOT NULL,
   `notes` text NOT NULL,
   `products` text NOT NULL,
-  `paymentStatus` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `paymentStatus` text NOT NULL,
+  `createdAt` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `invoices`
 --
 
-INSERT INTO `invoices` (`id`, `firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES
-(1, 'Pavel', 'Marin', '07949099021', 'pavel@eway-design.com', '', 'Romania', 'pl n cur', '2a', '12939', 'Baicoi', 'am pl mare', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid'),
-(2, 'Nicolae', 'Alex', '07949099021', 'super.alexx@yahoo.com', '', 'Romania', '12313', 'fwewe', 'asd', 'Baicoi2', 'am pl mareeeeeeeeeeeeeeeeeee', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid');
+INSERT INTO `invoices` (`id`, `firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`, `createdAt`) VALUES
+(1, 'Pavel', 'Marin', '+447949099021', 'super.alexx@yahoo.com', '', 'Regatul Unit', '4a malvern terrace winchester road', '', 'SO166TQ', 'Southampton', '', '[{\"id\":\"67\",\"title\":\"dasdasdas\",\"quantity\":1,\"price\":2},{\"id\":\"73\",\"title\":\"pros\",\"quantity\":1,\"price\":2}]', 'paid', '2023-04-10 03:54:42');
 
 -- --------------------------------------------------------
 
@@ -119,17 +120,17 @@ CREATE TABLE `tickets` (
   `accountEmail` text NOT NULL,
   `ticketQuantity` int(6) NOT NULL,
   `eventId` int(11) NOT NULL,
-  `createdAt` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `invoiceId` int(11) NOT NULL,
+  `createdAt` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tickets`
 --
 
-INSERT INTO `tickets` (`id`, `accountEmail`, `ticketQuantity`, `eventId`, `createdAt`) VALUES
-(1, 'super.alexx@yahoo.com', 777, 67, '2023-04-02'),
-(2, 'super.alexx@yahoo.com', 3, 68, '2023-04-02'),
-(3, 'super.alexx@yahoo.com', 300, 67, '2023-04-03');
+INSERT INTO `tickets` (`id`, `accountEmail`, `ticketQuantity`, `eventId`, `invoiceId`, `createdAt`) VALUES
+(1, 'super.alexx@yahoo.com', 1, 67, 1, '2023-04-10 03:54:42'),
+(2, 'super.alexx@yahoo.com', 1, 73, 1, '2023-04-10 03:54:42');
 
 --
 -- Indexes for dumped tables
@@ -175,19 +176,19 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
