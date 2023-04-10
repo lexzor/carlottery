@@ -31,25 +31,27 @@ switch ($event->type) {
         $details = json_decode($data->customerDetails);
         $date = date('Y-m-d H:i:s');
 
-        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
-        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', 'paid')";
-        mysqli_query($db, $query);
+        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`, `createdAt`) VALUES
+        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', 'paid', '".$date."')";
+        if(mysqli_query($db, $query)) {
+            $invoice_id = mysqli_insert_id($db);
+            foreach($details->products as $product) {
+                $queryTickets = "INSERT INTO `tickets` (`accountEmail`, `ticketQuantity`, `eventId`, `invoiceId`, `createdAt`) VALUES
+                ('".$data->customerEmail."', '".$product->quantity."', '".$product->id."', ".$invoice_id.", '".$date."')";
+                mysqli_query($db, $queryTickets);
+            }
 
-        foreach($details->products as $product) {
-            $queryTickets = "INSERT INTO `tickets` (`accountEmail`, `ticketQuantity`, `eventId`, `createdAt`) VALUES ('".$data->customerEmail."', '".$product->quantity."', '".$product->id."', '".$date."')";
-            mysqli_query($db, $queryTickets);
+            mysqli_close($db);
+            break;
         }
-
-        mysqli_close($db);
-        break;
     case 'payment_intent.canceled':
         require_once 'dbConn.php';
         $data = $event->data->object->metadata;
         $details = json_decode($data->customerDetails);
         $date = date('Y-m-d H:i:s');
 
-        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES 
-        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', 'unpaid')";
+        $query = "INSERT INTO `invoices` (`firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`, `createdAt`) VALUES
+        ('" . $details->firstName . "','" . $details->lastName . "','" . $data->customerPhoneNumber . "','" . $data->customerEmail . "','" . $details->companyName . "','" . $details->country . "','" . $details->streetName . "','" . $details->houseNumber . "','" . $details->postCode . "','" . $details->city . "','" . $details->notes . "','" . json_encode($details->products) . "', '".$date."')";
         mysqli_query($db, $query);
 
         mysqli_close($db);
