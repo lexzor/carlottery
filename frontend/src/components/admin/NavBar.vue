@@ -17,8 +17,8 @@ watch(route, (to, from) => {
             <div class="flex justify-between items-center py-4 px-3">
                 <div>
                     <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] text-white" to="/">
-                        <span class="text-black bg-[#fff] px-[20px]">WIN</span>
-                        <span>AUTO</span>
+                        <span class="text-black bg-[#fff] px-[20px]">CAR</span>
+                        <span>SCOR</span>
                     </router-link>
                 </div>
                 <div class="hidden gap-[66px] text-[#FFFFFF87] text-[18px] xl:flex">
@@ -35,8 +35,8 @@ watch(route, (to, from) => {
                          class="fixed right-0 top-0 w-filt text-white bg-[#000] h-full z-30 flex gap-[15px] flex-col items-left text-[24px] p-[40px]">
                         <div class="flex justify-between items-center gap-[55px] mb-[30px]">
                             <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black" to="/">
-                                <span class="text-black bg-[#fff] px-[20px]">WIN</span>
-                                <span class="text-white">AUTO</span>
+                                <span class="text-black bg-[#fff] px-[20px]">CAR</span>
+                                <span class="text-white">SCOR</span>
                             </router-link>
                             <button @click="menu = !menu" class="xl:hidden block">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"

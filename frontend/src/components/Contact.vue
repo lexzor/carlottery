@@ -45,8 +45,8 @@ import MazInput from "maz-ui/components/MazInput"
                 </form>
                 <div class="xl:w-[90%] border-2 border-black flex flex-col justify-center px-[40px] py-[30px] xl:block hidden">
                     <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black mb-10" to="/">
-                        <span class="text-white bg-[#000000] px-[20px]">WIN</span>
-                        <span>AUTO</span>
+                        <span class="text-white bg-[#000000] px-[20px]">CAR</span>
+                        <span>SCOR</span>
                     </router-link>
                     <h3 class="text-[#000] text-[18px]">Ne puteți contacta oricând între orele afișate mai jos:</h3>
                     <ul class="text-[#000] font-light my-[16px] list-disc pl-[23px]">
@@ -57,8 +57,8 @@ import MazInput from "maz-ui/components/MazInput"
                         <li>Vineri - 8am - 8pm</li>
                     </ul>
                     <p class="text-[#000]">Număr de telefon: +40 723 123 123</p>
-                    <p class="text-[#000]">Customer Services: customerservices@winauto.ro</p>
-                    <p class="text-[#000]">Colaborari: collabs@winauto.ro</p>
+                    <p class="text-[#000]">Customer Services: customerservices@carscor.ro</p>
+                    <p class="text-[#000]">Colaborari: collabs@carscor.ro</p>
                 </div>
             </div>
         </div>
