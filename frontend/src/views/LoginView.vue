@@ -89,27 +89,34 @@ const loginAcc = async () => {
 
 <template>
   <NavBar />
-  <div
-    class="max-w-[400px] bg-[#fdfdfd] mx-auto mt-[200px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
-    <div class="flex justify-center flex-col items-center">
-      <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
-        Logare
-      </h1>
-      <p class="text-center text-black">
-        Va rugam sa va folositi datele pe care le-ati introdus pe pagina de
-        inregistrare!
-      </p>
-    </div>
+  <div class="xl:px-[0px] px-[25px]">
+    <div class="max-w-[400px] bg-[#fdfdfd] mx-auto my-[60px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
+      <div class="flex justify-center flex-col items-center">
+        <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
+          Logare
+        </h1>
+        <p class="text-center text-black">
+          Vă rugăm să vă folosiți datele pe care le-ați introdus pe pagina de
+          înregistrare!
+        </p>
+      </div>
 
-    <div class="w-full flex flex-col gap-[30px] items-center">
-      <MazInput no-radius :error="v.email.$error" label="E-mail" class="w-full" v-model="state.email" />
-      <MazInput no-radius :error="v.password.$error" error label="Password" class="w-full" type="password"
-        v-model="state.password" />
+      <div class="w-full flex flex-col gap-[30px] items-left">
+        <div>
+          <MazInput no-radius :error="v.email.$error" label="E-mail" class="w-full" v-model="state.email" />
+          <MazInput no-radius :error="v.password.$error" error label="Password" class=" mt-[30px]" type="password" v-model="state.password" />
 
-      <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>
+          <div class="flex items-center mt-[16px]">
+              <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-1 dark:bg-gray-700 dark:border-gray-600">
+              <label for="link-checkbox" class="ml-2 text-sm text-gray-600">Ține-mă minte pe acest dispozitiv</label>
+          </div>
+        </div>
+<!--        <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>-->
 
-      <MazBtn :loading="sending" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
+        <MazBtn :loading="sending" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
+      </div>
     </div>
   </div>
+
   <Footer />
 </template>

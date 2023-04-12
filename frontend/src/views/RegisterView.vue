@@ -187,27 +187,24 @@ const registerAcc = async () => {
 
 <template>
   <NavBar />
-  <div
-    class="relative max-w-[400px] mx-auto mt-[150px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
-    <div>
-      <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
-        Înregistrare
-      </h1>
-      <p class="text-center text-black">
-        Va rugam sa folositi o adresa de e-mail valida in asa fel incat sa va
-        putem contacta!
-      </p>
+  <div class="xl:px-[0px] px-[25px]">
+    <div class="relative max-w-[400px] mx-auto my-[60px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
+      <div>
+        <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
+            Înregistrare
+        </h1>
+        <p class="text-center text-black">
+            Vă rugăm să folosiți o adresă de e-mail validă în așa fel încat să vă
+            putem contacta
+        </p>
+      </div>
+      <MazInput :error="hasEmailErr || v.email.$error" label="Adresa de e-mail" class="w-full" no-radius v-model="state.email" />
+      <MazInput :error="hasUsernameErr || v.username.$error" label="Nume de utilizator" class="w-full" no-radius v-model="state.username" />
+      <MazInput :error="v.password.$error" label="Parola" class="w-full" no-radius type="password" v-model="state.password" />
+      <MazInput :error="confirmPasswordError" label="Confirmare parola" class="w-full" no-radius type="password" v-model="state.confirmPassword" />
+      <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="registerAcc">Register</MazBtn>
+      <MazBtn v-else class="w-full px-0 py-[20px]" color="black" loading>Register</MazBtn>
     </div>
-    <MazInput :error="hasEmailErr || v.email.$error" label="Adresa de e-mail" class="w-full" no-radius
-      v-model="state.email" />
-    <MazInput :error="hasUsernameErr || v.username.$error" label="Nume de utilizator" class="w-full" no-radius
-      v-model="state.username" />
-    <MazInput :error="v.password.$error" label="Parola" class="w-full" no-radius type="password"
-      v-model="state.password" />
-    <MazInput :error="confirmPasswordError" label="Confirmare parola" class="w-full" no-radius type="password"
-      v-model="state.confirmPassword" />
-    <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="registerAcc">Register</MazBtn>
-    <MazBtn v-else class="w-full px-0 py-[20px]" color="black" loading>Register</MazBtn>
   </div>
   <Footer />
 </template>
