@@ -6,15 +6,15 @@ export const vuelidateTranslator = (prop, msg, values) => {
 
   switch (prop) {
     case "email":
-      newProp = "Email"
+      newProp = "E-mail"
       break
 
     case "password":
-      newProp = "Parola"
+      newProp = "Parolă"
       break
 
     case "confirmPassword":
-      newProp = "Confirmare parola"
+      newProp = "Confirmare parolă"
       break
 
     case "username":
@@ -30,11 +30,11 @@ export const vuelidateTranslator = (prop, msg, values) => {
       break
 
     case "country":
-      newProp = "Tara"
+      newProp = "Tară"
       break
 
     case "address":
-      newProp = "Adresa"
+      newProp = "Adresă"
       break
 
     case "firstName":
@@ -46,55 +46,54 @@ export const vuelidateTranslator = (prop, msg, values) => {
       break
 
     case "zipCode":
-      newProp = "Cod Postal"
+      newProp = "Cod Poștal"
       break
 
     case "city":
-      newProp = "Oras"
+      newProp = "Oraș"
       break
 
     case "phone":
-      newProp = "Teleefon"
+      newProp = "Telefon"
       break
 
     case "currPw":
-      newProp = "Parola actuala"
+      newProp = "Parolă actuală"
       break
 
     case "newPw":
-      newProp = "Parola noua"
+      newProp = "Parolă noua"
       break
 
     case "confPw":
-      newProp = "Confirmare parola"
+      newProp = "Confirmare parolă"
       break
   }
 
-  console.log("Message: ", msg)
-
   switch (msg) {
     case "Value is required":
-      newMsg = `Campul <b>${newProp}</b> este obligatoriu`
+      newMsg = `Câmpul <b>${newProp}</b> este obligatoriu`
       break
 
     case `This field should be at least ${values.minL} characters long`:
-      newMsg = `Lungimea valorii campului <b>${newProp}</b> trebuie sa fie minim <b>${values.minL}</b> caractere`
+      newMsg = `Lungimea valorii câmpului <b>${newProp}</b> trebuie să fie de minim <b>${values.minL}</b> caractere`
       break
 
     case `The maximum length allowed is ${values.maxL}`:
-      newMsg = `Lungimea valorii campului <b>${newProp}</b> trebuie sa fie maxim <b>${values.minL}</b> caractere`
+      newMsg = `Lungimea valorii câmpului <b>${newProp}</b> trebuie să fie de maxim <b>${values.minL}</b> caractere`
       break
 
     case "Value is not a valid email address":
-      newMsg = "Valoarea campului <b>Email</b> nu este o adresa valida de email"
+      newMsg =
+        "Valoarea câmpului <b>E-mail</b> nu este o adresă validă de e-mail"
       break
 
     case `The minimum value allowed is ${values.minPriceV}`:
-      newMsg = `<b>Pretul</b> nu poate fi mai mic de ${values.minPriceV}E`
+      newMsg = `<b>Prețul</b> nu poate fi mai mic de ${values.minPriceV}E`
       break
 
     case `The minimum value allowed is ${values.minTicketsV}`:
-      newMsg = `<b>Numarul biletelor</b> nu poate fi mai mic de ${values.minTicketsV}`
+      newMsg = `<b>Numărul biletelor</b> nu poate fi mai mic de ${values.minTicketsV}`
       break
   }
 

@@ -3,3 +3,4 @@ frontend/.vscode
 frontend/.idea
 .idea
 frontend/dist
+backend/stripeWebhook.php

@@ -10,6 +10,7 @@ import { vuelidateTranslator } from "../additional/translator"
 import { useAccountStore } from "../stores/account"
 import router from "../router"
 import NavBar from "../components/NavBar.vue"
+import Footer from "../components/Footer.vue"
 import MazCheckbox from 'maz-ui/components/MazCheckbox'
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
@@ -61,13 +62,13 @@ const loginAcc = async () => {
     return
   }
 
-    await axios.post(
+  await axios.post(
     BASE_URL + "authUser.php",
     {
       email: state.email,
       password: state.password,
     },
-  ).catch(err => console.error).then(({data}) => {
+  ).catch(err => console.error).then(({ data }) => {
     if (typeof data !== "object" || data === null) {
       toast.open({
         message: "Datele introduse sunt incorecte",
@@ -89,12 +90,9 @@ const loginAcc = async () => {
 <template>
   <NavBar />
   <div
-    class="max-w-[400px] bg-[#fdfdfd] mx-auto mt-[200px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black"
-  >
+    class="max-w-[400px] bg-[#fdfdfd] mx-auto mt-[200px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
     <div class="flex justify-center flex-col items-center">
-      <h1
-        class="text-[25px] text-center text-black uppercase font-medium mb-[10px]"
-      >
+      <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
         Logare
       </h1>
       <p class="text-center text-black">
@@ -104,32 +102,14 @@ const loginAcc = async () => {
     </div>
 
     <div class="w-full flex flex-col gap-[30px] items-center">
-      <MazInput
-        no-radius
-        :error="v.email.$error"
-        label="Email"
-        class="w-full"
-        v-model="state.email"
-      />
-      <MazInput
-        no-radius
-        :error="v.password.$error"
-        error
-        label="Password"
-        class="w-full"
-        type="password"
-        v-model="state.password"
-      />
-      
+      <MazInput no-radius :error="v.email.$error" label="E-mail" class="w-full" v-model="state.email" />
+      <MazInput no-radius :error="v.password.$error" error label="Password" class="w-full" type="password"
+        v-model="state.password" />
+
       <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>
-      
-      <MazBtn
-        :loading="sending"
-        class="w-full px-0 py-[20px]"
-        color="black"
-        @click="loginAcc"
-        >Login</MazBtn
-      >
+
+      <MazBtn :loading="sending" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
     </div>
   </div>
+  <Footer />
 </template>

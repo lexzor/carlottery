@@ -34,7 +34,7 @@ export const useAccountStore = defineStore("account", () => {
       .catch((err) => console.err)
   }
 
-  const addItemStore = (itemid, tickets) => {
+  const addItemStore = (itemid, tickets, answer) => {
     for (let i = 0; i < userStore.value.length; i++) {
       if (userStore.value[i].id == itemid) {
         userStore.value[i].tickets += tickets
@@ -46,6 +46,7 @@ export const useAccountStore = defineStore("account", () => {
     userStore.value.push({
       id: itemid,
       tickets: tickets,
+      answer: answer,
     })
 
     internalSaveUserStore()
