@@ -114,7 +114,6 @@ const submitEvent = async () => {
         "minPriceV": MIN_PRICE_VALUE
       }
       )}`
-      console.log(error.$property, error.$message)
     })
 
     if (files.value.length === 0) {

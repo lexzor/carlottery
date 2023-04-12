@@ -14,11 +14,11 @@ let loading = ref(false)
 const getInvoices = async () => {
     axios.post(BASE_URL + 'getInvoicesById.php', {
         "email": account.getEmail()
-    }).catch(err => console.error).then(({data}) => {
+    }).catch(err => console.error).then(({ data }) => {
         loading.value = true
         console.log(data)
         invoices.value = data.map(invoice => {
-            return { ...invoice, products: JSON.parse(invoice.products)}
+            return { ...invoice, products: JSON.parse(invoice.products) }
         })
 
         console.log(invoices.value)
@@ -38,23 +38,23 @@ getInvoices()
         <div class="relative overflow-x-auto m-[-30px] rounded-sm">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        INV-ID
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Nume
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Prenume
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Data scandenței
-                    </th>
-                </tr>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            INV-ID
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nume
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Prenume
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Data scandenței
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr v-for="invoice in invoices" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">

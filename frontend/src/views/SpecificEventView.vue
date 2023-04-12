@@ -79,7 +79,7 @@ const redirectToFinishPayment = async () => {
 
     if (currentEvent.value.tickets == currentEvent.value.max_tickets) {
         toast.open({
-            message: 'Ne pare rau! Toate biletele pentru acest event au fost cumparate!',
+            message: 'Ne pare rău! Toate biletele pentru acest eveniment au fost cumpărate!',
             duration: 5000,
             type: "info"
         })
@@ -97,7 +97,7 @@ const addEventInStore = async () => {
     if (!account.isLogged()) {
 
         toast.open({
-            message: 'Trebuie sa fii logat pentru a adauga in cos!',
+            message: 'Trebuie să fii logat pentru a adaugă in coș!',
             duration: 5000,
             type: "info"
         })
@@ -108,7 +108,7 @@ const addEventInStore = async () => {
     account.addItemStore(currentEvent.value.id, ticketNum.value, currUserAnswer.value)
 
     toast.open({
-        message: `Ai adaugat in cos ${ticketNum.value} ${ticketNum.value == 1 ? "bilet" : "bilete"} pentru acest eveniment!`,
+        message: `Ai adăugat in coș <span class="font-semibold">${ticketNum.value} ${ticketNum.value == 1 ? "bilet" : "bilete"}</span> pentru acest eveniment!`,
         duration: 5000,
         type: "success"
     })
@@ -124,7 +124,6 @@ const answerChecker = computed(() => {
 
 const updateAnswer = (value) => {
     currUserAnswer.value = value
-    console.log(currUserAnswer.value)
 }
 
 
@@ -163,13 +162,13 @@ onUnmounted(() => {
                             <h2 class="text-lg text-black">Timp rămas:</h2>
                             <span class="font-medium text-[30px] text-black">{{ getRemainingTime }}</span>
                         </div>
-                        <h2 class="text-lg mt-2 text-black">Bilete cumparate: {{ currentEvent.tickets }}<span
+                        <h2 class="text-lg mt-2 text-black">Bilete cumpărate: {{ currentEvent.tickets }}<span
                                 class="text-red-500">/</span>{{ currentEvent.max_tickets }}</h2>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
                             <div class="bg-black h-2.5 rounded-full" :style="getTicketsProcent"></div>
                         </div>
                         <span v-if="account.getSpecificEventTickets(currentEvent.id) > 0" class="mt-[100px]">
-                            Ai cumparat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
+                            Ai cumpărat {{ account.getSpecificEventTickets(currentEvent.id) }} bilete
                         </span>
                     </div>
                     <div class="border-t-[1px] border-gray-300 p-3"
@@ -205,8 +204,8 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div v-if="typeof getRemainingTime === 'string'" class="border-t-[1px] border-gray-300 p-3">
-                        <h2 class="text-lg mb-2 text-black font-normal">Alege-ti numarul de bilete pe care vrei sa-l
-                            achizitionezi:</h2>
+                        <h2 class="text-lg mb-2 text-black font-normal">Alege numărul de bilete pe care vrei să-l
+                            achiziționezi:</h2>
                         <MazInputNumber class="w-full" v-model="ticketNum" :min="1" label="Bilete" />
                     </div>
                     <div v-if="typeof getRemainingTime === 'string'" class="border-t-[1px] border-gray-300 p-3">
@@ -225,7 +224,7 @@ onUnmounted(() => {
                                 class="font-semibold text-black underline">Click</router-link> pentru a vedea biletele</h1>
                     </div>
                     <div v-if="currentEvent.tickets >= currentEvent.max_tickets">
-                        <p class="px-3 pb-3">Au fost cumparate toate biletele pentru aceasta competitie</p>
+                        <p class="px-3 pb-3">Au fost cumpărate toate biletele pentru această competiție</p>
                     </div>
                 </div>
             </div>

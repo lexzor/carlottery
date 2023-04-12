@@ -30,13 +30,10 @@ const retrieveEvents = async () => {
             if (ev.id == storeEvent.id) {
                 ev['tickets'] = storeEvent.tickets
                 ev['answer'] = storeEvent.answer
-                console.log(ev.answer)
                 return true
             }
         })
     })
-
-    console.log(events.value)
 }
 
 retrieveEvents()
@@ -315,11 +312,11 @@ const validateForm = async () => {
                                     este
                                     disponibilă!</h1>
                                 <!-- <h1 class="text-[17px]">Plătește prin <b>PayPal</b> folosind<b> cardul de credit</b> sau
-                                                                            <b>contul de PayPal</b>.
-                                                                        </h1>
+                                                                                    <b>contul de PayPal</b>.
+                                                                                </h1>
     
-                                                                        <h2 class="my-[17px] ml-[3px] text-[#585858]">Pentru a asigura faptul că plata este
-                                                                            securizată vei fi redirecționat către pagina oficială PayPal.</h2> -->
+                                                                                <h2 class="my-[17px] ml-[3px] text-[#585858]">Pentru a asigura faptul că plata este
+                                                                                    securizată vei fi redirecționat către pagina oficială PayPal.</h2> -->
                                 <h1 class="text-[17px] text-gray-400">Plătește prin <b>PayPal</b> folosind<b> cardul de
                                         credit</b> sau
                                     <b>contul de PayPal</b>.

@@ -154,7 +154,8 @@ router.beforeEach(async (to, from, next) => {
       router.push({ path: "/" })
     }
   }
-  next()
+    
+next()
 })
 
 export default router

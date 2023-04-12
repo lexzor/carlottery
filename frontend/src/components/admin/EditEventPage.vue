@@ -207,7 +207,6 @@ const submitEditEvent = async () => {
                 sending.value = false
             }
         }).then(({ data }) => {
-            console.log(data)
             if (data.hasOwnProperty("be_msg_error")) {
                 let msg = "Eroare de sistem:"
 
