@@ -37,11 +37,17 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginView,
+      meta: {
+        restrictedIfLoggedIn: true,
+      },
     },
     {
       path: "/register",
       name: "register",
       component: RegisterView,
+      meta: {
+        restrictedIfLoggedIn: true,
+      },
     },
     {
       path: "/adminpanel/:section",
@@ -59,26 +65,41 @@ const router = createRouter({
           component: AdminPanelView,
         },
       ],
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/cart",
       name: "cart",
       component: CartView,
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/order/success",
       name: "order_success",
       component: SuccessView,
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/order/declined",
       name: "order_declined",
       component: DeclinedView,
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/finish",
       name: "finish",
       component: FinishView,
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/bilete",
@@ -101,6 +122,9 @@ const router = createRouter({
           component: AccountView,
         },
       ],
+      meta: {
+        needsAuth: true,
+      },
     },
     {
       path: "/(.*)*",
@@ -109,35 +133,28 @@ const router = createRouter({
   ],
 })
 
-const restrictedNotLoggedInPaths = [
-  "adminpanel",
-  "cart",
-  "order",
-  "cont",
-  "finish",
-]
+let firstLogin = true
 
-const restrictedLoggedInPaths = ["login", "register"]
-
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const account = useAccountStore()
-  const currentPath = to.path.split("/")[1]
 
-  if (restrictedNotLoggedInPaths.includes(currentPath)) {
+  if (firstLogin) {
+    await account.autoLogin()
+    firstLogin = false
+  }
+
+  if (to.meta.needsAuth) {
     if (!account.isLogged()) {
-      router.push({ path: "/" })
-      return
+      router.push({ path: "/login" })
     }
   }
 
-  if (restrictedLoggedInPaths.includes(currentPath)) {
+  if (to.meta.restrictedIfLoggedIn) {
     if (account.isLogged()) {
       router.push({ path: "/" })
-      return
     }
   }
-
-  return next()
+  next()
 })
 
 export default router

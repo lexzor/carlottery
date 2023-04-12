@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 import axios from "axios"
 import { useToast } from "vue-toast-notification"
-import { useRouter } from "vue-router"
+import router from "../router"
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
 
@@ -11,7 +11,6 @@ const LOGIN_TIME = 1 // in ore
 
 export const useAccountStore = defineStore("account", () => {
   const uData = ref({})
-  const router = useRouter()
   const userStore = ref([])
 
   const internalSaveUserStore = async () => {
@@ -101,11 +100,12 @@ export const useAccountStore = defineStore("account", () => {
   }
 
   const autoLogin = async () => {
+    const autoLoginData = localStorage.getItem("auto_login")
     const event = new CustomEvent("login_finished")
 
-    const autoLoginData = localStorage.getItem("auto_login")
     if (autoLoginData === null) {
       document.dispatchEvent(event)
+      console.error("Auto login object doesn't exists in localstorage")
       return
     }
 
@@ -113,9 +113,12 @@ export const useAccountStore = defineStore("account", () => {
     const now = new Date()
 
     if (
-      autoLoginDataObj.expiry < now.getTime() &&
+      autoLoginDataObj.expiry <= now.getTime() &&
       autoLoginDataObj.expiry != 0
     ) {
+      console.error(
+        "Auto login object has been deleted from localstorage because the logged in time expired."
+      )
       localStorage.removeItem("auto_login")
       document.dispatchEvent(event)
       return
@@ -134,16 +137,25 @@ export const useAccountStore = defineStore("account", () => {
             delete uData.value.cart
           }
 
+          const newLoginObject = {}
+
           if (autoLoginDataObj.expiry > 0) {
-            localStorage.setItem(
-              "auto_login",
-              JSON.stringify({
-                login_key: data.login_key,
-                expiry: now.getTime() + LOGIN_TIME * 3600000,
-              })
-            )
+            Object.assign(newLoginObject, {
+              login_key: data.login_key,
+              expiry: now.getTime() + LOGIN_TIME * 3600000,
+            })
+          } else {
+            Object.assign(newLoginObject, {
+              login_key: data.login_key,
+              expiry: 0,
+            })
           }
+
+          localStorage.setItem("auto_login", JSON.stringify(newLoginObject))
         } else {
+          console.error(
+            "Auto login object has been deleted from localstorage in axios request."
+          )
           localStorage.removeItem("auto_login")
         }
       })
