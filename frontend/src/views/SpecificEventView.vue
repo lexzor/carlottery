@@ -42,15 +42,16 @@ const retrieveEvents = async () => {
 
     time.value = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
 
-    interval = setInterval(() => {
-        --time.value
-    }, 1000)
 
-    await axios.post(BASE_URL + "anti_gdpr.json")
+    await axios.post(BASE_URL + "anti_gdpr.php")
         .catch(err => console.error)
         .then(({ data }) => {
             quiz.value = data[Math.floor(Math.random() * data.length)]
         })
+
+    interval = setInterval(() => {
+        --time.value
+    }, 1000)
 }
 
 const getRemainingTime = computed(() => {
