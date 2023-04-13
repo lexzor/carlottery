@@ -12,7 +12,7 @@ import { CCarousel, CCarouselItem } from '@coreui/vue'
                     <div class="flex h-full items-center xl:pl-20 pl-5">
                         <div class="relative z-10 flex flex-col gap-[50px]">
                             <h1 class="text-[40px] text-white uppercase font-medium">Vrei să fii următorul<br>caștigător?</h1>
-                            <div class="flex flex-nowrap gap-[30px]">
+                            <div class="flex md:flex-row flex-col flex-nowrap xl:gap-[30px] gap-[15px]">
                                 <div class="flex w-fit relative gap-[30px]">
                                     <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>
                                     <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>
@@ -30,7 +30,7 @@ import { CCarousel, CCarouselItem } from '@coreui/vue'
                     <div class="flex h-full items-center xl:pl-20 pl-5">
                         <div class="relative z-10 flex flex-col gap-[50px]">
                             <h1 class="text-[40px] text-white uppercase font-medium">Vrei să fii următorul<br>caștigător?</h1>
-                            <div class="flex flex-nowrap gap-[30px]">
+                            <div class="flex md:flex-row flex-col flex-nowrap xl:gap-[30px] gap-[15px]">
                                 <div class="flex w-fit relative gap-[30px]">
                                     <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>
                                     <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>
@@ -48,7 +48,7 @@ import { CCarousel, CCarouselItem } from '@coreui/vue'
                     <div class="flex h-full items-center xl:pl-20 pl-5">
                         <div class="relative z-10 flex flex-col gap-[50px]">
                             <h1 class="text-[40px] text-white uppercase font-medium">Vrei să fii următorul<br>caștigător?</h1>
-                            <div class="flex flex-nowrap gap-[30px]">
+                            <div class="flex md:flex-row flex-col flex-nowrap xl:gap-[30px] gap-[15px]">
                                 <div class="flex w-fit relative gap-[30px]">
                                     <router-link to="/register" tag="button" class="text-black bg-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>
                                     <router-link to="/register" tag="button" class="absolute bg-transparent z-[-1] right-[-4px] top-[-4px] border-[1px] border-white xl:text-[20px] text-[16px] px-[28px] xl:py-[16px] py-[12px] whitespace-nowrap">Înscrie-te</router-link>

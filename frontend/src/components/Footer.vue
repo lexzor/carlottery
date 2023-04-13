@@ -58,7 +58,7 @@
     <div class="bg-[#000] border-t border-[#FFFFFF14]">
         <div class="mx-auto container px-0">
             <div class="px-[45px] py-[24px] text-center">
-                <p class="text-[#FFFFFF66] font-light">Copyright ⓒ CarScor {{ new Date().getFullYear() }}. Toate drepturile rezervate.</p>
+                <p class="text-[#FFFFFF66] font-light">Copyright ⓒ CarScor {{ new Date().getFullYear() }}. Toate drepturile rezervate. Site web dezvoltat de <a class="font-normal hover:text-white" href="https://eway-design.com/" target="_blank">Eway Design</a></p>
             </div>
         </div>
     </div>
