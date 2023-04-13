@@ -132,3 +132,8 @@ textarea {
     border-color: black !important;
     box-shadow: none !important;
 }
+
+.m-btn.--disabled:not(.m-input-number__button) {
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.92) !important;
+}
