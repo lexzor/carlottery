@@ -1,70 +1,91 @@
 <template>
-    <div class="container mx-auto px-0 mt-[77px]">        
+    <div class="container mx-auto px-0 mt-[77px]">
         <div v-if="currentView || displayingOnHomePage" class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚII ÎN DESFĂȘURARE</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
             <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
                 <div class="flex gap-[20px]">
-                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
-                    <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
+                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''"
+                        class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
+                    <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''"
+                        class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
                 </div>
             </div>
-            <div v-if="events.onGoing.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[24px]"> 
-                <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)" :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}'`" v-for="(event, index) in events.onGoing" :key="event.id">
+            <div v-if="events.onGoing.length > 0 && events.requestFinished"
+                class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[24px]">
+                <div class="relative h-[400px] bg-cover boxed-content cursor-pointer" @click="goTo(event.hashed_id)"
+                    :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}'`"
+                    v-for="(event, index) in events.onGoing" :key="event.id">
                     <div class="absolute w-full h-full left-0 top-0 z-20">
                         <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                            <span class="text-[20px] text-white font-light">Preț tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
+                            <span class="text-[20px] text-white font-light">Preț tichet: <span
+                                    class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
                             <div class="flex flex-col">
                                 <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
                                 <span class="text-[16px] text-white font-light">Competiția se încheie în</span>
-                                <span class="text-[20px] text-white font-normal mt-[-3px]">{{ formatTemplateTime(event.remainingTime) }}</span>
+                                <span class="text-[20px] text-white font-normal mt-[-3px]">{{
+                                    formatTemplateTime(event.remainingTime) }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="linear-bg z-10"></div>
                 </div>
             </div>
-            <div class="flex items-center flex-col" v-else>
+            <div v-else-if="events.onGoing.length === 0 && events.requestFinished" class="flex items-center flex-col">
                 <img class="mb-3" src="@/assets/images/elements/struggle.png">
-                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție în desfăsurare</h3>
+                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție în desfăsurare
+                </h3>
+            </div>
+            <div v-else class="flex justify-center items-center gap-[20px] mt-[20px] h-[500px]">
+                <MazSpinner size="3.5em" />
+                <h1 class="text-[23px]">Loading...</h1>
             </div>
             <div class="flex justify-center mt-[62px]" v-if="displayingOnHomePage">
                 <div class="boxed-btn">
-                    <router-link to="/evenimente" tag="button" class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai multe</router-link>
+                    <router-link to="/evenimente" tag="button"
+                        class="relative text-white bg-[#000000] text-[19px] px-[42px] py-[16px] whitespace-nowrap">Mai
+                        multe</router-link>
                 </div>
             </div>
         </div>
         <div v-else class="xl:px-[45px] px-[25px]">
             <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚIILE TERMINATE</h3>
-                <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
-                <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
-                    <div class="flex gap-[20px]">
-                        <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
-                        <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''" class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
-                    </div>
+            <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
+            <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
+                <div class="flex gap-[20px]">
+                    <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''"
+                        class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
+                    <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''"
+                        class="text-black border-2 border-[#000] px-[20px] py-[10px]">Terminate</button>
                 </div>
-                <div v-if="events.finished.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]"> 
-                    <div class="relative h-[400px] bg-cover boxed-content cursor-pointer bg-center" @click="goTo(event.hashed_id)" :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}'`" v-for="event in events.finished" :key="event.id">
-                        <div class="absolute w-full h-full left-0 top-0 z-20">
-                            <div class="p-[32px] flex flex-col justify-between h-[85%]">
-                                <span class="text-[20px] text-white font-light">Preț tichet: <span class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
-                                <div class="flex flex-col">
-                                    <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
-                                    <span class="text-[16px] text-white font-light">Competiție încheita</span>
-                                </div>
+            </div>
+            <div v-if="events.finished.length > 0" class="grid xl:grid-cols-3 grid-cols-1 gap-[34px] mt-[44px]">
+                <div class="relative h-[400px] bg-cover boxed-content cursor-pointer bg-center"
+                    @click="goTo(event.hashed_id)"
+                    :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}'`"
+                    v-for="event in events.finished" :key="event.id">
+                    <div class="absolute w-full h-full left-0 top-0 z-20">
+                        <div class="p-[32px] flex flex-col justify-between h-[85%]">
+                            <span class="text-[20px] text-white font-light">Preț tichet: <span
+                                    class="text-[24px] font-normal">${{ event.price.toLocaleString() }}</span></span>
+                            <div class="flex flex-col">
+                                <span class="text-[32px] text-white font-medium mb-[10px]">{{ event.title }}</span>
+                                <span class="text-[16px] text-white font-light">Competiție încheita</span>
                             </div>
                         </div>
-                        <div class="linear-bg z-10"></div>
                     </div>
+                    <div class="linear-bg z-10"></div>
                 </div>
-                <div class="flex items-center flex-col" v-else>
-                    <img class="mb-3" src="@/assets/images/elements/struggle.png">
-                    <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție încheiată</h3>
-                </div>
+            </div>
+            <div v-else class="flex items-center flex-col">
+                <img class="mb-3" src="@/assets/images/elements/struggle.png">
+                <h3 class="text-[27px] text-center font-medium text-[#000]">Momentan nu avem nicio competiție încheiată</h3>
+            </div>
         </div>
     </div>
 </template>
 <script setup>
+import MazSpinner from 'maz-ui/components/MazSpinner'
 import { getEvents } from "@/additional/axiosPosts";
 import { useRouter } from 'vue-router';
 import { ref, toRef } from 'vue';
@@ -75,7 +96,8 @@ const currentView = ref(true)
 const router = useRouter()
 const events = ref({
     onGoing: [],
-    finished: []
+    finished: [],
+    requestFinished: false
 });
 
 const props = defineProps({
@@ -83,11 +105,11 @@ const props = defineProps({
         type: Boolean,
         required: false
     },
-    
+
     displayingOnTicketsPage: {
         type: Boolean,
         required: false,
-        
+
     }
 })
 
@@ -96,27 +118,27 @@ const displayingOnTicketsPage = toRef(props, 'displayingOnTicketsPage')
 const retrieveEvents = async () => {
     const allEvents = await getEvents()
 
-    allEvents.forEach( event => {
+    allEvents.forEach(event => {
         event['remainingTime'] = getRemainingTime(event)
 
-        if(event.remainingTime.seconds > 0)
-        {
+        if (event.remainingTime.seconds > 0) {
             events.value.onGoing.push(event)
         }
-        else 
-        {
+        else {
             events.value.finished.push(event)
         }
     })
+
+    events.value.requestFinished = true
 }
 
 const getRemainingTime = (event) => {
     const remainingTime = Math.floor((formatTimeStamp(event.end) - new Date().getTime()) / 1000);
     const seconds = Math.floor(remainingTime % 60)
-    const minutes = Math.floor((remainingTime / 60 ) % 60)
-    const hours = Math.floor(((remainingTime / 60) / 60 ) % 24)
+    const minutes = Math.floor((remainingTime / 60) % 60)
+    const hours = Math.floor(((remainingTime / 60) / 60) % 24)
     const days = Math.floor(((remainingTime / 60) / 60) / 24)
-    return {days, hours, minutes, seconds}
+    return { days, hours, minutes, seconds }
 }
 
 const formatTemplateTime = (remainingTime) => {
@@ -131,13 +153,12 @@ const formatTimeStamp = (time) => {
 }
 
 const goTo = (hashed_id) => {
-    if(displayingOnTicketsPage.value)
-    {
-        router.push({ path: `/bilete/${hashed_id}` })        
+    if (displayingOnTicketsPage.value) {
+        router.push({ path: `/bilete/${hashed_id}` })
         return
     }
 
-    router.push({path: `/evenimente/${hashed_id}`})
+    router.push({ path: `/evenimente/${hashed_id}` })
 }
 
 retrieveEvents();
@@ -164,6 +185,7 @@ retrieveEvents();
 .boxed-btn {
     position: relative;
 }
+
 .boxed-btn a::after {
     content: '';
     position: absolute;
@@ -173,6 +195,7 @@ retrieveEvents();
     left: 4px;
     bottom: 4px;
 }
+
 .linear-bg {
     position: absolute;
     width: 100%;
@@ -180,7 +203,7 @@ retrieveEvents();
     background: linear-gradient(180deg, #000000db 0%, rgba(0, 0, 0, 0) 54.17%, #000000cf 100%);
     left: 0;
     top: 0;
-    
+
 }
 
 .active__category {

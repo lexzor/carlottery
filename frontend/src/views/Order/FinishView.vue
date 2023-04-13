@@ -38,7 +38,7 @@ const retrieveEvents = async () => {
 
 retrieveEvents()
 
-const countrys = [
+let countries = [
     { label: 'Romania', value: 'Romania' },
     { label: 'Franta', value: 'Franta' },
     { label: 'Italia', value: 'Italia' },
@@ -58,6 +58,24 @@ const countrys = [
     { label: 'Portugalia', value: 'Portugalia' },
     { label: 'Serbia', value: 'Serbia' },
 ]
+
+countries.sort((a, b) => {
+    if (a.label === "Romania") {
+        return -1;
+    }
+    if (b.label === "Romania") {
+        return 1;
+    }
+    if (a.label < b.label) {
+        return -1;
+    }
+    if (a.label > b.label) {
+        return 1;
+    }
+    return 0;
+});
+
+console.log(countries)
 
 const STRIPE = 0
 const PAYPAL = 1
@@ -229,7 +247,7 @@ const validateForm = async () => {
                         </div>
                         <MazInput no-radius v-model="state.companyName" label="Nume Companie (Optional)" />
                         <MazSelect :error="v.country.$error" required v-model="state.country" label="Tara" no-radius
-                            :options="countrys" search />
+                            :options="countries" search />
                         <MazInput :error="v.address.$error" required v-model="state.address" no-radius
                             label="Nume strada, numar etc." />
                         <MazInput no-radius v-model="state.secondAddress"
@@ -312,11 +330,11 @@ const validateForm = async () => {
                                     este
                                     disponibilă!</h1>
                                 <!-- <h1 class="text-[17px]">Plătește prin <b>PayPal</b> folosind<b> cardul de credit</b> sau
-                                                                                    <b>contul de PayPal</b>.
-                                                                                </h1>
+                                                                                            <b>contul de PayPal</b>.
+                                                                                        </h1>
     
-                                                                                <h2 class="my-[17px] ml-[3px] text-[#585858]">Pentru a asigura faptul că plata este
-                                                                                    securizată vei fi redirecționat către pagina oficială PayPal.</h2> -->
+                                                                                        <h2 class="my-[17px] ml-[3px] text-[#585858]">Pentru a asigura faptul că plata este
+                                                                                            securizată vei fi redirecționat către pagina oficială PayPal.</h2> -->
                                 <h1 class="text-[17px] text-gray-400">Plătește prin <b>PayPal</b> folosind<b> cardul de
                                         credit</b> sau
                                     <b>contul de PayPal</b>.
