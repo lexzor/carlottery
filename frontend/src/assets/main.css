@@ -19,7 +19,6 @@ body {
 .slide-fade-enter-from,
 .slide-fade-leave-to {
     transform: translateX(300px);
-    opacity: 0;
 }
 
 .btn-cart {
@@ -32,7 +31,7 @@ body {
 }
 
 .rotate {
-    animation: rotation 1.5s infinite linear;
+    animation: rotation 1.5s infinite ease-in;
 }
 
 @keyframes rotation {
