@@ -42,7 +42,6 @@ const retrieveEvents = async () => {
 
     time.value = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
 
-
     await axios.post(BASE_URL + "anti_gdpr.php")
         .catch(err => console.error)
         .then(({ data }) => {
@@ -129,7 +128,10 @@ const updateAnswer = (value) => {
 
 
 onUnmounted(() => {
-    clearInterval(interval)
+    if (interval !== null) {
+        clearInterval(interval)
+        interval = null
+    }
 })
 </script>
 
