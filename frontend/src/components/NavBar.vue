@@ -37,7 +37,7 @@ document.addEventListener("login_finished", () => {
             </div>
             <Transition name="slide-fade">
                 <div v-if="menu"
-                    class="fixed right-0 top-0 w-[260px] text-white bg-[#000] h-full z-30 flex gap-[15px] flex-col items-left text-[24px] p-[40px]">
+                    class="fixed right-0 top-0 w-[220px] text-white bg-[#000] h-full z-30 flex gap-[15px] flex-col items-left text-[24px] p-[40px]">
                     <div class="flex justify-between items-center gap-[55px] mb-[30px]">
                         <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black" to="/">
                             <span class="text-black bg-[#fff] px-[20px]">CAR</span>
