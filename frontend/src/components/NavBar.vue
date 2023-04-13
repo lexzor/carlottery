@@ -37,7 +37,7 @@ document.addEventListener("login_finished", () => {
             </div>
             <Transition name="slide-fade">
                 <div v-if="menu"
-                    class="fixed right-0 top-0 w-filt text-white bg-[#000] h-full z-30 flex gap-[15px] flex-col items-left text-[24px] p-[40px]">
+                    class="fixed right-0 top-0 w-[260px] text-white bg-[#000] h-full z-30 flex gap-[15px] flex-col items-left text-[24px] p-[40px]">
                     <div class="flex justify-between items-center gap-[55px] mb-[30px]">
                         <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] hover:text-black" to="/">
                             <span class="text-black bg-[#fff] px-[20px]">CAR</span>
@@ -61,7 +61,7 @@ document.addEventListener("login_finished", () => {
                     <router-link tag="h1" active-class="activePage" class="hover:text-white"
                         to="/evenimente">Câștigători</router-link>
 
-                    <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full flex-col">
+                    <div class="flex items-center relative justify-center gap-[30px] mt-[30px] w-full">
                         <router-link v-if="!account.isLogged()" :to="account.isLogged() ? '/account' : '/login'"
                             tag="button"
                             class="text-white flex flex-row flex-nowrap items-center gap-[10px]"><font-awesome-icon
@@ -70,15 +70,11 @@ document.addEventListener("login_finished", () => {
                             class="text-[#000] hover:text-[#000] bg-white text-[19px] px-[20px] py-[5px]">Înscrie-te</router-link>
 
                         <div v-if="account.isLogged()" class="flex items-center gap-[20px]">
-                            <router-link to="/cart" tag="button">
+                            <router-link to="/cart" class="relative" tag="button">
+                                <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs text-white bg-red-500 rounded-full -top-2 -right-2 dark:border-gray-900">{{ account.getStore().length }}</div>
                                 <font-awesome-icon icon="fa-solid fa-cart-shopping"
                                     class="text-white hover:cursor-pointer" />
                             </router-link>
-                            <!--                            <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName" class="text-white bg-[#000000] px-[20px] py-[5px] whitespace-nowrap flex items-center justify-center gap-[10px]" type="button">-->
-                            <!--                                <font-awesome-icon icon="fa-solid fa-user" class="fa-md" />-->
-                            <!--                                <h1  class="text-[19px] h-fit text-center">{{ account.getUsername() }}</h1>-->
-                            <!--                            </button>-->
-
                             <button @click="profile = !profile;"
                                 class="bg-[#000] text-white flex items-center gap-[10px] leading-[0px] px-3 py-[6px]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
@@ -97,67 +93,67 @@ document.addEventListener("login_finished", () => {
                                 </h1>
                             </button>
                         </div>
-                        <div v-if="account.isLogged()" :class="{ 'hidden': !profile }"
-                            class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
-                            <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
-                                <div class="font-medium" :title="account.getUsername()">{{ account.getUsername() }}</div>
-                                <div class="truncate" :title="account.getEmail()"> {{ account.getEmail() }}</div>
-                            </div>
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-                                <li>
-                                    <router-link to="/cont/setari"
-                                        class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                            style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
-                                            <path
-                                                d="m2.344 15.271 2 3.46a1 1 0 0 0 1.366.365l1.396-.806c.58.457 1.221.832 1.895 1.112V21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1.598a8.094 8.094 0 0 0 1.895-1.112l1.396.806c.477.275 1.091.11 1.366-.365l2-3.46a1.004 1.004 0 0 0-.365-1.366l-1.372-.793a7.683 7.683 0 0 0-.002-2.224l1.372-.793c.476-.275.641-.89.365-1.366l-2-3.46a1 1 0 0 0-1.366-.365l-1.396.806A8.034 8.034 0 0 0 15 4.598V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1.598A8.094 8.094 0 0 0 7.105 5.71L5.71 4.904a.999.999 0 0 0-1.366.365l-2 3.46a1.004 1.004 0 0 0 .365 1.366l1.372.793a7.683 7.683 0 0 0 0 2.224l-1.372.793c-.476.275-.641.89-.365 1.366zM12 8c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4z">
-                                            </path>
-                                        </svg>
-                                        <span>Setări</span>
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link to="/cont/comenzi" tag="a"
-                                        class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                            style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
-                                            <path
-                                                d="M19 3h-2.25a1 1 0 0 0-1-1h-7.5a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 17H5V5h2v2h10V5h2v15z">
-                                            </path>
-                                        </svg>
-                                        <span>Comenzi</span>
-                                    </router-link>
-                                </li>
-                            </ul>
-                            <ul v-if="account.isOwner()" class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-                                <li>
-                                    <router-link to="/adminpanel/events"
-                                        class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                            style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
-                                            <path
-                                                d="M20.995 6.9a.998.998 0 0 0-.548-.795l-8-4a1 1 0 0 0-.895 0l-8 4a1.002 1.002 0 0 0-.547.795c-.011.107-.961 10.767 8.589 15.014a.987.987 0 0 0 .812 0c9.55-4.247 8.6-14.906 8.589-15.014zM12 19.897V12H5.51a15.473 15.473 0 0 1-.544-4.365L12 4.118V12h6.46c-.759 2.74-2.498 5.979-6.46 7.897z">
-                                            </path>
-                                        </svg>
-                                        <span>Zonă Administrativă</span>
-                                    </router-link>
-                                </li>
-                            </ul>
-                            <div class="py-2">
-                                <a @click="$event => account.logOut()"
-                                    class="text-[14px] cursor-pointer flex items-center gap-[8px] px-3 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                    </div>
+                    <div v-if="account.isLogged()" :class="{ 'hidden': !profile }"
+                         class="z-10 ml-6 bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700 dark:divide-gray-600">
+                        <div class="px-3 py-3 text-sm text-gray-900 dark:text-white">
+                            <div class="font-medium" :title="account.getUsername()">{{ account.getUsername() }}</div>
+                            <div class="truncate" :title="account.getEmail()"> {{ account.getEmail() }}</div>
+                        </div>
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                            <li>
+                                <router-link to="/cont/setari"
+                                             class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
-                                        <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
+                                         style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
                                         <path
-                                            d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z">
+                                            d="m2.344 15.271 2 3.46a1 1 0 0 0 1.366.365l1.396-.806c.58.457 1.221.832 1.895 1.112V21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1.598a8.094 8.094 0 0 0 1.895-1.112l1.396.806c.477.275 1.091.11 1.366-.365l2-3.46a1.004 1.004 0 0 0-.365-1.366l-1.372-.793a7.683 7.683 0 0 0-.002-2.224l1.372-.793c.476-.275.641-.89.365-1.366l-2-3.46a1 1 0 0 0-1.366-.365l-1.396.806A8.034 8.034 0 0 0 15 4.598V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1.598A8.094 8.094 0 0 0 7.105 5.71L5.71 4.904a.999.999 0 0 0-1.366.365l-2 3.46a1.004 1.004 0 0 0 .365 1.366l1.372.793a7.683 7.683 0 0 0 0 2.224l-1.372.793c-.476.275-.641.89-.365 1.366zM12 8c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4z">
                                         </path>
                                     </svg>
-                                    <span>Delogare</span>
-                                </a>
-                            </div>
+                                    <span>Setări</span>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link to="/cont/comenzi" tag="a"
+                                             class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                         style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
+                                        <path
+                                            d="M19 3h-2.25a1 1 0 0 0-1-1h-7.5a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 17H5V5h2v2h10V5h2v15z">
+                                        </path>
+                                    </svg>
+                                    <span>Comenzi</span>
+                                </router-link>
+                            </li>
+                        </ul>
+                        <ul v-if="account.isOwner()" class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                            <li>
+                                <router-link to="/adminpanel/events"
+                                             class="flex items-center gap-[8px] px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                         style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
+                                        <path
+                                            d="M20.995 6.9a.998.998 0 0 0-.548-.795l-8-4a1 1 0 0 0-.895 0l-8 4a1.002 1.002 0 0 0-.547.795c-.011.107-.961 10.767 8.589 15.014a.987.987 0 0 0 .812 0c9.55-4.247 8.6-14.906 8.589-15.014zM12 19.897V12H5.51a15.473 15.473 0 0 1-.544-4.365L12 4.118V12h6.46c-.759 2.74-2.498 5.979-6.46 7.897z">
+                                        </path>
+                                    </svg>
+                                    <span>Zonă Administrativă</span>
+                                </router-link>
+                            </li>
+                        </ul>
+                        <div class="py-2">
+                            <a @click="$event => account.logOut()"
+                               class="text-[14px] cursor-pointer flex items-center gap-[8px] px-3 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:text-black">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                     style="fill: rgba(55, 65, 81, 1);transform: ;msFilter:;">
+                                    <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
+                                    <path
+                                        d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z">
+                                    </path>
+                                </svg>
+                                <span>Delogare</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -186,7 +182,8 @@ document.addEventListener("login_finished", () => {
                     class="absolute bg-gray-300 z-[-1] right-[-4px] top-[-4px] text-white border-[1px] border-black text-[19px] px-[20px] py-[5px] whitespace-nowrap">Înscrie-te</router-link>
 
                 <div v-if="account.isLogged()" class="flex items-center gap-[20px]">
-                    <router-link to="/cart" tag="button">
+                    <router-link to="/cart" class="relative" tag="button">
+                        <div class="absolute inline-flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full -top-2 -right-2 dark:border-gray-900">{{ account.getStore().length }}</div>
                         <font-awesome-icon icon="fa-solid fa-cart-shopping" class="text-black hover:cursor-pointer" />
                     </router-link>
                     <button id="dropdownAvatarNameButton" data-dropdown-toggle="dropdownAvatarName"

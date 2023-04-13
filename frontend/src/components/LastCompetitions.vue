@@ -4,7 +4,7 @@
             <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚII ÎN DESFĂȘURARE</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
             <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
-                <div class="flex gap-[20px]">
+                <div class="flex xl:flex-row flex-col gap-[20px]">
                     <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''"
                         class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
                     <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''"
@@ -52,7 +52,7 @@
             <h3 class="text-[32px] font-medium text-[#000] mt-[40px]">COMPETIȚIILE TERMINATE</h3>
             <p class="text-[24px] text-[#000] font-light mt-[10px]">Vezi toate compețițiile sustinute de Win Auto</p>
             <div v-if="!displayingOnHomePage" class="border border-[#000] py-[16px] px-[20px] mt-[24px]">
-                <div class="flex gap-[20px]">
+                <div class="flex xl:flex-row flex-col gap-[20px]">
                     <button @click="currentView = true" :class="currentView == true ? 'active__category' : ''"
                         class="text-black border-2 border-[#000] px-[20px] py-[10px]">În desfășurare</button>
                     <button @click="currentView = false" :class="currentView == false ? 'active__category' : ''"

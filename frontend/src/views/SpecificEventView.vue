@@ -180,22 +180,22 @@ onUnmounted(() => {
                             <div>
                                 <h1 class="text-[30px] font-medium text-black">Răspunde la întrebare</h1>
                                 <h2 class="text-lg mt-3 mb-2">{{ quiz.question }}</h2>
-                                <div class="flex gap-4">
-                                    <div class="flex gap-2 justify-center items-center">
+                                <div class="flex xl:flex-row flex-col gap-4">
+                                    <div class="flex gap-2 xl:justify-center justify-start items-center">
                                         <label for="a" @click="updateAnswer(quiz.a)">
                                             <input :checked="currUserAnswer === quiz.a" v-bind:value="currUserAnswer"
                                                 type="radio" name="question_answer" value="a">
                                             {{ quiz.a }}
                                         </label><br>
                                     </div>
-                                    <div class="flex gap-2 justify-center items-center">
+                                    <div class="flex gap-2 xl:justify-center justify-start items-center">
                                         <label for="b" @click="updateAnswer(quiz.b)">
                                             <input :checked="currUserAnswer === quiz.b" v-bind:value="currUserAnswer"
                                                 type="radio" name="question_answer" value="b">
                                             {{ quiz.b }}
                                         </label><br>
                                     </div>
-                                    <div class="flex gap-2 justify-center items-center">
+                                    <div class="flex gap-2 xl:justify-center justify-start items-center">
                                         <label for="c" @click="updateAnswer(quiz.c)">
                                             <input :checked="currUserAnswer === quiz.c ? true : false"
                                                 v-bind:value="currUserAnswer" type="radio" name="question_answer" value="c">
