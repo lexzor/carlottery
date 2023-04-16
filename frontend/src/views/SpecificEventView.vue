@@ -10,6 +10,8 @@ import MazBtn from 'maz-ui/components/MazBtn'
 import { useAccountStore } from '../stores/account';
 import { useToast } from 'vue-toast-notification';
 import axios from 'axios';
+import '@/assets/popper-theme.css'
+import Popper from "vue3-popper"
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
 
@@ -215,10 +217,16 @@ onUnmounted(() => {
                         <h1 class="font-normal text-[20px] mb-3 text-black">Total: <span
                                 class="font-semibold text-black">&euro;{{ currentEvent.price * ticketNum }}</span></h1>
                         <div class="flex flex-row items-center gap-[10px]">
-                            <MazBtn :disabled="answerChecker" @click="redirectToFinishPayment">Cumpără</MazBtn>
-                            <MazBtn :disabled="answerChecker" :outline="answerChecker ? false : true" class="border-black"
-                                @click="addEventInStore">
-                                Adaugă în cos</MazBtn>
+                            <Popper :interactive="false" :arrow="true" :disabled="answerChecker ? false : true" hover
+                                content="Trebuie să răspunzi la întrebare pentru a cumpăra">
+                                <MazBtn :disabled="answerChecker" @click="redirectToFinishPayment">Cumpără</MazBtn>
+                            </Popper>
+                            <Popper :interactive="false" :arrow="true" :disabled="answerChecker ? false : true" hover
+                                content="Trebuie să răspunzi la întrebare pentru a adăuga in coș">
+                                <MazBtn :disabled="answerChecker" :outline="answerChecker ? false : true"
+                                    class="border-black" @click="addEventInStore">
+                                    Adaugă în cos</MazBtn>
+                            </Popper>
                         </div>
                     </div>
                     <div v-else class="border-t-[1px] border-gray-300 p-3">
