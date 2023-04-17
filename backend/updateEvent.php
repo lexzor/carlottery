@@ -56,9 +56,9 @@ if (array_key_exists("images", $_FILES)) {
         return;
     }
 
-    $query = "UPDATE `events` SET `title` = '" . $_POST['title'] . "', `start` = '" . $_POST['start'] . "', `end` = '" . $_POST['end'] . "', `max_tickets` = " . $_POST['max_tickets'] . ", `price` = " . $_POST['price'] . ", `description` = '" . $_POST['description'] . "', `images` = '" . json_encode($imagesArr) . "' WHERE `id` = " . $_POST['id'] . "";
+    $query = "UPDATE `events` SET `title` = '" . $_POST['title'] . "', `winnerText` = '".$_POST['winnerText']."',`start` = '" . $_POST['start'] . "', `end` = '" . $_POST['end'] . "', `max_tickets` = " . $_POST['max_tickets'] . ", `price` = " . $_POST['price'] . ", `description` = '" . $_POST['description'] . "', `images` = '" . json_encode($imagesArr) . "' WHERE `id` = " . $_POST['id'] . "";
 } else {
-    $query = "UPDATE `events` SET `title` = '" . $_POST['title'] . "', `start` = '" . $_POST['start'] . "', `end` = '" . $_POST['end'] . "', `max_tickets` = " . $_POST['max_tickets'] . ", `price` = " . $_POST['price'] . ", `description` = '" . $_POST['description'] . "' WHERE `id` = " . $_POST['id'] . "";
+    $query = "UPDATE `events` SET `title` = '" . $_POST['title'] . "', `winnerText` = '".$_POST['winnerText']."',`start` = '" . $_POST['start'] . "', `end` = '" . $_POST['end'] . "', `max_tickets` = " . $_POST['max_tickets'] . ", `price` = " . $_POST['price'] . ", `description` = '" . $_POST['description'] . "' WHERE `id` = " . $_POST['id'] . "";
 }
 
 $result = mysqli_query($db, $query);

@@ -15,6 +15,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, minValue } from "@vuelidate/validators"
 import { vuelidateTranslator } from "@/additional/translator"
 import { getEvents } from "@/additional/axiosPosts"
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
 
@@ -377,7 +379,7 @@ onMounted(() => {
 
   <div id="createEventModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 hidden w-full xl:p-4 p-0 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
+    <div class="relative w-full h-full max-w-[900px] md:h-auto mt-[300px] pb-[100px]">
       <!-- Modal content -->
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
@@ -400,7 +402,9 @@ onMounted(() => {
           <form class="flex flex-col gap-3">
             <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu"
               v-model="state.title" />
-            <textarea required placeholder="Descriere" v-model="state.description"></textarea>
+            <div class="h-fit max-h-[500px] overflow-y-auto">
+              <QuillEditor toolbar="full" theme="snow" contentType="html" v-model:content="state.description" />
+            </div>
             <div class="flex justify-between items-center">
               <MazInputNumber required auto-focus :error="v.max_tickets.$error ? true : false" no-radius
                 label="Număr bilete" v-model="state.max_tickets" />

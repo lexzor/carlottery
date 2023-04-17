@@ -14,6 +14,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, minValue } from "@vuelidate/validators"
 import axios from "axios"
 import { vuelidateTranslator } from "../../additional/translator"
+import { QuillEditor } from '@vueup/vue-quill'
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
 
@@ -28,7 +29,8 @@ const state = reactive({
     start: '',
     end: '',
     price: 0,
-    images: []
+    images: [],
+    winnerText: ''
 })
 
 const sending = ref(false)
@@ -163,7 +165,8 @@ const submitEditEvent = async () => {
     formData.append("start", state.start)
     formData.append("end", state.end)
     formData.append("price", state.price)
-    formData.append("imageFolder", eventFolder)
+    formData.append("imageFolder", eventFolder),
+        formData.append("winnerText", state.winnerText)
     deletedImages.value.forEach(image => formData.append("deleteImages[]", image))
     state.images.forEach(image => {
         formData.append("notDeletedImgs[]", image)
@@ -348,14 +351,21 @@ onMounted(() => {
     <div>
         <h1 class="text-center text-[20px] pt-[20px]">Editeaza eveniment <span class="font-bold">[ID: {{ state.id }}]</span>
         </h1>
-        <form class="flex flex-col gap-3 max-w-[500px] mx-auto py-[20px]">
+        <form class="flex flex-col gap-3 max-w-[900px] mx-auto py-[20px]">
             <MazInput required auto-focus no-radius :error="v.title.$error ? true : false" label="Titlu"
                 v-model="state.title" />
-            <textarea required placeholder="Descriere" v-model="state.description"></textarea>
-            <div class="flex justify-between items-center">
-                <MazInputNumber required auto-focus :error="v.max_tickets.$error ? true : false" no-radius
+            <div class="h-fit max-h-[500px] overflow-y-auto">
+                <h1 class="text-[19px] font-bold mb-[8px]">Descriere eveniment:</h1>
+                <QuillEditor toolbar="full" theme="snow" contentType="html" v-model:content="state.description" />
+            </div>
+            <div class="h-fit max-h-[500px] overflow-y-auto">
+                <h1 class="text-[19px] font-bold mb-[8px]">Text pagină câștigători:</h1>
+                <QuillEditor toolbar="full" theme="snow" contentType="html" v-model:content="state.winnerText" />
+            </div>
+            <div class="flex items-center gap-2">
+                <MazInputNumber required class="w-[50%]" auto-focus :error="v.max_tickets.$error ? true : false" no-radius
                     label="Număr bilete" v-model="state.max_tickets" />
-                <MazInputPrice no-radius :min="0" locale="ro-RO" currency="EUR" required label="Preț bilet"
+                <MazInputPrice no-radius class="w-[50%]" :min="0" locale="ro-RO" currency="EUR" required label="Preț bilet"
                     v-model="state.price" />
             </div>
             <div class="flex gap-2">
@@ -408,6 +418,7 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
+
             <MazBtn @click="submitEditEvent" :loading="sending ? true : false">Editează evenimentul</MazBtn>
 
         </form>

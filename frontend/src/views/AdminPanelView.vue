@@ -14,7 +14,7 @@ const EventsPage = defineAsyncComponent({
     loader: () => import('@/components/admin/EventsPage.vue')
 })
 
-const UsersPage = defineAsyncComponent( {
+const UsersPage = defineAsyncComponent({
     loader: () => import('@/components/admin/UsersPage.vue')
 })
 
@@ -26,27 +26,38 @@ const EditEventPage = defineAsyncComponent({
     loader: () => import('@/components/admin/EditEventPage.vue')
 })
 
+const WebSettingsPage = defineAsyncComponent({
+    loader: () => import('@/components/admin/WebSettingsPage.vue')
+})
+
+const OrdersPage = defineAsyncComponent({
+    loader: () => import('@/components/admin/OrdersPage.vue')
+})
+
 const getCurrAdminPage = computed(() => {
-    switch(route.params.section)
-    {
+    switch (route.params.section) {
         case 'evenimente':
-            if(route.name === 'editevent')
-            {
+            if (route.name === 'editevent') {
                 return EditEventPage
             }
 
             return EventsPage
 
         case 'utilizatori':
-            if(route.name === 'edituser')
-            {
+            if (route.name === 'edituser') {
                 return EditUserPage
-            }    
+            }
 
             return UsersPage
-            
+
+        case 'setari-site':
+            return WebSettingsPage
+
+        case 'comenzi':
+            return OrdersPage
+
         default: router.push({ path: '/adminpanel/evenimente' })
-    }  
+    }
 })
 </script>
 
@@ -67,6 +78,7 @@ const getCurrAdminPage = computed(() => {
 .box-shadow {
     box-shadow: 0px 15px 90px -20px rgba(0, 0, 0, 0.2);
 }
+
 .activePage:hover {
     color: white;
     background-color: black;

@@ -10,7 +10,12 @@ if (!array_key_exists('email', $data)) {
 }
 require_once 'dbConn.php';
 
-$query =    "SELECT * FROM `invoices` WHERE emailAddress = '" . $data['email'] . "'";
+
+if ($data['email'] !== 'allInvoices') {
+    $query = "SELECT * FROM `invoices` WHERE emailAddress = '" . $data['email'] . "'";
+} else {
+    $query = "SELECT * FROM `invoices`";
+}
 $result = mysqli_query($db, $query);
 
 if (mysqli_num_rows($result) > 0) {

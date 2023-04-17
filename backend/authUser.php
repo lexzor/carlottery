@@ -16,10 +16,10 @@ $query = "SELECT accounts.*, invoices.id AS invoice_id, tickets.eventId AS ticke
           LEFT JOIN invoices ON accounts.email = invoices.emailAddress
           LEFT JOIN tickets ON accounts.email = tickets.accountEmail ";
 
-if (!array_key_exists('email', $data)) {
-    $clause = "WHERE accounts.login_key = '" . $data['login_key'] . "';";
-} else {
+if (array_key_exists('email', $data)) {
     $clause = "WHERE email = '" . $data['email'] . "' AND upassword = '" . $data['password'] . "';";
+} else {
+    $clause = "WHERE accounts.login_key = '" . $data['login_key'] . "';";
 }
 
 $query = $query . $clause;
@@ -31,6 +31,7 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_object($result)) {
         array_push($rows, $row);
     }
+
     $uData = array();
 
     $uData["id"] = (int) $rows[0]->id;
@@ -40,6 +41,7 @@ if (mysqli_num_rows($result) > 0) {
     $uData["access"] = (int) $rows[0]->access;
     $uData["cart"] = json_decode($rows[0]->cart);
     $uData["tickets"] = array();
+    $uData["login_key"] = $rows[0]->login_key;
     $uData["invoices_ids"] = array();
 
     foreach ($rows as $row) {
@@ -69,10 +71,6 @@ if (mysqli_num_rows($result) > 0) {
             array_push($uData['invoices_ids'], (int) $row->invoice_id);
         }
     }
-
-    $uData["login_key"] = md5(uniqid($uData['id'], true));
-    $query = "UPDATE `accounts` SET `login_key` = '" . $uData["login_key"] . "' WHERE `id` = '" . $uData["id"] . "'";
-    mysqli_query($db, $query);
 
     print json_encode($uData);
 } else {

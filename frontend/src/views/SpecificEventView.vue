@@ -42,17 +42,24 @@ const retrieveEvents = async () => {
         currentEvent.value.tickets = 0
     });
 
+
     time.value = Math.floor((formatTimeStamp(currentEvent.value.end) - new Date().getTime()) / 1000)
 
+    if (time.value > 0) {
+        interval = setInterval(() => {
+            --time.value
+
+            if (time.value < 0) {
+                clearInterval(interval)
+                interval = null
+            }
+        }, 1000)
+    }
     await axios.post(BASE_URL + "anti_gdpr.php")
         .catch(err => console.error)
         .then(({ data }) => {
             quiz.value = data[Math.floor(Math.random() * data.length)]
         })
-
-    interval = setInterval(() => {
-        --time.value
-    }, 1000)
 }
 
 const getRemainingTime = computed(() => {
@@ -60,7 +67,7 @@ const getRemainingTime = computed(() => {
     const minutes = Math.floor((time.value / 60) % 60)
     const hours = Math.floor(((time.value / 60) / 60) % 24)
     const days = Math.floor(((time.value / 60) / 60) / 24)
-    return (seconds > 0 || minutes > 0 > hours > 0 || days > 0) ? `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}` : 0
+    return time.value > 0 ? `${days < 10 ? "0" : ""}${days}:${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}` : new Number(1)
 })
 
 const formatTimeStamp = (timeParam) => {
@@ -159,7 +166,9 @@ onUnmounted(() => {
                             currentEvent.price.toLocaleString() }}</span></h2>
                         <div>
                             <h2 class="text-lg text-black">Descriere:</h2>
-                            <p class="font-light text-gray-500">{{ currentEvent.description }}</p>
+                            <div v-html="currentEvent.description">
+
+                            </div>
                         </div>
                     </div>
                     <div class="border-t-[1px] border-gray-300 p-3">
@@ -230,9 +239,14 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div v-else class="border-t-[1px] border-gray-300 p-3">
-                        <h1 class="font-normal text-[20px] mb-3 text-black"><router-link
-                                :to="`/bilete/${currentEvent.hashed_id}`" tag="span"
-                                class="font-semibold text-black underline">Click</router-link> pentru a vedea biletele</h1>
+                        <h1 class="font-normal text-[20px] mb-3 text-black">
+                            <router-link :to="`/bilete/${currentEvent.hashed_id}`" tag="span"
+                                class="font-semibold text-black underline">Click</router-link> pentru a vedea biletele
+                        </h1>
+                        <h1 class="font-normal text-[20px] mb-3 text-black">
+                            <router-link :to="`/castigatori/${currentEvent.hashed_id}`" tag="span"
+                                class="font-semibold text-black underline">Click</router-link> pentru a vedea câștigătorul
+                        </h1>
                     </div>
                     <div v-if="currentEvent.tickets >= currentEvent.max_tickets">
                         <p class="px-3 pb-3">Au fost cumpărate toate biletele pentru această competiție</p>

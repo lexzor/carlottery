@@ -14,7 +14,7 @@ watch(route, (to, from) => {
 <template>
     <div class="bg-[#000] border-b border-[#FFFFFF1A]">
         <div class="mx-auto container px-0">
-            <div class="flex justify-between items-center py-4 px-3">
+        <div class="flex justify-between items-center py-4 px-3">
                 <div>
                     <router-link tag="h1" class="font-bold text-[25px] flex gap-[15px] text-white" to="/">
                         <span class="text-black bg-[#fff] px-[20px]">CAR</span>
@@ -26,10 +26,12 @@ watch(route, (to, from) => {
                         active-class="link-underline text-white">Evenimente</router-link>
                     <router-link to="/adminpanel/utilizatori" class="hover:text-white"
                         active-class="link-underline text-white">Utilizatori</router-link>
-                    <router-link to="/adminpanel/castigatori" class="hover:text-white"
-                        active-class="link-underline text-white">Castigatori</router-link>
+                    <!-- <router-link to="/adminpanel/castigatori" class="hover:text-white"
+                            active-class="link-underline text-white">Câștigători</router-link> -->
                     <router-link to="/adminpanel/comenzi" class="hover:text-white"
                         active-class="link-underline text-white">Comenzi</router-link>
+                    <router-link to="/adminpanel/setari-site" class="hover:text-white"
+                        active-class="link-underline text-white">Setări</router-link>
                 </div>
                 <div @click="menu = !menu" class="block xl:hidden cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"
@@ -63,6 +65,8 @@ watch(route, (to, from) => {
                             active-class="activePage">Câștigători</router-link>
                         <router-link to="/adminpanel/comenzi" class="hover:text-white"
                             active-class="activePage">Comenzi</router-link>
+                        <router-link to="/adminpanel/setari-site" class="hover:text-white"
+                            active-class="activePage">Setări</router-link>
                         <button @click="account.logOut()"
                             class="bg-white text-black text-[16px] px-[42px] py-[11px] mt-[10px]">
                             Delogare
@@ -89,4 +93,5 @@ watch(route, (to, from) => {
     left: 50%;
     transform: translateX(-50%);
     border-radius: 20px;
-}</style>
+}
+</style>

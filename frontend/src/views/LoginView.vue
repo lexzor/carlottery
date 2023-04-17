@@ -70,6 +70,7 @@ const loginAcc = async () => {
     },
   ).catch(err => console.error).then(({ data }) => {
     if (typeof data !== "object" || data === null) {
+      console.log("Backend error data:", data)
       toast.open({
         message: "Datele introduse sunt incorecte",
         duration: 5000,
@@ -79,7 +80,6 @@ const loginAcc = async () => {
     } else {
       account.loginAcc(data, state.remember)
       router.push({ path: "/" })
-      account.authUser
     }
   })
 
@@ -90,7 +90,8 @@ const loginAcc = async () => {
 <template>
   <NavBar />
   <div class="xl:px-[0px] px-[25px]">
-    <div class="max-w-[400px] bg-[#fdfdfd] mx-auto my-[60px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
+    <div
+      class="max-w-[400px] bg-[#fdfdfd] mx-auto my-[60px] flex flex-col gap-[40px] items-center px-[40px] py-[50px] border-[1px] border-black">
       <div class="flex justify-center flex-col items-center">
         <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
           Logare
@@ -104,14 +105,16 @@ const loginAcc = async () => {
       <div class="w-full flex flex-col gap-[30px] items-left">
         <div>
           <MazInput no-radius :error="v.email.$error" label="E-mail" class="w-full" v-model="state.email" />
-          <MazInput no-radius :error="v.password.$error" error label="Password" class=" mt-[30px]" type="password" v-model="state.password" />
+          <MazInput no-radius :error="v.password.$error" error label="Password" class=" mt-[30px]" type="password"
+            v-model="state.password" />
 
           <div class="flex items-center mt-[16px]">
-              <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-1 dark:bg-gray-700 dark:border-gray-600">
-              <label for="link-checkbox" class="ml-2 text-sm text-gray-600">Ține-mă minte pe acest dispozitiv</label>
+            <input id="link-checkbox" type="checkbox" v-model="state.remember"
+              class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-1 dark:bg-gray-700 dark:border-gray-600">
+            <label for="link-checkbox" class="ml-2 text-sm text-gray-600">Ține-mă minte pe acest dispozitiv</label>
           </div>
         </div>
-<!--        <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>-->
+        <!--        <MazCheckbox v-model="state.remember" class="justify-self-start">Tine-ma minte</MazCheckbox>-->
 
         <MazBtn :loading="sending" class="w-full px-0 py-[20px]" color="black" @click="loginAcc">Login</MazBtn>
       </div>

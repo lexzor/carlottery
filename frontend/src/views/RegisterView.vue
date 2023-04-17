@@ -8,14 +8,11 @@ import router from "../router"
 import { useVuelidate } from "@vuelidate/core"
 import { required, email, minLength, maxLength } from "@vuelidate/validators"
 import { vuelidateTranslator } from "../additional/translator"
-import { useAccountStore } from "../stores/account"
 import NavBar from "../components/NavBar.vue"
 import Footer from "../components/Footer.vue"
+import MazCheckbox from 'maz-ui/components/MazCheckbox'
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
-
-
-const account = useAccountStore()
 
 const MIN_LENGTH = 6
 const MAX_LENGTH = 18
@@ -33,6 +30,7 @@ const state = reactive({
   password: "",
   confirmPassword: "",
   passwordMatch: true,
+  terms: false
 })
 
 const rules = {
@@ -110,7 +108,11 @@ const registerAcc = async () => {
     }
 
     if (!pwMatch) {
-      errorMessage += `</br>${totalErrors + 1}. Parolele nu corespund!`
+      errorMessage += `</br>${++totalErrors}. Parolele nu corespund!`
+    }
+
+    if (!state.terms) {
+      errorMessage += `</br>${++totalErrors}. Trebuie acceptați <b>Termenii și Condițiile</b>`
     }
 
     toast.open({
@@ -159,6 +161,8 @@ const registerAcc = async () => {
   } else {
     let errorMsg = ""
 
+    console.log(data)
+
     if (data.indexOf("duplicate")) {
       if (data.indexOf("email") != -1) {
         errorMsg += "Acest <b>cont</b> deja exista!"
@@ -188,20 +192,31 @@ const registerAcc = async () => {
 <template>
   <NavBar />
   <div class="xl:px-[0px] px-[25px]">
-    <div class="relative max-w-[400px] mx-auto my-[60px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
+    <div
+      class="relative max-w-[400px] mx-auto my-[60px] flex flex-col gap-[30px] items-center border-[1px] border-black px-[40px] py-[50px]">
       <div>
         <h1 class="text-[25px] text-center text-black uppercase font-medium mb-[10px]">
-            Înregistrare
+          Înregistrare
         </h1>
         <p class="text-center text-black">
-            Vă rugăm să folosiți o adresă de e-mail validă în așa fel încat să vă
-            putem contacta
+          Vă rugăm să folosiți o adresă de e-mail validă în așa fel încat să vă
+          putem contacta
         </p>
       </div>
-      <MazInput :error="hasEmailErr || v.email.$error" label="Adresa de e-mail" class="w-full" no-radius v-model="state.email" />
-      <MazInput :error="hasUsernameErr || v.username.$error" label="Nume de utilizator" class="w-full" no-radius v-model="state.username" />
-      <MazInput :error="v.password.$error" label="Parola" class="w-full" no-radius type="password" v-model="state.password" />
-      <MazInput :error="confirmPasswordError" label="Confirmare parola" class="w-full" no-radius type="password" v-model="state.confirmPassword" />
+      <MazInput :error="hasEmailErr || v.email.$error" label="Adresa de e-mail" class="w-full" no-radius
+        v-model="state.email" />
+      <MazInput :error="hasUsernameErr || v.username.$error" label="Nume de utilizator" class="w-full" no-radius
+        v-model="state.username" />
+      <MazInput :error="v.password.$error" label="Parola" class="w-full" no-radius type="password"
+        v-model="state.password" />
+      <MazInput :error="confirmPasswordError" label="Confirmare parola" class="w-full" no-radius type="password"
+        v-model="state.confirmPassword" />
+      <div class="flex items-center self-start mt-[16px]">
+        <input id="link-checkbox" type="checkbox" v-model="state.terms"
+          class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm focus:ring-gray-500 dark:focus:ring-gray-600 dark:ring-offset-gray-800 focus:ring-1 dark:bg-gray-700 dark:border-gray-600">
+        <label for="link-checkbox" class="ml-2 text-sm text-gray-600">Sunt de acord cu <router-link tag="span"
+            to="/termeni-si-conditii" class="underline text-blue-400">Termenii si Conditiile</router-link>.</label>
+      </div>
       <MazBtn v-if="!sending" class="w-full px-0 py-[20px]" color="black" @click="registerAcc">Register</MazBtn>
       <MazBtn v-else class="w-full px-0 py-[20px]" color="black" loading>Register</MazBtn>
     </div>
