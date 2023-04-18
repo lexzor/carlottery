@@ -108,7 +108,7 @@ const addEventInStore = async () => {
         toast.open({
             message: 'Trebuie să fii logat pentru a adaugă in coș!',
             duration: 5000,
-            type: "info"
+            type: "error"
         })
 
         return

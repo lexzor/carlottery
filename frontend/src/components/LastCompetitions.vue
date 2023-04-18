@@ -106,8 +106,8 @@
             </div>
         </div>
     </div>
-    <div v-else-if="!events.requestFinished" class="flex justify-center items-center gap-[20px] mt-[20px] h-[500px]">
-        <MazSpinner size="3.5em" />
+    <div v-else-if="!events.requestFinished" class="flex justify-center items-center gap-[20px] mt-[60px] text-[#000]">
+        <MazSpinner color="black" size="3.5em" />
         <h1 class="text-[23px]">Loading...</h1>
     </div>
 </template>
