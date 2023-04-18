@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2023 at 11:26 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Apr 18, 2023 at 11:13 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,7 @@ CREATE TABLE `accounts` (
   `houseNumber` text NOT NULL,
   `postCode` text NOT NULL,
   `city` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `accounts`
@@ -63,7 +63,7 @@ INSERT INTO `accounts` (`id`, `email`, `upassword`, `username`, `access`, `login
 CREATE TABLE `configuration` (
   `type` varchar(64) NOT NULL,
   `content` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `configuration`
@@ -88,14 +88,14 @@ CREATE TABLE `events` (
   `description` text NOT NULL,
   `images` text NOT NULL,
   `winnerText` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`id`, `title`, `start`, `end`, `max_tickets`, `price`, `description`, `images`, `winnerText`) VALUES
-(67, 'dasdasdas', '05-04-2023 03:39', '30-04-2023 17:46', '1888', 0.1, '<p><em>P</em>a<u>rol</u>a m<strong>ea</strong> <span style=\"background-color: rgb(230, 0, 0);\">12</span><span style=\"color: rgb(0, 102, 204);\">3</span></p>', '[\"events_images/1680655188/01680655188Untitled_design__8_-removebg-preview.png\"]', NULL),
+(67, 'dasdasdas', '05-04-2023 03:39', '18-04-2023 20:52', '1888', 0.1, '<h1><span style=\"color: rgb(0, 138, 0);\">Heading 1</span></h1><h2><span style=\"color: rgb(0, 138, 0);\">Heading 2</span></h2><h3><span style=\"color: rgb(0, 138, 0);\">Heading 3</span></h3><h4><span style=\"color: rgb(0, 138, 0);\">Heading 4</span></h4><h5><span style=\"color: rgb(0, 138, 0);\">Heading 5</span></h5><h6><span style=\"color: rgb(0, 138, 0);\">Heading 5</span></h6>', '[\"events_images/1680817636/16808176360porsche.png\"]', '<p>Castigatorul a fost ales</p>'),
 (73, 'Test castigatori', '17-04-2023 23:00', '17-04-2023 23:05', '8', 0.1, '<p>test cas<span style=\"color: rgb(255, 153, 0);\">tigatori</span></p>', '[\"events_images/1681762311/16817623110Screenshot_7.png\",\"events_images/1681762311/01681762311Screenshot_2.png\"]', '<h1><u>Text c</u>a<strong>stigatori:</strong></h1><p>dsada<strong>sdsadsa</strong></p>');
 
 -- --------------------------------------------------------
@@ -118,16 +118,17 @@ CREATE TABLE `invoices` (
   `city` text NOT NULL,
   `notes` text NOT NULL,
   `products` text NOT NULL,
-  `paymentStatus` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `paymentStatus` text NOT NULL,
+  `createdAt` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `invoices`
 --
 
-INSERT INTO `invoices` (`id`, `firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`) VALUES
-(1, 'Pavel', 'Marin', '07949099021', 'pavel@eway-design.com', '', 'Romania', 'pl n cur', '2a', '12939', 'Baicoi', 'am pl mare', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid'),
-(2, 'Nicolae', 'Alex', '07949099021', 'super.alexx@yahoo.com', '', 'Romania', '12313', 'fwewe', 'asd', 'Baicoi2', 'am pl mareeeeeeeeeeeeeeeeeee', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid');
+INSERT INTO `invoices` (`id`, `firstName`, `lastName`, `phoneNumber`, `emailAddress`, `companyName`, `country`, `streetName`, `houseNumber`, `postCode`, `city`, `notes`, `products`, `paymentStatus`, `createdAt`) VALUES
+(1, 'Pavel', 'Marin', '07949099021', 'pavel@eway-design.com', '', 'Romania', 'pl n cur', '2a', '12939', 'Baicoi', 'am pl mare', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid', ''),
+(2, 'Nicolae', 'Alex', '07949099021', 'super.alexx@yahoo.com', '', 'Romania', '12313', 'fwewe', 'asd', 'Baicoi2', 'am pl mareeeeeeeeeeeeeeeeeee', '[{\"id\":\"67\",\"title\":\"BMW ROSU FA\",\"quantity\":44,\"price\":660},{\"id\":\"68\",\"title\":\"dasdsadsad\",\"quantity\":3,\"price\":45}]', 'paid', '');
 
 -- --------------------------------------------------------
 
@@ -141,7 +142,7 @@ CREATE TABLE `tickets` (
   `ticketQuantity` int(6) NOT NULL,
   `eventId` int(11) NOT NULL,
   `createdAt` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tickets`
@@ -149,7 +150,7 @@ CREATE TABLE `tickets` (
 
 INSERT INTO `tickets` (`id`, `accountEmail`, `ticketQuantity`, `eventId`, `createdAt`) VALUES
 (1, 'super.alexx@yahoo.com', 777, 67, '2023-04-02'),
-(2, 'super.alexx@yahoo.com', 3, 68, '2023-04-02'),
+(2, 'super.alexx@yahoo.com', 3, 73, '2023-04-02'),
 (3, 'super.alexx@yahoo.com', 300, 67, '2023-04-03');
 
 --

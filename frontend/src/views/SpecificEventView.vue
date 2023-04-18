@@ -166,9 +166,7 @@ onUnmounted(() => {
                             currentEvent.price.toLocaleString() }}</span></h2>
                         <div>
                             <h2 class="text-lg text-black">Descriere:</h2>
-                            <div v-html="currentEvent.description">
-
-                            </div>
+                            <div v-html="currentEvent.description"></div>
                         </div>
                     </div>
                     <div class="border-t-[1px] border-gray-300 p-3">
@@ -238,15 +236,13 @@ onUnmounted(() => {
                             </Popper>
                         </div>
                     </div>
-                    <div v-else class="border-t-[1px] border-gray-300 p-3">
-                        <h1 class="font-normal text-[20px] mb-3 text-black">
-                            <router-link :to="`/bilete/${currentEvent.hashed_id}`" tag="span"
-                                class="font-semibold text-black underline">Click</router-link> pentru a vedea biletele
-                        </h1>
-                        <h1 class="font-normal text-[20px] mb-3 text-black">
-                            <router-link :to="`/castigatori/${currentEvent.hashed_id}`" tag="span"
-                                class="font-semibold text-black underline">Click</router-link> pentru a vedea câștigătorul
-                        </h1>
+                    <div v-else class="border-t-[1px] border-gray-300 p-3 flex gap-3">
+                        <router-link :to="`/bilete/${currentEvent.hashed_id}`">
+                            <MazBtn class="border-black">Bilete cumpărate</MazBtn>
+                        </router-link>
+                        <router-link :to="`/castigatori/${currentEvent.hashed_id}`">
+                            <MazBtn class="border-black">Câștigător</MazBtn>
+                        </router-link>
                     </div>
                     <div v-if="currentEvent.tickets >= currentEvent.max_tickets">
                         <p class="px-3 pb-3">Au fost cumpărate toate biletele pentru această competiție</p>
