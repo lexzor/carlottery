@@ -238,7 +238,7 @@ const validateForm = async () => {
                     <div
                         class="flex flex-col gap-4 border-b-2 xl:border-b-0 border-r-0 xl:border-r-2 border-gray-400 border-dashed pb-[21px] xl:pr-[21px] mb-[21px] xl:mr-[21px]">
                         <h1 class="uppercase text-[20px] font-bold">Detalii Pentru Facturare</h1>
-                        <h1>Casutele care sunt notate cu <span class="text-red-600">*</span> sunt obligatorii.</h1>
+                        <h1 class="text-[16px]">Casutele care sunt notate cu <span class="text-red-600">*</span> sunt obligatorii.</h1>
                         <div class="flex justify-between relative gap-[30px] flex-grow-1">
                             <MazInput :error="v.firstName.$error" required class="w-full" v-model="state.firstName"
                                 label="Prenume" no-radius />
@@ -265,8 +265,8 @@ const validateForm = async () => {
                         <h1 class="uppercase text-[20px] font-bold mb-4">Comanda Ta</h1>
                         <div class="w-full flex flex-col border-[1px] border-b-gray-300">
                             <div class="flex justify-between border-b-[1px] border-b-gray-300 p-[20px]">
-                                <h1 class="font-bold">Produs</h1>
-                                <h1 class="font-bold">Sub-total</h1>
+                                <h1 class="font-bold text-[16px]">Produs</h1>
+                                <h1 class="font-bold text-[16px]">Sub-total</h1>
                             </div>
                             <div
                                 class="flex flex-col gap-[20px] items-center justify-between border-b-[1px] border-b-gray-300 p-[20px]">
@@ -274,32 +274,32 @@ const validateForm = async () => {
                                     class="flex items-center justify-between w-full">
                                     <div class="py-[10px]">
                                         <div class="flex gap-[20px] items-center">
-                                            <div class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat"
+                                            <div class="w-[100px] h-[50px] bg-center bg-cover bg-no-repeat rounded-lg"
                                                 :style="`background-image: url('${BASE_URL + JSON.parse(event.images)[0]}')`">
                                             </div>
                                             <div class="flex flex-col gap-[5px]">
-                                                <h1>
-                                                    <span class="font-bold">Nume: </span>
+                                                <h1 class="text-[16px]">
+                                                    <span class="font-bold text-[16px]">Nume: </span>
 
                                                     {{ event.title }}
 
-                                                    <span class="font-bold">x {{
+                                                    <span class="font-bold text-[16px]">x {{
                                                         event.tickets }}
                                                     </span>
                                                 </h1>
-                                                <h1>
+                                                <h1 class="text-[16px]">
                                                     <span class="font-bold">Raspuns:</span>
                                                     {{ event.answer }}
                                                 </h1>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1>{{ parseFloat((event.tickets * event.price).toFixed(2)) }}&euro;</h1>
+                                    <h1 class="text-[16px]">{{ parseFloat((event.tickets * event.price).toFixed(2)) }}&euro;</h1>
                                 </div>
                             </div>
                             <div class="flex justify-between border-b-gray-300 p-[20px]">
-                                <h1 class="font-bold">Total</h1>
-                                <h1 class="font-bold">{{ calculateTotal() }}&euro;</h1>
+                                <h1 class="font-bold text-[16px]">Total</h1>
+                                <h1 class="font-bold text-[16px]">{{ calculateTotal() }}&euro;</h1>
                             </div>
                         </div>
 
@@ -317,7 +317,7 @@ const validateForm = async () => {
                             <div v-if="state.paymentMethod === PAYMENT_METHODS[STRIPE].name" class="mt-[50px]">
                                 <h1 class="text-[17px]">Plătește prin <b>Stripe</b> folosind<span class="font-bold"> cardul
                                         de credit</span>.</h1>
-                                <h2 class="my-[17px] ml-[3px] text-[#585858]">Pentru a asigura faptul că plata este
+                                <h2 class="my-[17px] ml-[3px] text-[#585858] text-[16px]">Pentru a asigura faptul că plata este
                                     securizată vei fi redirecționat către pagina oficială Stripe.</h2>
                                 <MazBtn class="w-full px-0 py-[20px] mt-3" color="black" @click="makePaymentStripe"
                                     :loading="stripeLoading">
@@ -325,7 +325,7 @@ const validateForm = async () => {
                                 </MazBtn>
                             </div>
                             <div v-else-if="state.paymentMethod === PAYMENT_METHODS[PAYPAL].name" class="mt-[50px]">
-                                <h1 class="mb-[20px]"><span class="text-red-700 text-[23px]">*</span>Momentan această metodă
+                                <h1 class="mb-[20px] text-[16px]"><span class="text-red-700 text-[23px]">*</span>Momentan această metodă
                                     de plată nu
                                     este
                                     disponibilă!</h1>
@@ -340,7 +340,7 @@ const validateForm = async () => {
                                     <b>contul de PayPal</b>.
                                 </h1>
 
-                                <h2 class="my-[17px] ml-[3px] text-gray-400">Pentru a asigura faptul că plata este
+                                <h2 class="my-[17px] ml-[3px] text-gray-400 text-[16px]">Pentru a asigura faptul că plata este
                                     securizată vei fi redirecționat către pagina oficială PayPal.</h2>
                                 <MazBtn class="w-full px-0 py-[20px] mt-3" color="black" disabled>
                                     Finalizează
