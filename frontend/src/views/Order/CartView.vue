@@ -99,7 +99,7 @@ const totalPrice = computed(() => {
                         </table>
                     </div>
                     <div v-if="events.length > 0" class="xl:p-10 p-4 flex justify-between items-center xl:flex-row flex-col xl:gap-0 gap-4 text-black">
-                        <h3 class="text-slate-700 flex gap-3 items-center">
+                        <h3 class="text-slate-700 text-[16px] flex gap-3 items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 110, 107, 1);transform: ;msFilter:;"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M11 11h2v6h-2zm0-4h2v2h-2z"></path></svg>
                             Vizualizați cu atenție toate produsele pe care le-ați introdus în coş
                         </h3>
