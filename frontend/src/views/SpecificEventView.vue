@@ -229,7 +229,7 @@ onUnmounted(() => {
                                 <MazBtn :disabled="answerChecker" @click="redirectToFinishPayment">Cumpără</MazBtn>
                             </Popper>
                             <Popper :interactive="false" :arrow="true" :disabled="answerChecker ? false : true" hover
-                                content="Trebuie să răspunzi la întrebare pentru a adăuga in coș">
+                                content="Trebuie să răspunzi la întrebare pentru a adăuga în coș">
                                 <MazBtn :disabled="answerChecker" :outline="answerChecker ? false : true"
                                     class="border-black" @click="addEventInStore">
                                     Adaugă în cos</MazBtn>
