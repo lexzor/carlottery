@@ -42,7 +42,7 @@ const retrieveEvents = async () => {
     let existentEvent = null
     if ((existentEvent = allEvents.find(event => event.id === route.params.id)) === undefined) {
         toast.open({
-            message: 'Evenimentul nu exista!',
+            message: 'Evenimentul nu există!',
             type: "error",
             duration: 5000
         })
@@ -112,7 +112,7 @@ const submitEditEvent = async () => {
 
     if (!result) {
         let errorMessage =
-            '<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span>'
+            '<span class="text-[17px]">Nu poți adăuga evenimentul deoarece:</span>'
         let totalErrors = 0
 
         v.value.$errors.forEach((error) => {
@@ -126,7 +126,7 @@ const submitEditEvent = async () => {
 
         if (files.value.length === 0 && state.images.length === 0) {
             errorMessage += `<br>${totalErrors + 1
-                }. Trebuie incarcata cel putin o imagine`
+                }. Trebuie încarcată cel puțin o imagine`
         }
 
         toast.open({
@@ -143,7 +143,7 @@ const submitEditEvent = async () => {
 
     if (files.value.length === 0 && state.images.length === 0) {
         toast.open({
-            message: `<span class="text-[17px]">Nu poti adauga evenimentul deoarece:</span><br>1. Trebuie incarcata cel putin o imagine!`,
+            message: `<span class="text-[17px]">Nu poți adăuga evenimentul deoarece:</span><br>1. Trebuie incarcata cel putin o imagine!`,
             type: "error",
             duration: 6000,
             pauseOnHover: true,
@@ -392,7 +392,7 @@ onMounted(() => {
                             PNG / JPG / WEBP (Mărime maximă: <span class="font-semimbold">10MB</span>)
                         </p>
                     </div>
-                    <input id="dropzone-file" multiple type="file" name="images"
+                    <input id="dropzone-file" multiple type="file" name="images" accept=".jpg, .png, .jpeg, .webp"
                         class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
                 </label>
             </div>

@@ -11,12 +11,12 @@ import TicketsView from "@/views/TicketsView.vue"
 import WinnersView from "@/views/WinnersView.vue"
 import { useAccountStore } from "@/stores/account"
 
-const AdminPanelView = () => import("../views/AdminPanelView.vue")
-const SpecificEventView = () => import("../views/SpecificEventView.vue")
-const AccountView = () => import("../views/Account/AccountView.vue")
-const WebTermsView = () => import("../views/WebTermsView.vue")
-const SpecificEventTicketsView = () => import("../views/SpecificEventTicketsView.vue")
-const SpecificEventWinnerView = () => import("../views/SpecificEventWinnerView.vue")
+const AdminPanelView = () => import("@/views/AdminPanelView.vue")
+const SpecificEventView = () => import("@/views/SpecificEventView.vue")
+const AccountView = () => import("@/views/Account/AccountView.vue")
+const WebTermsView = () => import("@/views/WebTermsView.vue")
+const SpecificEventTicketsView = () => import("@/views/SpecificEventTicketsView.vue")
+const SpecificEventWinnerView = () => import("@/views/SpecificEventWinnerView.vue")
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -136,7 +136,7 @@ const router = createRouter({
 		},
 		{
 			path: "/castigatori/:hashed_id",
-			name: "bilete_eveniment",
+			name: "bilete_castigatori",
 			component: SpecificEventWinnerView,
 		},
 		{

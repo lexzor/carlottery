@@ -9,7 +9,7 @@ import { ref } from 'vue';
 import { getEvents } from '../additional/axiosPosts';
 
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL
-
+console.log('test')
 const tickets = ref()
 const event = ref({})
 const route = useRoute()

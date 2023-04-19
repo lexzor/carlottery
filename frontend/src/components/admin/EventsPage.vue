@@ -434,7 +434,7 @@ onMounted(() => {
                     PNG / JPG / WEBP (Mărime maximă: <span class="font-semimbold">10MB</span>)
                   </p>
                 </div>
-                <input id="dropzone-file" multiple type="file" name="images"
+                <input id="dropzone-file" multiple type="file" name="images" accept=".jpg, .png, .jpeg, .webp"
                   class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" />
               </label>
             </div>

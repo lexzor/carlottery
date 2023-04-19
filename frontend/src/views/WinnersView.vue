@@ -11,7 +11,7 @@ const events = ref()
 <template>
     <NavBar />
     <div>
-        <LastCompetitions :displayingOnWinnersPage="true" />
+        <LastCompetitions :maximumEventsToShow="5" :displayingOnWinnersPage="true" />
     </div>
     <Footer />
 </template>

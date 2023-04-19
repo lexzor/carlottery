@@ -17,7 +17,7 @@ retrieveEvents
 <template>
     <Navbar />
     <div>
-        <LastCompetitions :displayingOnTicketsPage="true" />
+        <LastCompetitions :maximumEventsToShow="5" :displayingOnTicketsPage="true" />
     </div>
     <Footer />
 </template>
